@@ -34,11 +34,11 @@ const Login = () => {
         if (user) {
           dispatch(login(user));
           storage.setUserAuth(user.id, user.role);
-          
-          toast.success("Login successful!", { 
+
+          toast.success("Login successful!", {
             position: "top-right",
+            timer: 500,
             onClose: () => {
-             
               navigate(user.role === "teacher" ? "/teacher" : "/student");
             }
           });
@@ -72,11 +72,10 @@ const Login = () => {
               id="email"
               name="email"
               type="email"
-              className={`w-full px-4 py-2 border ${
-                formik.touched.email && formik.errors.email
-                  ? "border-red-500"
-                  : "border-gray-300"
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+              className={`w-full px-4 py-2 border ${formik.touched.email && formik.errors.email
+                ? "border-red-500"
+                : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
               placeholder="Enter your email"
               value={formik.values.email}
               onChange={formik.handleChange}
@@ -98,11 +97,10 @@ const Login = () => {
               id="password"
               name="password"
               type="password"
-              className={`w-full px-4 py-2 border ${
-                formik.touched.password && formik.errors.password
-                  ? "border-red-500"
-                  : "border-gray-300"
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+              className={`w-full px-4 py-2 border ${formik.touched.password && formik.errors.password
+                ? "border-red-500"
+                : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
               placeholder="Enter your password"
               value={formik.values.password}
               onChange={formik.handleChange}
