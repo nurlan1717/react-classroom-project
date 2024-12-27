@@ -1,3 +1,4 @@
+import Sidebar from "./components/Sidebar";
 import StudentRoutes from "./routes/StudentRoutes";
 import TeacherRoutes from "./routes/TeacherRoutes";
 import { Routes, Route } from "react-router-dom";
