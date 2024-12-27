@@ -1,20 +1,23 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useGetUsersQuery } from "../redux/slices/apiSlice";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/slices/userSlice";
+import store from "../redux/store";
+import { storage } from "../utils/localStorage";
 
 const validationSchema = Yup.object({
-  email: Yup.string()
-    .email()
-    .required(),
-  password: Yup.string()
-    .required(),
+  email: Yup.string().email().required(),
+  password: Yup.string().required(),
 });
 
 const Login = () => {
-  const {data:users} = useGetUsersQuery();
-  console.log(users)
+  const { data: users } = useGetUsersQuery();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -22,14 +25,35 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("Form data", values);
+      if (users) {
+        const user = users.find(
+          (u) => u.email === values.email && u.password === values.password
+        );
+
+        if (user) {
+          dispatch(login(user));
+          storage.setUserAuth(user.id, user.role);
+          if (user.role === "teacher") {
+            navigate("/teacher");
+          } else {
+            navigate("/student");
+          }
+        } else {
+          formik.setErrors({
+            email: "Invalid email or password",
+            password: "Invalid email or password",
+          });
+        }
+      }
     },
   });
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Login
+        </h2>
 
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
@@ -80,7 +104,9 @@ const Login = () => {
               onBlur={formik.handleBlur}
             />
             {formik.touched.password && formik.errors.password && (
-              <p className="text-red-500 text-sm mt-1">{formik.errors.password}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {formik.errors.password}
+              </p>
             )}
           </div>
 
