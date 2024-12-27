@@ -1,4 +1,4 @@
-export const BASE_URL = "https://momentous-yummy-currant.glitch.me";
+export const BASE_URL = "https://foremost-shorthaired-tangerine.glitch.me";
 export const endpoints = {
   users: "/users",
   classes: "/classes",
