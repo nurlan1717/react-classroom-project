@@ -142,7 +142,6 @@ const apiSlice = createApi({
   }),
 });
 
-// Custom hook'lar
 export const {
   useGetUsersQuery,
   useCreateUserMutation,
