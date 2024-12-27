@@ -3,10 +3,7 @@ import { Outlet } from "react-router-dom";
 const TeacherLayout = () => {
   return (
     <div>
-      <header>
-        <h1>Öğretmen Paneli</h1>
-      </header>
-
+      dsapdsajkdpsak
       <main>
         <Outlet />
       </main>

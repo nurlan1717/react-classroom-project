@@ -8,8 +8,8 @@ const StudentRoutes = () => {
     <Routes>
       <Route path="/" element={<StudentLayout />}>
         <Route index element={<Login />} />
-        <Route path="*" element={<NotFound />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

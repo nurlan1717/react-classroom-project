@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import TeacherLayout from "../components/teacher/TeacherLayout";
-import Login from "../pages/Login"; 
-import NotFound from "../pages/NotFound"; 
+import NotFound from "../pages/NotFound";
+import Login from "../pages/Login";
 
 const TeacherRoutes = () => {
   return (
