@@ -3,14 +3,17 @@ import TeacherLayout from "../components/teacher/TeacherLayout";
 import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 import RegistrationForm from "../pages/Register";
+import ProtectedRoute from "./ProtectedRoute";
 
 const TeacherRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<TeacherLayout />}>
-        <Route index element={<RegistrationForm />} />
-        <Route path="/login" element={<Login />} />
+      <Route element={<ProtectedRoute requiredRole="teacher" />}>
+        <Route path="/" element={<TeacherLayout />}>
+          <Route index element={<RegistrationForm />} />
+        </Route>
       </Route>
+      <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

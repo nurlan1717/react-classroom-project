@@ -1,8 +1,23 @@
-// import { Navigate } from "react-router-dom";
-// import isAuthenticated from "../utils/isAuthenticated.js";
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { storage } from "../utils/localStorage";
 
-// const ProtectedRoute = ({ children }) => {
-//   return isAuthenticated() ? children : <Navigate to="/login" replace />;
-// };
+const ProtectedRoute = ({ requiredRole }) => {
+  const userId = storage.getUserId(); 
+  const userRole = storage.getUserRole(); 
 
-// export default ProtectedRoute;
+  if (!userId) {
+   
+    return <Navigate to="/login" />;
+  }
+
+  if (requiredRole && userRole !== requiredRole) {
+   
+    return <Navigate to="*" />;
+  }
+
+ 
+  return <Outlet />;
+};
+
+export default ProtectedRoute;

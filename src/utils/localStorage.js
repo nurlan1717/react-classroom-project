@@ -1,4 +1,4 @@
-const STORAGE_KEYS = {
+export const STORAGE_KEYS = {
     USER_ID: 'userId',
     USER_ROLE: 'userRole'
   };
