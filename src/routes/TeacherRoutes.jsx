@@ -9,6 +9,7 @@ const TeacherRoutes = () => {
     <Routes>
       <Route path="/" element={<TeacherLayout />}>
         <Route index element={<RegistrationForm />} />
+        <Route path="/login" element={<Login />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
