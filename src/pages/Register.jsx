@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCreateUserMutation } from "../redux/slices/apiSlice";
 import { toast, ToastContainer } from "react-toastify";
+import { storage } from "../utils/localStorage";
 
 const CLOUDINARY_UPLOAD_PRESET = "cloudinary-animals-app";
 const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dgab5avil/image/upload";
 
 const RegistrationForm = () => {
+  const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState(null);
   const [isTeacher, setIsTeacher] = useState(false);
   const [createUser, { isLoading }] = useCreateUserMutation();
@@ -23,13 +25,15 @@ const RegistrationForm = () => {
       role: "student",
       major: "",
       grades: [],
-      overallGrade: 0
+      overallGrade: 0,
     },
     validationSchema: Yup.object({
       username: Yup.string().required(),
       fullName: Yup.string().required(),
       email: Yup.string().email().required(),
-      password: Yup.string().min(6, "Password must be at least 6 characters").required(),
+      password: Yup.string()
+        .min(6, "Password must be at least 6 characters")
+        .required(),
       major: Yup.string().required(),
       profileImage: Yup.string().required(),
     }),
@@ -68,13 +72,29 @@ const RegistrationForm = () => {
     formik.setFieldValue("role", !isTeacher ? "teacher" : "student");
   };
 
+  const userRole = storage.getUserRole();
+  if (userRole === "student") {
+    navigate("/student");
+  }
+  if (userRole === "teacher") {
+    navigate("/teacher");
+  }
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-3xl font-bold mb-6 text-center text-violet-600">Register</h2>
-        <form onSubmit={formik.handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <h2 className="text-3xl font-bold mb-6 text-center text-violet-600">
+          Register
+        </h2>
+        <form
+          onSubmit={formik.handleSubmit}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+        >
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="username">
+            <label
+              className="block text-sm font-medium text-gray-700 mb-2"
+              htmlFor="username"
+            >
               Username
             </label>
             <input
@@ -85,12 +105,17 @@ const RegistrationForm = () => {
               {...formik.getFieldProps("username")}
             />
             {formik.touched.username && formik.errors.username && (
-              <div className="text-sm text-red-500">{formik.errors.username}</div>
+              <div className="text-sm text-red-500">
+                {formik.errors.username}
+              </div>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="fullName">
+            <label
+              className="block text-sm font-medium text-gray-700 mb-2"
+              htmlFor="fullName"
+            >
               Full Name
             </label>
             <input
@@ -101,12 +126,17 @@ const RegistrationForm = () => {
               {...formik.getFieldProps("fullName")}
             />
             {formik.touched.fullName && formik.errors.fullName && (
-              <div className="text-sm text-red-500">{formik.errors.fullName}</div>
+              <div className="text-sm text-red-500">
+                {formik.errors.fullName}
+              </div>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">
+            <label
+              className="block text-sm font-medium text-gray-700 mb-2"
+              htmlFor="email"
+            >
               Email
             </label>
             <input
@@ -122,7 +152,10 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="password">
+            <label
+              className="block text-sm font-medium text-gray-700 mb-2"
+              htmlFor="password"
+            >
               Password
             </label>
             <input
@@ -133,12 +166,17 @@ const RegistrationForm = () => {
               {...formik.getFieldProps("password")}
             />
             {formik.touched.password && formik.errors.password && (
-              <div className="text-sm text-red-500">{formik.errors.password}</div>
+              <div className="text-sm text-red-500">
+                {formik.errors.password}
+              </div>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="major">
+            <label
+              className="block text-sm font-medium text-gray-700 mb-2"
+              htmlFor="major"
+            >
               Major
             </label>
             <input
@@ -154,7 +192,10 @@ const RegistrationForm = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="profileImage">
+            <label
+              className="block text-sm font-medium text-gray-700 mb-2"
+              htmlFor="profileImage"
+            >
               Profile Image
             </label>
             <input
@@ -165,12 +206,17 @@ const RegistrationForm = () => {
               onChange={handleImageUpload}
             />
             {formik.touched.profileImage && formik.errors.profileImage && (
-              <div className="text-sm text-red-500">{formik.errors.profileImage}</div>
+              <div className="text-sm text-red-500">
+                {formik.errors.profileImage}
+              </div>
             )}
           </div>
 
           <div className="flex items-center gap-4">
-            <label className="block text-sm font-medium text-gray-700" htmlFor="role">
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="role"
+            >
               Role
             </label>
             <div className="flex items-center">
@@ -188,10 +234,7 @@ const RegistrationForm = () => {
           <div className="col-span-full">
             <p className="text-sm text-gray-600">
               Already have an account?{" "}
-              <Link
-                className="text-violet-500 hover:underline"
-                to="/login"
-              >
+              <Link className="text-violet-500 hover:underline" to="/login">
                 Login
               </Link>
             </p>
@@ -200,13 +243,14 @@ const RegistrationForm = () => {
           <div className="col-span-full pointer">
             <button
               type="submit"
-              className={`w-full py-3 px-4 rounded-md transition ${formik.isSubmitting ||
+              className={`w-full py-3 px-4 rounded-md transition ${
+                formik.isSubmitting ||
                 isLoading ||
                 !formik.dirty ||
                 Object.keys(formik.errors).length > 0
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-violet-500 text-white hover:bg-violet-600"
-                }`}
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-violet-500 text-white hover:bg-violet-600"
+              }`}
               disabled={
                 formik.isSubmitting ||
                 isLoading ||
@@ -217,7 +261,6 @@ const RegistrationForm = () => {
               {isLoading ? "Submitting..." : "Register"}
             </button>
           </div>
-
         </form>
         <ToastContainer position="top-right" autoClose={3000} />
       </div>

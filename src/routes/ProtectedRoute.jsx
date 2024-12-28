@@ -1,20 +1,12 @@
-import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { storage } from "../utils/localStorage";
+import { Navigate } from "react-router-dom";
+import isAuthenticatedStudent from "../utils/isAuthenticatedStudent.js";
+import isAuthenticatedTeacher from "../utils/isAuthenticatedTeacher.js";
 
-const ProtectedRoute = ({ requiredRole }) => {
-  const userId = storage.getUserId();
-  const userRole = storage.getUserRole();
-  const navigate = useNavigate();
-
-  // if (!userRole) {
-  //   navigate("/login");
-  // }
-  // if (requiredRole === "student") {
-  //   navigate("/student");
-  // }
-
-  return <Outlet />;
+const ProtectedRouteStudent = ({ children }) => {
+  return isAuthenticatedStudent() ? children : <Navigate to="/login" replace />;
+};
+export const ProtectedRouteTeacher = ({ children }) => {
+  return isAuthenticatedTeacher() ? children : <Navigate to="/login" replace />;
 };
 
-export default ProtectedRoute;
+export default ProtectedRouteStudent;

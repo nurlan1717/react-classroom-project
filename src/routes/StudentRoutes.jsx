@@ -3,22 +3,26 @@ import StudentLayout from "../components/student/StudentLayout";
 import NotFound from "../pages/NotFound";
 import RegistrationForm from "../pages/Register";
 import Login from "../pages/Login";
-import ProtectedRoute from "./ProtectedRoute";
 import Student from "../components/student/Student";
+import ProtectedRouteStudent from "./ProtectedRoute";
 
 const StudentRoutes = () => {
   return (
     <>
       <Routes>
-        <Route element={<ProtectedRoute requiredRole="student" />}>
-          <Route path="/" element={<StudentLayout />}>
-            <Route index element={<RegistrationForm />} />
-            <Route path="/student" element={<Student />} />
-          </Route>
-        </Route>
+        <Route index element={<RegistrationForm />} />
         <Route path="/login" element={<Login />} />
-
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRouteStudent>
+              <StudentLayout />
+            </ProtectedRouteStudent>
+          }
+        >
+          <Route path="student" element={<Student />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
       </Routes>
     </>
   );

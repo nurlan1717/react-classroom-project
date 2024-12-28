@@ -21,22 +21,12 @@ const Navbar = () => {
     <nav className="flex items-center justify-between bg-gray-100 p-4 shadow-md">
       <div className="flex items-center space-x-4">
         <button className="p-2 rounded-md hover:bg-gray-200">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-gray-700"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
-          </svg>
+          <img className="h-10px w-20"
+            src="https://store-images.s-microsoft.com/image/apps.21960.14149173573532821.775c48a7-4dfa-4a89-b6f2-942ee8ea3947.6d7afba4-9522-45cd-89e6-014c5f5af456"
+            alt=""
+          />
         </button>
-        <span className="text-xl font-semibold text-gray-700">Class</span>
+        <span className="text-xl font-semibold text-gray-700">ClassCraft</span>
       </div>
 
       <div className="flex items-center space-x-4">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
@@ -31,13 +31,9 @@ const Login = () => {
 
         if (user) {
           storage.setUserAuth(user.id, user.role);
-
+          navigate(user.role === "teacher" ? "/teacher" : "/student");
           toast.success("Login successful!", {
             position: "top-right",
-            timer: 500,
-            onClose: () => {
-              navigate(user.role === "teacher" ? "/teacher" : "/student");
-            }
           });
         } else {
           formik.setErrors({
@@ -51,12 +47,21 @@ const Login = () => {
       }
     },
   });
+  const userRole = storage.getUserRole();
+  if (userRole === "student") {
+    navigate("/student");
+  }
+  if (userRole === "teacher") {
+    navigate("/teacher");
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <ToastContainer />
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Login
+        </h2>
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
             <label
@@ -69,10 +74,11 @@ const Login = () => {
               id="email"
               name="email"
               type="email"
-              className={`w-full px-4 py-2 border ${formik.touched.email && formik.errors.email
-                ? "border-red-500"
-                : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+              className={`w-full px-4 py-2 border ${
+                formik.touched.email && formik.errors.email
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
               placeholder="Enter your email"
               value={formik.values.email}
               onChange={formik.handleChange}
@@ -94,10 +100,11 @@ const Login = () => {
               id="password"
               name="password"
               type="password"
-              className={`w-full px-4 py-2 border ${formik.touched.password && formik.errors.password
-                ? "border-red-500"
-                : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+              className={`w-full px-4 py-2 border ${
+                formik.touched.password && formik.errors.password
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
               placeholder="Enter your password"
               value={formik.values.password}
               onChange={formik.handleChange}

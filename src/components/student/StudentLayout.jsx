@@ -1,12 +1,17 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
+import Sidebar from "../Sidebar";
 
 const StudentLayout = () => {
   return (
     <div>
-      <main>
+      <Navbar />
+      <div className="flex gap-10">
+        <Sidebar />
         <Outlet />
-      </main>
+      </div>
+
+      <main></main>
     </div>
   );
 };
