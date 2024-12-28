@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useGetUsersQuery } from "../redux/slices/apiSlice";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/slices/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../utils/localStorage";
@@ -17,7 +16,6 @@ const validationSchema = Yup.object({
 const Login = () => {
   const { data: users } = useGetUsersQuery();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -32,7 +30,6 @@ const Login = () => {
         );
 
         if (user) {
-          dispatch(login(user));
           storage.setUserAuth(user.id, user.role);
 
           toast.success("Login successful!", {

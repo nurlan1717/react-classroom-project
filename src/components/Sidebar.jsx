@@ -10,9 +10,14 @@ import {
   ChevronRight,
   Menu,
 } from "lucide-react";
-import { useGetClassesQuery, useGetAssignmentsQuery } from "../redux/slices/apiSlice";
+import {
+  useGetClassesQuery,
+  useGetAssignmentsQuery,
+} from "../redux/slices/apiSlice";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+  const user = useSelector((state) => state.user);
   const [menuState, setMenuState] = useState({
     isOpen: true,
     coursesExpanded: true,
@@ -23,12 +28,18 @@ const Sidebar = () => {
     setMenuState((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const { data: classes = [], isLoading: classesLoading } = useGetClassesQuery();
-  const { data: assignments = [], isLoading: assignmentsLoading } = useGetAssignmentsQuery();
+  const { data: classes = [], isLoading: classesLoading } =
+    useGetClassesQuery();
+  const { data: assignments = [], isLoading: assignmentsLoading } =
+    useGetAssignmentsQuery();
 
   const menuItems = [
     { icon: <Home className="w-5 h-5" />, title: "Home Page", path: "/" },
-    { icon: <Calendar className="w-5 h-5" />, title: "Calendar", path: "/calendar" },
+    {
+      icon: <Calendar className="w-5 h-5" />,
+      title: "Calendar",
+      path: "/calendar",
+    },
   ];
 
   return (
@@ -37,7 +48,6 @@ const Sidebar = () => {
         menuState.isOpen ? "w-64" : "w-16"
       } border-r border-gray-300`}
     >
-     
       <div className="h-14 flex items-center px-4 border-b border-gray-300">
         <button
           onClick={() => toggleMenu("isOpen")}
@@ -45,12 +55,12 @@ const Sidebar = () => {
         >
           <Menu className="w-5 h-5 text-gray-600" />
         </button>
-        {menuState.isOpen && <span className="ml-4 text-xl text-purple-600">Class</span>}
+        {menuState.isOpen && (
+          <span className="ml-4 text-xl text-purple-600">Class</span>
+        )}
       </div>
 
-      
       <div className="py-2">
-       
         {menuItems.map((item, index) => (
           <div
             key={index}
@@ -61,7 +71,6 @@ const Sidebar = () => {
           </div>
         ))}
 
-       
         <div>
           <div
             className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer"
@@ -84,7 +93,9 @@ const Sidebar = () => {
           {menuState.isOpen && menuState.coursesExpanded && (
             <div className="ml-4">
               {classesLoading ? (
-                <div className="px-4 py-2.5 text-gray-500">Loading classes...</div>
+                <div className="px-4 py-2.5 text-gray-500">
+                  Loading classes...
+                </div>
               ) : (
                 classes.map((course) => (
                   <div
@@ -106,7 +117,6 @@ const Sidebar = () => {
           )}
         </div>
 
-        
         <div>
           <div
             className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer"
@@ -133,22 +143,26 @@ const Sidebar = () => {
                   <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-purple-500"></div>
                 </div>
               ) : assignments.length === 0 ? (
-                <div className="px-4 py-2.5 text-gray-500">No assignments available.</div>
+                <div className="px-4 py-2.5 text-gray-500">
+                  No assignments available.
+                </div>
               ) : (
                 assignments.map((assignment) => (
                   <div
                     key={assignment.id}
                     className="flex items-start px-4 py-2.5 hover:bg-blue-100 cursor-pointer"
                   >
-                    <div
-                      className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white"
-                    >
+                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white">
                       {assignment.id || "A"}
                     </div>
                     <div className="ml-4">
                       <p className="text-gray-900">Task: {assignment.taskId}</p>
-                      <p className="text-gray-500 text-sm">Status: {assignment.status}</p>
-                      <p className="text-gray-500 text-sm">Feedback: {assignment.feedback}</p>
+                      <p className="text-gray-500 text-sm">
+                        Status: {assignment.status}
+                      </p>
+                      <p className="text-gray-500 text-sm">
+                        Feedback: {assignment.feedback}
+                      </p>
                     </div>
                   </div>
                 ))
@@ -157,7 +171,6 @@ const Sidebar = () => {
           )}
         </div>
 
-       
         <div>
           <div className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer">
             <div className="text-gray-600">

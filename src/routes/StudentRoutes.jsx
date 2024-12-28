@@ -4,24 +4,23 @@ import NotFound from "../pages/NotFound";
 import RegistrationForm from "../pages/Register";
 import Login from "../pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
-import Student from "../components/student/Student"
-import Navbar from "../components/student/Navbar";
+import Student from "../components/student/Student";
 
 const StudentRoutes = () => {
   return (
     <>
-      <Navbar />
       <Routes>
         <Route element={<ProtectedRoute requiredRole="student" />}>
           <Route path="/" element={<StudentLayout />}>
             <Route index element={<RegistrationForm />} />
+            <Route path="/student" element={<Student />} />
           </Route>
         </Route>
         <Route path="/login" element={<Login />} />
-        <Route path="/student" element={<Student />} />
 
         <Route path="*" element={<NotFound />} />
-      </Routes></>
+      </Routes>
+    </>
   );
 };
 

@@ -1,9 +1,12 @@
 import { Outlet } from "react-router-dom";
+import Navbar from "../student/Navbar";
+import Sidebar from "../Sidebar";
 
 const TeacherLayout = () => {
   return (
     <div>
-      dsapdsajkdpsak
+      <Navbar />
+      <Sidebar />
       <main>
         <Outlet />
       </main>

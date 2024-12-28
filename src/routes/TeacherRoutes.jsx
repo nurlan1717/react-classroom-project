@@ -9,9 +9,7 @@ const TeacherRoutes = () => {
   return (
     <Routes>
       <Route element={<ProtectedRoute requiredRole="teacher" />}>
-        <Route path="/" element={<TeacherLayout />}>
-          <Route index element={<RegistrationForm />} />
-        </Route>
+        <Route path="/" element={<TeacherLayout />}></Route>
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />
