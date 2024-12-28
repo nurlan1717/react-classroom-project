@@ -3,10 +3,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useGetUsersQuery } from "../redux/slices/apiSlice";
-import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../utils/localStorage";
+import bcrypt from "bcryptjs";  // Import bcryptjs
 
 const validationSchema = Yup.object({
   email: Yup.string().email().required(),
@@ -23,19 +23,32 @@ const Login = () => {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       if (users) {
         const user = users.find(
-          (u) => u.email === values.email && u.password === values.password
+          (u) => u.email === values.email
         );
 
         if (user) {
-          storage.setUserAuth(user.id, user.role);
-          navigate(user.role === "teacher" ? "/teacher" : "/student");
-          window.location.reload();
-          toast.success("Login successful!", {
-            position: "top-right",
-          });
+          const isPasswordValid = await bcrypt.compare(
+            values.password,
+            user.password,
+          );
+          console.log(isPasswordValid);
+          if (isPasswordValid) {
+            storage.setUserAuth(user.id, user.role);
+            navigate(user.role === "teacher" ? "/teacher" : "/student");
+            window.location.reload();
+            toast.success("Login successful!", {
+              position: "top-right",
+            });
+          } else {
+            formik.setErrors({
+              email: "Invalid email or password",
+              password: "Invalid email or password",
+            });
+            toast.error("Invalid email or password", { position: "top-right" });
+          }
         } else {
           formik.setErrors({
             email: "Invalid email or password",
@@ -48,6 +61,7 @@ const Login = () => {
       }
     },
   });
+
   const userRole = storage.getUserRole();
   if (userRole === "student") {
     navigate("/student");
@@ -75,11 +89,10 @@ const Login = () => {
               id="email"
               name="email"
               type="email"
-              className={`w-full px-4 py-2 border ${
-                formik.touched.email && formik.errors.email
+              className={`w-full px-4 py-2 border ${formik.touched.email && formik.errors.email
                   ? "border-red-500"
                   : "border-gray-300"
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
               placeholder="Enter your email"
               value={formik.values.email}
               onChange={formik.handleChange}
@@ -101,11 +114,10 @@ const Login = () => {
               id="password"
               name="password"
               type="password"
-              className={`w-full px-4 py-2 border ${
-                formik.touched.password && formik.errors.password
+              className={`w-full px-4 py-2 border ${formik.touched.password && formik.errors.password
                   ? "border-red-500"
                   : "border-gray-300"
-              } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
               placeholder="Enter your password"
               value={formik.values.password}
               onChange={formik.handleChange}

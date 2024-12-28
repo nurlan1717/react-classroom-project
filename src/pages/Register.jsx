@@ -38,11 +38,14 @@ const RegistrationForm = () => {
       profileImage: Yup.string().required(),
     }),
     onSubmit: async (values, { setSubmitting, resetForm }) => {
+      console.log(values);
       try {
         const result = await createUser(values).unwrap();
         toast.success("Registration successful!");
-        resetForm();
+        resetForm()
         setImageUrl(null);
+        navigate("/login")
+        window.location.reload()
       } catch (error) {
         toast.error("Registration failed. Please try again.");
       } finally {
@@ -72,12 +75,13 @@ const RegistrationForm = () => {
     formik.setFieldValue("role", !isTeacher ? "teacher" : "student");
   };
 
-    const userRole = storage.getUserRole();
-    if (userRole === "student") {
-      navigate("/student");
-    } else {
-      navigate("/teacher");
-    }
+  const userRole = storage.getUserRole();
+  if (userRole === "student") {
+    navigate("/student");
+  }
+  if (userRole === "teacher") {
+    navigate("/teacher");
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -242,14 +246,13 @@ const RegistrationForm = () => {
           <div className="col-span-full pointer">
             <button
               type="submit"
-              className={`w-full py-3 px-4 rounded-md transition ${
-                formik.isSubmitting ||
+              className={`w-full py-3 px-4 rounded-md transition ${formik.isSubmitting ||
                 isLoading ||
                 !formik.dirty ||
                 Object.keys(formik.errors).length > 0
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-violet-500 text-white hover:bg-violet-600"
-              }`}
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-violet-500 text-white hover:bg-violet-600"
+                }`}
               disabled={
                 formik.isSubmitting ||
                 isLoading ||
