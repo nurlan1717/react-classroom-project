@@ -5,7 +5,7 @@ const Student = () => {
   return (
     <>
     <div>
-      dsadsadsadsadsadasdasdsa
+      
     </div>
     </>
   );

@@ -32,6 +32,7 @@ const Login = () => {
         if (user) {
           storage.setUserAuth(user.id, user.role);
           navigate(user.role === "teacher" ? "/teacher" : "/student");
+          window.location.reload();
           toast.success("Login successful!", {
             position: "top-right",
           });
