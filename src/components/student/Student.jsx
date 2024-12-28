@@ -47,7 +47,7 @@ const Student = () => {
         </div>
       </div>
     </div>
-  );
+
     </>
   );
 };

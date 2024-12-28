@@ -21,8 +21,8 @@ const StudentRoutes = () => {
           }
         >
           <Route path="student" element={<Student />} />
-          <Route path="*" element={<NotFound />} />
         </Route>
+          <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

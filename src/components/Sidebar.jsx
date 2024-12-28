@@ -15,7 +15,6 @@ import {
   useGetAssignmentsQuery,
 } from "../redux/slices/apiSlice";
 import { useSelector } from "react-redux";
-import Student from "./student/Student";
 
 const Sidebar = () => {
   const user = useSelector((state) => state.user);

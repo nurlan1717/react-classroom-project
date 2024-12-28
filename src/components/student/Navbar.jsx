@@ -18,7 +18,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-gray-100 p-4 shadow-md">
+    <nav className="flex items-center justify-between bg-violet-200 p-4 shadow-md">
       <div className="flex items-center space-x-4">
         <button className="p-2 rounded-md hover:bg-gray-200">
           <img className="h-10px w-20"
