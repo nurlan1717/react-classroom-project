@@ -72,13 +72,12 @@ const RegistrationForm = () => {
     formik.setFieldValue("role", !isTeacher ? "teacher" : "student");
   };
 
-  const userRole = storage.getUserRole();
-  if (userRole === "student") {
-    navigate("/student");
-  }
-  if (userRole === "teacher") {
-    navigate("/teacher");
-  }
+    const userRole = storage.getUserRole();
+    if (userRole === "student") {
+      navigate("/student");
+    } else {
+      navigate("/teacher");
+    }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

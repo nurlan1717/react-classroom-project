@@ -1,7 +1,6 @@
 import React from "react";
 import { storage } from "../../utils/localStorage";
 import { Link } from "react-router-dom";
-import { usersObject } from "../../utils/usersObject";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {

@@ -24,7 +24,7 @@ const NotFound = () => {
           Don&apos;t worry, our team is already on it.Please try refreshing the
           page or come back later.
         </Typography>
-        <Link to="/student" color="gray" className="w-full px-4 md:w-[8rem] bg-violet-300 rounded-xl p-2">
+        <Link to="/" color="gray" className="w-full px-4 md:w-[8rem] bg-violet-300 rounded-xl p-2">
           Back home
         </Link>
       </div>

@@ -6,10 +6,10 @@ const TeacherLayout = () => {
   return (
     <div>
       <Navbar />
-      <Sidebar />
-      <main>
+      <div className="flex gap-10">
+        <Sidebar />
         <Outlet />
-      </main>
+      </div>
     </div>
   );
 };
