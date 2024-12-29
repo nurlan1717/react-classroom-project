@@ -1,30 +1,35 @@
 import React from "react";
-import {
-  useGetTasksQuery,
-  useGetMaterialsQuery,
-  useGetClassesQuery,
-} from "../redux/slices/apiSlice";
+import { useParams } from "react-router-dom";
+import { useGetTasksQuery, useGetClassesQuery } from "../redux/slices/apiSlice";
 import { Calendar, MoreVertical } from "lucide-react";
-import { classesObject } from "../utils/usersObject";
 import ClassNavbar from "./ClassNavbar";
 
 const Tape = () => {
-  const { data: tasks, isLoading: tasksLoading } = useGetTasksQuery();
-  const { data: classes } = useGetClassesQuery();
-  const { data: materials, isLoading: materialsLoading } =
-    useGetMaterialsQuery();
-  const classesss = classesObject();
+  const { id } = useParams();
+  console.log(id);
 
+  const { data: tasks, isLoading: tasksLoading } = useGetTasksQuery();
+  const { data: classes, isLoading: classesLoading } = useGetClassesQuery();
+
+  if (tasksLoading || classesLoading) {
+    return <div className="p-4">Loading...</div>;
+  }
+
+  const filteredTasks = tasks
+    ? tasks.filter((x) => `:${x.classId}` === id)
+    : [];
+  const filteredClasses = classes
+    ? classes.filter((x) => `:${x.id}` === id)
+    : [];
+  if (filteredClasses.length === 0) {
+    return <div>No class found for this id.</div>;
+  }
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
     });
   };
-
-  if (tasksLoading || materialsLoading) {
-    return <div className="p-4">Loading...</div>;
-  }
 
   return (
     <>
@@ -35,7 +40,7 @@ const Tape = () => {
           <div className="flex-1 max-w-4xl mt-7">
             <div className="relative h-48 bg-slate-600 rounded-lg overflow-hidden mb-6">
               <div className="absolute bottom-6 left-6">
-                <h1 className="text-4xl font-bold text-white">SALAM</h1>
+                <h1 className="text-4xl font-bold text-white">{filteredClasses[0]?.name}</h1>
               </div>
               <div className="absolute top-4 right-4">
                 <button className="text-white hover:bg-white/10 p-2 rounded-full">
@@ -63,7 +68,7 @@ const Tape = () => {
             </div>
 
             <div className="space-y-4">
-              {[...tasks, ...materials]
+              {[...filteredTasks,]
                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                 .map((item) => (
                   <div
