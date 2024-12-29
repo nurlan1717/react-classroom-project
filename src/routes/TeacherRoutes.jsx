@@ -5,6 +5,7 @@ import { ProtectedRouteTeacher } from "./ProtectedRoute";
 import Teacher from "../components/teacher/Teacher";
 import Job from "../pages/Job";
 import TapeDetails from "../pages/TapeDetails";
+import User from "../pages/Users";
 
 const TeacherRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const TeacherRoutes = () => {
         <Route>
           <Route path="class/:id" element={<TapeDetails />} />
           <Route path="class/:id/job" element={<Job />} />
+          <Route path="class/:id/users" element={<User />} />
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
