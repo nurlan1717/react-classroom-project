@@ -34,7 +34,7 @@ const Tape = () => {
   return (
     <>
       <ClassNavbar />
-      <div className="flex-c">
+      <div className="flex mx-auto">
         <div></div>
         <div>
           <div className="flex-1 max-w-4xl mt-7">

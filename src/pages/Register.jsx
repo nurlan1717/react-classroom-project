@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
@@ -42,10 +42,10 @@ const RegistrationForm = () => {
       try {
         const result = await createUser(values).unwrap();
         toast.success("Registration successful!");
-        resetForm()
+        resetForm();
         setImageUrl(null);
-        navigate("/login")
-        window.location.reload()
+        navigate("/login");
+        window.location.reload();
       } catch (error) {
         toast.error("Registration failed. Please try again.");
       } finally {
@@ -75,13 +75,15 @@ const RegistrationForm = () => {
     formik.setFieldValue("role", !isTeacher ? "teacher" : "student");
   };
 
-  const userRole = storage.getUserRole();
-  if (userRole === "student") {
-    navigate("/student");
-  }
-  if (userRole === "teacher") {
-    navigate("/teacher");
-  }
+  useEffect(() => {
+    const userRole = storage.getUserRole();
+    if (userRole === "student") {
+      navigate("/student");
+    }
+    if (userRole === "teacher") {
+      navigate("/teacher");
+    }
+  }, []);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -246,13 +248,14 @@ const RegistrationForm = () => {
           <div className="col-span-full pointer">
             <button
               type="submit"
-              className={`w-full py-3 px-4 rounded-md transition ${formik.isSubmitting ||
+              className={`w-full py-3 px-4 rounded-md transition ${
+                formik.isSubmitting ||
                 isLoading ||
                 !formik.dirty ||
                 Object.keys(formik.errors).length > 0
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-violet-500 text-white hover:bg-violet-600"
-                }`}
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-violet-500 text-white hover:bg-violet-600"
+              }`}
               disabled={
                 formik.isSubmitting ||
                 isLoading ||

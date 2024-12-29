@@ -24,6 +24,12 @@ const ClassNavbar = () => {
     }
   };
 
+  const handleNavigate0 = () => {
+    if (id) {
+      navigate(`/`);
+    }
+  };
+
   return (
     <>
       <div className="w-full">
@@ -32,6 +38,12 @@ const ClassNavbar = () => {
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden"></div>
             <div className="flex-1 flex items-center justify-center">
               <div className="flex text-lg space-x-4">
+                <button
+                  onClick={handleNavigate0}
+                  className="text-gray-600 hover:text-violet-600"
+                >
+                  Home
+                </button>
                 <button
                   onClick={handleNavigate}
                   className="text-gray-600 hover:text-violet-600"
