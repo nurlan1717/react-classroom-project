@@ -1,28 +1,26 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { classesObject } from "../utils/usersObject";
+import { useParams, useNavigate } from "react-router-dom";
 
 const ClassNavbar = () => {
+  const { id } = useParams();
+
   const navigate = useNavigate();
 
-  const classes = classesObject()
-  console.log(classes)
-  
   const handleNavigate = () => {
-    if (location.pathname) {
-      navigate("/teacher/class/:c1");
+    if (id) {
+      navigate(`/teacher/class/${id}`);
     }
   };
 
   const handleNavigate2 = () => {
-    if (location.pathname) {
-      navigate("/teacher/class/:c1/job");
+    if (id) {
+      navigate(`/teacher/class/${id}/job`);
     }
   };
 
   const handleNavigate3 = () => {
-    if (location.pathname) {
-      navigate("/teacher/class/:c1/users");
+    if (id) {
+      navigate(`/teacher/class/${id}/users`);
     }
   };
 
