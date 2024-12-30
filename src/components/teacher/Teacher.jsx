@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useGetClassesQuery } from "../../redux/slices/apiSlice";
+import { useGetClassesQuery, useGetUsersQuery } from "../../redux/slices/apiSlice";
 import { storage } from "../../utils/localStorage";
 import { FolderOpen, Users } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -7,11 +7,20 @@ import { Link } from "react-router-dom";
 
 const Teacher = () => {
   const { data: classes } = useGetClassesQuery();
+  const { data: users } = useGetUsersQuery();
+
   const userId = storage.getUserId();
 
-  const filteredCourses = classes?.filter(
-    (course) => course.teacherId == userId
-  );
+  const filteredCourses = classes
+    ?.filter((course) => course.teacherId.includes(userId))
+    .map((course) => {
+      const enrolledStudents = users?.filter((user) =>
+        course.studentIds.includes(user.id)
+      );
+      return { ...course, enrolledStudents };
+    });
+  console.log(filteredCourses);
+
 
   return (
     <div className="flex flex-wrap gap-6 justify-start w-full h-1/2 mt-7">

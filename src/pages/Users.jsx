@@ -14,6 +14,7 @@ const User = () => {
     const classData = classes?.find((cls) => `:${cls.id}` === id);
     const { data: users } = useGetUsersQuery()
     const students = users ? users?.filter((user) => classData?.studentIds.includes(user.id)) : [];
+    const teacher = users ? users?.filter((user) => classData?.teacherId.includes(user.id))[0] : [];
     return (
         <>
             <ClassNavbar />
@@ -24,8 +25,8 @@ const User = () => {
                             Teacher Information
                         </h2>
                         <div className="flex items-center space-x-4">
-                            <img className="w-12" src={user.profileImage} alt={user.fullName} />
-                            <span className="text-gray-900 font-medium">{user.fullName || 'Unnamed Teacher'}</span>
+                            <img className="w-12" src={teacher.profileImage} alt={teacher.fullName} />
+                            <span className="text-gray-900 font-medium">{teacher.fullName || 'Unnamed Teacher'}</span>
                         </div>
                     </section>
                 )}

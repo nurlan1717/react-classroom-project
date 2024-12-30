@@ -6,7 +6,7 @@ import { useGetUsersQuery } from "../redux/slices/apiSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../utils/localStorage";
-import bcrypt from "bcryptjs"; // Import bcryptjs
+import bcrypt from "bcryptjs"; 
 
 const validationSchema = Yup.object({
   email: Yup.string().email().required(),
