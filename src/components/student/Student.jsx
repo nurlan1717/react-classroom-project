@@ -42,7 +42,7 @@ const Student = () => {
                 </svg>
               </button>
             </div>
-            <Link to="/tape" className="text-2xl font-bold text-white z-50">
+            <Link to={`class/:${course.id}`} className="text-2xl font-bold text-white z-50">
               {course.name}
             </Link>
             <p className="text-white/80 text-sm mt-1 z-50">Class Room</p>

@@ -1,26 +1,28 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { storage } from "../utils/localStorage";
 
 const ClassNavbar = () => {
   const { id } = useParams();
+  const userRole = storage.getUserRole();
 
   const navigate = useNavigate();
 
   const handleNavigate = () => {
     if (id) {
-      navigate(`/teacher/class/${id}`);
+      navigate(`/${userRole}/class/${id}`);
     }
   };
 
   const handleNavigate2 = () => {
     if (id) {
-      navigate(`/teacher/class/${id}/job`);
+      navigate(`/${userRole}/class/${id}/job`);
     }
   };
 
   const handleNavigate3 = () => {
     if (id) {
-      navigate(`/teacher/class/${id}/users`);
+      navigate(`/${userRole}/class/${id}/users`);
     }
   };
 
