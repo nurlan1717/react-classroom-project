@@ -8,7 +8,7 @@ import {
   ChevronRight,
   Menu,
 } from "lucide-react";
-import { useGetClassesQuery } from "../redux/slices/apiSlice";
+import { useGetClassesQuery, useGetUsersQuery } from "../redux/slices/apiSlice";
 import { useSelector } from "react-redux";
 import { storage } from "../utils/localStorage";
 import { NavLink } from "react-router-dom";
@@ -25,12 +25,22 @@ const Sidebar = () => {
   };
 
   const { data: classes = [], isLoading: classesLoading } = useGetClassesQuery();
+  const { data: users } = useGetUsersQuery();
   const userId = storage.getUserId();
   const userRole = storage.getUserRole();
 
   const filteredCourses = classes?.filter(
     (course) => course.teacherId == userId
   );
+
+  const filteredCoursesStudent = classes
+    ?.filter((course) => course.studentIds.includes(userId))
+    .map((course) => {
+      const enrolledStudents = users?.filter((user) =>
+        course.studentIds.includes(user.id)
+      );
+      return { ...course, enrolledStudents };
+    });
 
   const menuItems = [
     {
@@ -105,25 +115,27 @@ const Sidebar = () => {
                     Loading classes...
                   </div>
                 ) : (
-                  filteredCourses.map((course) => (
-                    <NavLink
-                      to={`class/:${course.id}`}
-                      key={course.id}
-                      className={({ isActive }) =>
-                        isActive
-                          ? "flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer text-violet-800"
-                          : "flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer"
-                      }
-                    >
-                      <div
-                        className={`w-8 h-8 rounded-full ${course.color || "bg-blue-500"
-                          } flex items-center justify-center text-white`}
+                  (userRole === "student" ? filteredCoursesStudent : filteredCourses).map(
+                    (course) => (
+                      <NavLink
+                        to={`class/:${course.id}`}
+                        key={course.id}
+                        className={({ isActive }) =>
+                          isActive
+                            ? "flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer text-violet-800"
+                            : "flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer"
+                        }
                       >
-                        {course.name?.[0] || "C"}
-                      </div>
-                      <span className="ml-2">{course.name}</span>
-                    </NavLink>
-                  ))
+                        <div
+                          className={`w-8 h-8 rounded-full ${course.color || "bg-blue-500"
+                            } flex items-center justify-center text-white`}
+                        >
+                          {course.name?.[0] || "C"}
+                        </div>
+                        <span className="ml-2">{course.name}</span>
+                      </NavLink>
+                    )
+                  )
                 )}
               </div>
             )}

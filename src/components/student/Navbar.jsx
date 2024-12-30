@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const userId = storage.getUserId();
+  const userRole = storage.getUserRole();
   const navigate = useNavigate();
 
   if (!userId) {
@@ -18,7 +19,7 @@ const Navbar = () => {
   };
 
   const handleProfileClick = () => {
-    navigate('/user-details');
+    navigate(`/${userRole}/user-details`);
   };
 
   return (
