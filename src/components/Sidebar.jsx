@@ -7,11 +7,12 @@ import {
   ChevronDown,
   ChevronRight,
   Menu,
+  Newspaper,
 } from "lucide-react";
 import { useGetClassesQuery, useGetUsersQuery } from "../redux/slices/apiSlice";
 import { useSelector } from "react-redux";
 import { storage } from "../utils/localStorage";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   const user = useSelector((state) => state.user);
@@ -148,6 +149,21 @@ const Sidebar = () => {
               </div>
               {menuState.isOpen && <span className="ml-4">Settings</span>}
             </div>
+          </div>
+          <div>
+            {userRole === "teacher" && (
+              <div>
+                <Link
+                  to="create-class"
+                  className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer hover:text-violet-500"
+                >
+                  <div className="text-gray-600">
+                    <Newspaper className="w-5 h-5" />
+                  </div>
+                  {menuState.isOpen && <span className="ml-4">Create Class</span>}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

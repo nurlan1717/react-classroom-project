@@ -8,6 +8,7 @@ import TapeDetails from "../pages/TapeDetails";
 import User from "../pages/Users";
 import UserDetails from "../pages/UserDetails";
 import Calendar from "../components/Calendar";
+import AddClass from "../pages/AddClass";
 
 const TeacherRoutes = () => {
   return (
@@ -27,6 +28,8 @@ const TeacherRoutes = () => {
           <Route path="class/:id/job" element={<Job />} />
           <Route path="class/:id/users" element={<User />} />
           <Route path="user-details" element={<UserDetails />} />
+          <Route path="create-class" element={<AddClass />} />
+
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
