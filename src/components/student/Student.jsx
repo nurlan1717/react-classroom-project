@@ -5,6 +5,7 @@ import {
   useGetClassesQuery,
   useGetUsersQuery,
 } from "../../redux/slices/apiSlice";
+import { Link } from "react-router-dom";
 
 const Student = () => {
   const { data: classes } = useGetClassesQuery();
@@ -41,7 +42,9 @@ const Student = () => {
                 </svg>
               </button>
             </div>
-            <h2 className="text-2xl font-bold text-white z-50">{course.name}</h2>
+            <Link to="/tape" className="text-2xl font-bold text-white z-50">
+              {course.name}
+            </Link>
             <p className="text-white/80 text-sm mt-1 z-50">Class Room</p>
           </div>
 
@@ -54,8 +57,6 @@ const Student = () => {
           </div>
 
           <div className="p-6 pt-12">
-            <div className="h-32"></div>
-
             <h4 className="text-lg font-semibold text-gray-700">Scheduled:</h4>
             {course.schedule?.map((item, index) => (
               <p key={index} className="text-sm text-gray-600">

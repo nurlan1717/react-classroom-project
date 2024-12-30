@@ -5,6 +5,7 @@ import RegistrationForm from "../pages/Register";
 import Login from "../pages/Login";
 import Student from "../components/student/Student";
 import ProtectedRouteStudent from "./ProtectedRoute";
+import UserDetails from "../pages/UserDetails";
 
 const StudentRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const StudentRoutes = () => {
           }
         >
           <Route path="student" element={<Student />} />
+          <Route path="user-details" element={<UserDetails />} />
         </Route>
           <Route path="*" element={<NotFound />} />
       </Routes>

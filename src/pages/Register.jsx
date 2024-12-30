@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
@@ -38,11 +38,14 @@ const RegistrationForm = () => {
       profileImage: Yup.string().required(),
     }),
     onSubmit: async (values, { setSubmitting, resetForm }) => {
+      console.log(values);
       try {
         const result = await createUser(values).unwrap();
         toast.success("Registration successful!");
         resetForm();
         setImageUrl(null);
+        navigate("/login");
+        window.location.reload();
       } catch (error) {
         toast.error("Registration failed. Please try again.");
       } finally {
@@ -72,12 +75,15 @@ const RegistrationForm = () => {
     formik.setFieldValue("role", !isTeacher ? "teacher" : "student");
   };
 
+  useEffect(() => {
     const userRole = storage.getUserRole();
     if (userRole === "student") {
       navigate("/student");
-    } else {
+    }
+    if (userRole === "teacher") {
       navigate("/teacher");
     }
+  }, []);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useGetClassesQuery } from "../../redux/slices/apiSlice";
 import { storage } from "../../utils/localStorage";
 import { FolderOpen, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Teacher = () => {
   const { data: classes } = useGetClassesQuery();
@@ -10,10 +11,6 @@ const Teacher = () => {
   const filteredCourses = classes?.filter(
     (course) => course.teacherId == userId
   );
-
-  useEffect(() => {
-    console.log(filteredCourses);
-  }, [filteredCourses]);
 
   return (
     <div className="flex flex-wrap gap-6 justify-start w-full h-1/2 mt-7">
@@ -36,9 +33,12 @@ const Teacher = () => {
                 </svg>
               </button>
             </div>
-            <h2 className="text-2xl font-bold text-white z-50">
+            <Link
+              to={`class/:${course.id}`}
+              className="text-2xl font-bold text-white z-50"
+            >
               {course.name}
-            </h2>
+            </Link>
             <p className="text-white/80 text-sm mt-1 z-50">Class Room</p>
           </div>
 
@@ -51,8 +51,6 @@ const Teacher = () => {
           </div>
 
           <div className="p-6 pt-12">
-            <div className="h-32"></div>
-
             <h4 className="text-lg font-semibold text-gray-700">Scheduled:</h4>
             {course.schedule?.map((item, index) => (
               <p key={index} className="text-sm text-gray-600">

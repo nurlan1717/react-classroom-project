@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { useGetUsersQuery } from "../redux/slices/apiSlice";
-import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../utils/localStorage";
+import bcrypt from "bcryptjs"; // Import bcryptjs
 
 const validationSchema = Yup.object({
   email: Yup.string().email().required(),
@@ -17,25 +17,42 @@ const Login = () => {
   const { data: users } = useGetUsersQuery();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const userRole = storage.getUserRole();
+    if (userRole === "student") {
+      navigate("/student");
+    } else if (userRole === "teacher") {
+      navigate("/teacher");
+    }
+  }, [navigate]); 
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       if (users) {
-        const user = users.find(
-          (u) => u.email === values.email && u.password === values.password
-        );
+        const user = users.find((u) => u.email === values.email);
 
         if (user) {
-          storage.setUserAuth(user.id, user.role);
-          navigate(user.role === "teacher" ? "/teacher" : "/student");
-          window.location.reload();
-          toast.success("Login successful!", {
-            position: "top-right",
-          });
+          const isPasswordValid = await bcrypt.compare(
+            values.password,
+            user.password
+          );
+          console.log(isPasswordValid);
+          if (isPasswordValid) {
+            storage.setUserAuth(user.id, user.role);
+            toast.success("Login successful!", { position: "top-right" });
+            navigate(user.role === "teacher" ? "/teacher" : "/student");
+          } else {
+            formik.setErrors({
+              email: "Invalid email or password",
+              password: "Invalid email or password",
+            });
+            toast.error("Invalid email or password", { position: "top-right" });
+          }
         } else {
           formik.setErrors({
             email: "Invalid email or password",
@@ -48,13 +65,6 @@ const Login = () => {
       }
     },
   });
-  const userRole = storage.getUserRole();
-  if (userRole === "student") {
-    navigate("/student");
-  }
-  if (userRole === "teacher") {
-    navigate("/teacher");
-  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
