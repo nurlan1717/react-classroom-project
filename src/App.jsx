@@ -5,6 +5,7 @@ import { usersObject } from "./utils/usersObject";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./redux/slices/userSlice";
 import { useEffect } from "react";
+import AutRoutes from "./routes/AutRoutes";
 
 function App() {
   const user = usersObject();
@@ -16,8 +17,9 @@ function App() {
   }, [user, dispatch]);
   return (
     <Routes>
+      <Route path="/*" element={<AutRoutes />} />
       <Route path="/teacher/*" element={<TeacherRoutes />} />
-      <Route path="/*" element={<StudentRoutes />} />
+      <Route path="/student/*" element={<StudentRoutes />} />
     </Routes>
   );
 }

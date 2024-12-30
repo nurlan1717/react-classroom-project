@@ -1,30 +1,35 @@
 import { Routes, Route } from "react-router-dom";
 import StudentLayout from "../components/student/StudentLayout";
 import NotFound from "../pages/NotFound";
-import RegistrationForm from "../pages/Register";
-import Login from "../pages/Login";
 import Student from "../components/student/Student";
 import ProtectedRouteStudent from "./ProtectedRoute";
+import Calendar from "../components/Calendar";
+import Job from "../pages/Job";
+import TapeDetails from "../pages/TapeDetails";
+import User from "../pages/Users";
 
 const StudentRoutes = () => {
   return (
-    <>
-      <Routes>
-        <Route index element={<RegistrationForm />} />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRouteStudent>
-              <StudentLayout />
-            </ProtectedRouteStudent>
-          }
-        >
-          <Route path="student" element={<Student />} />
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <ProtectedRouteStudent>
+            <StudentLayout />
+          </ProtectedRouteStudent>
+        }
+      >
+        <Route path="/" element={<Student />} />
+        <Route>
+          <Route path="calendar" element={<Calendar />} />
+          <Route path="class/:id" element={<TapeDetails />} />
+          <Route path="class/:id/job" element={<Job />} />
+          <Route path="class/:id/users" element={<User />} />
         </Route>
-          <Route path="*" element={<NotFound />} />
-      </Routes>
-    </>
+      </Route>
+
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
 

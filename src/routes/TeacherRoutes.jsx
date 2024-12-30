@@ -6,6 +6,7 @@ import Teacher from "../components/teacher/Teacher";
 import Job from "../pages/Job";
 import TapeDetails from "../pages/TapeDetails";
 import User from "../pages/Users";
+import Calendar from "../components/Calendar";
 
 const TeacherRoutes = () => {
   return (
@@ -20,6 +21,7 @@ const TeacherRoutes = () => {
       >
         <Route path="/" element={<Teacher />} />
         <Route>
+          <Route path="calendar" element={<Calendar />} />
           <Route path="class/:id" element={<TapeDetails />} />
           <Route path="class/:id/job" element={<Job />} />
           <Route path="class/:id/users" element={<User />} />

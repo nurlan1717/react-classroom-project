@@ -8,10 +8,10 @@ const StudentLayout = () => {
       <Navbar />
       <div className="flex gap-10">
         <Sidebar />
-        <Outlet />
+        <div className="flex-c w-full">
+          <Outlet />
+        </div>
       </div>
-
-      <main></main>
     </div>
   );
 };
