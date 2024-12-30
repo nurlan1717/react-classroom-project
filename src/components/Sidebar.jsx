@@ -69,7 +69,7 @@ const Sidebar = () => {
             <Menu className="w-5 h-5 text-gray-600" />
           </button>
           {menuState.isOpen && (
-            <span className="ml-4 text-xl text-purple-600">Class</span>
+            <span className="ml-4 text-xl text-purple-800">Class</span>
           )}
         </div>
 
@@ -81,7 +81,7 @@ const Sidebar = () => {
               className={({ isActive }) =>
                 isActive
                   ? "flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer text-violet-800"
-                  : "flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer"
+                  : "flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer hover:text-violet-500"
               }
             >
               <div className="text-gray-600">{item.icon}</div>
@@ -91,7 +91,7 @@ const Sidebar = () => {
 
           <div>
             <div
-              className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer"
+              className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer hover:text-violet-500"
               onClick={() => toggleMenu("coursesExpanded")}
             >
               <div className="text-gray-600">
@@ -123,7 +123,7 @@ const Sidebar = () => {
                         className={({ isActive }) =>
                           isActive
                             ? "flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer text-violet-800"
-                            : "flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer"
+                            : "flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer "
                         }
                       >
                         <div
@@ -142,7 +142,7 @@ const Sidebar = () => {
           </div>
 
           <div>
-            <div className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer">
+            <div className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer hover:text-violet-500">
               <div className="text-gray-600">
                 <Settings className="w-5 h-5" />
               </div>

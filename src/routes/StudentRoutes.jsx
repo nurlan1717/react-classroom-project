@@ -8,6 +8,7 @@ import Calendar from "../components/Calendar";
 import Job from "../pages/Job";
 import TapeDetails from "../pages/TapeDetails";
 import User from "../pages/Users";
+import Messages from "../pages/Messages";
 
 const StudentRoutes = () => {
   return (
@@ -27,6 +28,8 @@ const StudentRoutes = () => {
           <Route path="class/:id/job" element={<Job />} />
           <Route path="class/:id/users" element={<User />} />
           <Route path="user-details" element={<UserDetails />} />
+          <Route path="messages" element={<Messages />} />
+
         </Route>
       </Route>
 
