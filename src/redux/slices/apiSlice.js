@@ -11,14 +11,6 @@ const apiSlice = createApi({
       query: () => "/users",
     }),
 
-    updateUser: builder.mutation({
-      query: ({ id, ...updates }) => ({
-        url: `/users/${id}`,
-        method: "PUT",
-        body: updates,
-      }),
-    }),
-
     createUser: builder.mutation({
       query: (newUser) => ({
         url: "/users",
@@ -26,6 +18,15 @@ const apiSlice = createApi({
         body: newUser,
       }),
     }),
+
+    updateUser: builder.mutation({
+      query: ({ id, ...updatedData }) => ({
+        url: `/users/${id}`,
+        method: "PATCH",
+        body: updatedData,  
+      }),
+    }),
+    
 
     deleteUser: builder.mutation({
       query: (id) => ({
@@ -43,6 +44,14 @@ const apiSlice = createApi({
         url: "/classes",
         method: "POST",
         body: newClass,
+      }),
+    }),
+
+    updateClass: builder.mutation({
+      query: ({ id, updatedData }) => ({
+        url: `/classes/${id}`,
+        method: "PATCH",
+        body: updatedData,
       }),
     }),
 
@@ -65,6 +74,14 @@ const apiSlice = createApi({
       }),
     }),
 
+    updateTask: builder.mutation({
+      query: ({ id, updatedData }) => ({
+        url: `/tasks/${id}`,
+        method: "PATCH",
+        body: updatedData,
+      }),
+    }),
+
     deleteTask: builder.mutation({
       query: (id) => ({
         url: `/tasks/${id}`,
@@ -81,6 +98,14 @@ const apiSlice = createApi({
         url: "/assignments",
         method: "POST",
         body: newAssignment,
+      }),
+    }),
+
+    updateAssignment: builder.mutation({
+      query: ({ id, updatedData }) => ({
+        url: `/assignments/${id}`,
+        method: "PATCH",
+        body: updatedData,
       }),
     }),
 
@@ -103,6 +128,14 @@ const apiSlice = createApi({
       }),
     }),
 
+    updateMaterial: builder.mutation({
+      query: ({ id, updatedData }) => ({
+        url: `/materials/${id}`,
+        method: "PATCH",
+        body: updatedData,
+      }),
+    }),
+
     deleteMaterial: builder.mutation({
       query: (id) => ({
         url: `/materials/${id}`,
@@ -119,6 +152,14 @@ const apiSlice = createApi({
         url: "/majors",
         method: "POST",
         body: newMajor,
+      }),
+    }),
+
+    updateMajor: builder.mutation({
+      query: ({ id, updatedData }) => ({
+        url: `/majors/${id}`,
+        method: "PATCH",
+        body: updatedData,
       }),
     }),
 
@@ -141,6 +182,14 @@ const apiSlice = createApi({
       }),
     }),
 
+    updateInvitation: builder.mutation({
+      query: ({ id, updatedData }) => ({
+        url: `/invitations/${id}`,
+        method: "PATCH",
+        body: updatedData,
+      }),
+    }),
+
     deleteInvitation: builder.mutation({
       query: (id) => ({
         url: `/invitations/${id}`,
@@ -152,26 +201,32 @@ const apiSlice = createApi({
 
 export const {
   useGetUsersQuery,
-  useUpdateUserMutation,
   useCreateUserMutation,
+  useUpdateUserMutation,
   useDeleteUserMutation,
   useGetClassesQuery,
   useCreateClassMutation,
+  useUpdateClassMutation,
   useDeleteClassMutation,
   useGetTasksQuery,
   useCreateTaskMutation,
+  useUpdateTaskMutation,
   useDeleteTaskMutation,
   useGetAssignmentsQuery,
   useCreateAssignmentMutation,
+  useUpdateAssignmentMutation,
   useDeleteAssignmentMutation,
   useGetMaterialsQuery,
   useCreateMaterialMutation,
+  useUpdateMaterialMutation,
   useDeleteMaterialMutation,
   useGetMajorsQuery,
   useCreateMajorMutation,
+  useUpdateMajorMutation,
   useDeleteMajorMutation,
   useGetInvitationsQuery,
   useCreateInvitationMutation,
+  useUpdateInvitationMutation,
   useDeleteInvitationMutation,
 } = apiSlice;
 

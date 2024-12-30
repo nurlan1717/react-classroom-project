@@ -20,8 +20,13 @@ const userSlice = createSlice({
       state.currentUser = null;
       state.isAuth = false;
     },
+    updateUser: (state, action) => {
+      if (state.currentUser && state.currentUser.id === action.payload.id) {
+        state.currentUser = { ...state.currentUser, ...action.payload };
+      }
+    }
   },
 });
 
-export const { setAuthStatus, setUser, logout } = userSlice.actions;
+export const { setAuthStatus, setUser, logout,updateUser } = userSlice.actions;
 export default userSlice.reducer;
