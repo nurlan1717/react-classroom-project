@@ -1,28 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-
+import UpdateUserModal from './UpdateUserModal';
 
 const UserDetails = () => {
   const user = useSelector((state) => state.user.currentUser);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const TeacherDetails = () => (
     <div className="max-w-4xl mx-auto p-8">
       <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex items-center space-x-6 mb-6">
-          <img
-            src={user?.profileImage || "https://via.placeholder.com/150"}
-            alt="Profile"
-            className="w-32 h-32 rounded-full"
-          />
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">{user?.fullName}</h1>
-            <p className="text-gray-600">{user?.email}</p>
-            <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mt-2">
-              Teacher
-            </span>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-6">
+            <img
+              src={user?.profileImage || "https://via.placeholder.com/150"}
+              alt="Profile"
+              className="w-32 h-32 rounded-full"
+            />
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">{user?.fullName}</h1>
+              <p className="text-gray-600">{user?.email}</p>
+              <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mt-2">
+                Teacher
+              </span>
+            </div>
           </div>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Update Information
+          </button>
         </div>
 
+        {/* d0ivhidsq */}
         <div className="border-t pt-6">
           <h2 className="text-xl font-semibold mb-4">Professional Information</h2>
           <div className="grid grid-cols-2 gap-4">
@@ -69,21 +79,30 @@ const UserDetails = () => {
   const StudentDetails = () => (
     <div className="max-w-4xl mx-auto p-8">
       <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex items-center space-x-6 mb-6">
-          <img
-            src={user?.profileImage || "https://via.placeholder.com/150"}
-            alt="Profile"
-            className="w-32 h-32 rounded-full"
-          />
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">{user?.fullName}</h1>
-            <p className="text-gray-600">{user?.email}</p>
-            <span className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mt-2">
-              Student
-            </span>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-6">
+            <img
+              src={user?.profileImage || "https://via.placeholder.com/150"}
+              alt="Profile"
+              className="w-32 h-32 rounded-full"
+            />
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">{user?.fullName}</h1>
+              <p className="text-gray-600">{user?.email}</p>
+              <span className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mt-2">
+                Student
+              </span>
+            </div>
           </div>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Update Information
+          </button>
         </div>
 
+       
         <div className="border-t pt-6">
           <h2 className="text-xl font-semibold mb-4">Academic Information</h2>
           <div className="grid grid-cols-2 gap-4">
@@ -113,7 +132,16 @@ const UserDetails = () => {
     </div>
   );
 
-  return user?.role === 'teacher' ? <TeacherDetails /> : <StudentDetails />;
+  return (
+    <>
+      {user?.role === 'teacher' ? <TeacherDetails /> : <StudentDetails />}
+      <UpdateUserModal
+        user={user}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
+  );
 };
 
 export default UserDetails;

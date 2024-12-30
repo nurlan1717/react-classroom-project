@@ -11,6 +11,14 @@ const apiSlice = createApi({
       query: () => "/users",
     }),
 
+    updateUser: builder.mutation({
+      query: ({ id, ...updates }) => ({
+        url: `/users/${id}`,
+        method: "PUT",
+        body: updates,
+      }),
+    }),
+
     createUser: builder.mutation({
       query: (newUser) => ({
         url: "/users",
@@ -144,6 +152,7 @@ const apiSlice = createApi({
 
 export const {
   useGetUsersQuery,
+  useUpdateUserMutation,
   useCreateUserMutation,
   useDeleteUserMutation,
   useGetClassesQuery,

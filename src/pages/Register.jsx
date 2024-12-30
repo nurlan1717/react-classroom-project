@@ -5,9 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCreateUserMutation } from "../redux/slices/apiSlice";
 import { toast, ToastContainer } from "react-toastify";
 import { storage } from "../utils/localStorage";
+import { CLOUDINARY_URL,CLOUDINARY_UPLOAD_PRESET } from "../constants/cloudinary";
 
-const CLOUDINARY_UPLOAD_PRESET = "cloudinary-animals-app";
-const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dgab5avil/image/upload";
+// const CLOUDINARY_UPLOAD_PRESET = "cloudinary-animals-app";
+// const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dgab5avil/image/upload";
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
