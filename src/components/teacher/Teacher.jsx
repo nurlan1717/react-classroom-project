@@ -19,7 +19,6 @@ const Teacher = () => {
       );
       return { ...course, enrolledStudents };
     });
-  console.log(filteredCourses);
 
 
   return (

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { storage } from '../utils/localStorage';
-import { useGetClassesQuery, useGetInvitationsQuery, useUpdateInvitationMutation } from '../redux/slices/apiSlice';
+import { useGetClassesQuery, useGetInvitationsQuery, useUpdateClassMutation, useUpdateInvitationMutation } from '../redux/slices/apiSlice';
 
 const Messages = () => {
     const { data: invitations } = useGetInvitationsQuery();
-    const [updateInvitation] = useUpdateInvitationMutation();
     const { data: classes } = useGetClassesQuery();
+    const [updateInvitation] = useUpdateInvitationMutation();
+    const [updateClasses] = useUpdateClassMutation();
     const userId = storage.getUserId();
 
     const filteredInvitations = invitations?.filter(
@@ -13,13 +14,15 @@ const Messages = () => {
     )[0];
 
     const filteredClassId = filteredInvitations?.classId;
+
     const filteredClasses = classes
         ? classes.filter((x) => x.id === filteredClassId)
         : [];
-
+    console.log(classes);
     const handleAccept = async (id) => {
         const updatedData = { status: 'accepted' };
         await updateInvitation({ id, updatedData }).unwrap();
+        await updateClasses({ filteredClassId, userId })
         toast.success("Accepted", { position: "top-right" });
 
     };
