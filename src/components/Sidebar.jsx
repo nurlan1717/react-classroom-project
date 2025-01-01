@@ -8,6 +8,7 @@ import {
   ChevronRight,
   Menu,
   Newspaper,
+  Text,
 } from "lucide-react";
 import { useGetClassesQuery, useGetUsersQuery } from "../redux/slices/apiSlice";
 import { useSelector } from "react-redux";
@@ -141,7 +142,14 @@ const Sidebar = () => {
               </div>
             )}
           </div>
-
+          <Link to="material">
+            <div className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer hover:text-violet-500">
+              <div className="text-gray-600">
+                <Text className="w-5 h-5" />
+              </div>
+              {menuState.isOpen && <span className="ml-4">Materials</span>}
+            </div>
+          </Link>
           <div>
             <div className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer hover:text-violet-500">
               <div className="text-gray-600">

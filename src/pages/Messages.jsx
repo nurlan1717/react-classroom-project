@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { storage } from '../utils/localStorage';
-import { useGetClassesQuery, useGetInvitationsQuery, useUpdateClassMutation, useUpdateInvitationMutation } from '../redux/slices/apiSlice';
+import {
+    useGetClassesQuery,
+    useGetInvitationsQuery,
+    useUpdateClassMutation,
+    useUpdateInvitationMutation,
+} from '../redux/slices/apiSlice';
 
 const Messages = () => {
     const { data: invitations } = useGetInvitationsQuery();
@@ -9,29 +16,46 @@ const Messages = () => {
     const [updateClasses] = useUpdateClassMutation();
     const userId = storage.getUserId();
 
+    if (!invitations || !classes) return <p>Loading...</p>;
+
     const filteredInvitations = invitations?.filter(
         (invitation) => invitation.studentId === userId
     )[0];
 
     const filteredClassId = filteredInvitations?.classId;
 
-    const filteredClasses = classes
-        ? classes.filter((x) => x.id === filteredClassId)
-        : [];
-    console.log(classes);
-    const handleAccept = async (id) => {
-        const updatedData = { status: 'accepted' };
-        await updateInvitation({ id, updatedData }).unwrap();
-        await updateClasses({ filteredClassId, userId })
-        toast.success("Accepted", { position: "top-right" });
+    const filteredClasses = classes.filter((x) => x.id === filteredClassId);
 
+    const handleAccept = async (id) => {
+        try {
+            const updatedData = { status: 'accepted' };
+            await updateInvitation({ id, updatedData }).unwrap();
+                const selectedClass = classes.find((cls) => cls.id === filteredClassId);
+            if (!selectedClass) throw new Error('Class not found');
+            const updatedClassData = {
+                studentIds: [...selectedClass.studentIds, userId], 
+            };
+            await updateClasses({ id: filteredClassId, updatedData: updatedClassData });
+            toast.success('Accepted', { position: 'top-right' });
+        } catch (error) {
+            toast.error('Error accepting invitation', { position: 'top-right' });
+        }
     };
+    
 
     const handleReject = async (id) => {
-        const updatedData = { status: 'rejected' };
-        await updateInvitation({ id, updatedData }).unwrap();
-        toast.success("Rejected", { position: "top-right" });
+        try {
+            const updatedData = { status: 'rejected' };
+            await updateInvitation({ id, updatedData }).unwrap();
+            toast.success('Rejected', { position: 'top-right' });
+        } catch (error) {
+            toast.error('Error rejecting invitation', { position: 'top-right' });
+        }
     };
+
+    if (filteredClasses.length === 0) {
+        return <p>No messages available.</p>;
+    }
 
     return (
         <div className="p-6 min-h-screen">
@@ -41,10 +65,10 @@ const Messages = () => {
                 <div
                     key={message.id}
                     className={`bg-white p-4 rounded-lg shadow-lg mb-4 border-l-4 ${filteredInvitations?.status === 'accepted'
-                        ? 'border-green-500'
-                        : filteredInvitations?.status === 'rejected'
-                            ? 'border-red-500'
-                            : 'border-violet-500'
+                            ? 'border-green-500'
+                            : filteredInvitations?.status === 'rejected'
+                                ? 'border-red-500'
+                                : 'border-violet-500'
                         }`}
                 >
                     <div className="flex justify-between items-center mb-2">
@@ -55,10 +79,10 @@ const Messages = () => {
                         <div className="text-sm text-gray-500">
                             <span
                                 className={`px-2 py-1 rounded-full ${filteredInvitations?.status === 'accepted'
-                                    ? 'bg-green-100 text-green-600'
-                                    : filteredInvitations?.status === 'rejected'
-                                        ? 'bg-red-100 text-red-600'
-                                        : 'bg-blue-100 text-blue-600'
+                                        ? 'bg-green-100 text-green-600'
+                                        : filteredInvitations?.status === 'rejected'
+                                            ? 'bg-red-100 text-red-600'
+                                            : 'bg-blue-100 text-blue-600'
                                     }`}
                             >
                                 {filteredInvitations?.status === 'accepted'

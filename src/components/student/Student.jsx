@@ -2,12 +2,15 @@ import { FolderOpen, Users } from "lucide-react";
 import React from "react";
 import { storage } from "../../utils/localStorage";
 import { useGetClassesQuery, useGetUsersQuery } from "../../redux/slices/apiSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Student = () => {
   const { data: classes } = useGetClassesQuery();
   const { data: users } = useGetUsersQuery();
   const userId = storage.getUserId();
+  const userRole = storage.getUserRole();
+  const navigate = useNavigate();
+
 
   const filteredCourses = classes
     ?.filter((course) => course.studentIds.includes(userId))
@@ -81,12 +84,12 @@ const Student = () => {
               </ul>
 
               <div className="flex items-center justify-end space-x-4 pt-4 border-t">
-                <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                <button onClick={() => { navigate(`/${userRole}/class/:${course.id}/users`) }} className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
                   <Users className="w-5 h-5" />
                 </button>
-                <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                <Link to="material" className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
                   <FolderOpen className="w-5 h-5" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

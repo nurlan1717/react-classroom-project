@@ -1,29 +1,27 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetTasksQuery, useGetClassesQuery } from "../redux/slices/apiSlice";
+import { useGetTasksQuery, useGetClassesQuery, useGetMaterialsQuery, useGetUsersQuery } from "../redux/slices/apiSlice";
 import { Calendar, MoreVertical } from "lucide-react";
 import ClassNavbar from "./ClassNavbar";
 
 const Tape = () => {
   const { id } = useParams();
-  console.log(id);
 
   const { data: tasks, isLoading: tasksLoading } = useGetTasksQuery();
   const { data: classes, isLoading: classesLoading } = useGetClassesQuery();
+
 
   if (tasksLoading || classesLoading) {
     return <div className="p-4">Loading...</div>;
   }
 
-  const filteredTasks = tasks
-    ? tasks.filter((x) => `:${x.classId}` === id)
-    : [];
-  const filteredClasses = classes
-    ? classes.filter((x) => `:${x.id}` === id)
-    : [];
+  const filteredTasks = tasks ? tasks.filter((x) => `:${x.classId}` === id) : [];
+  const filteredClasses = classes ? classes.filter((x) => `:${x.id}` === id) : [];
+
   if (filteredClasses.length === 0) {
     return <div>No class found for this id.</div>;
   }
+
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("en-US", {
       month: "short",
@@ -34,70 +32,54 @@ const Tape = () => {
   return (
     <>
       <ClassNavbar />
-      <div className="flex mx-auto">
-        <div></div>
-        <div>
-          <div className="flex-1 max-w-4xl mt-7">
-            <div className="relative h-48 bg-slate-600 rounded-lg overflow-hidden mb-6">
-              <div className="absolute bottom-6 left-6">
-                <h1 className="text-4xl font-bold text-white">{filteredClasses[0]?.name}</h1>
-              </div>
-              <div className="absolute top-4 right-4">
-                <button className="text-white hover:bg-white/10 p-2 rounded-full">
-                  <MoreVertical size={20} />
-                </button>
-              </div>
-            </div>
+      <div className="flex flex-col mx-auto px-4">
+        <div className="relative w-full max-w-5xl mt-4 h-48 bg-gray-600 rounded-md overflow-hidden shadow-lg mb-6">
+          <div className="absolute bottom-6 left-6">
+            <h1 className="text-4xl font-bold text-white">{filteredClasses[0]?.name}</h1>
+          </div>
+          <div className="absolute top-4 right-4">
+            <button
+              className="text-white hover:bg-white/10 p-2 rounded-full transition duration-200"
+              aria-label="More options"
+            >
+              <MoreVertical size={20} />
+            </button>
+          </div>
+        </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="bg-white p-4 rounded-lg shadow">
-                <h2 className="text-xl font-semibold mb-4">Meet</h2>
-                <button className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
-                  Join
-                </button>
-              </div>
-              <div className="bg-white p-4 rounded-lg shadow">
-                <h2 className="text-xl font-semibold mb-2">Expected</h2>
-                <p className="text-gray-600 text-sm mb-4">
-                  You don't have any assignments to turn in next week.
-                </p>
-                <button className="text-blue-500 hover:text-blue-600">
-                  See all
-                </button>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="col-span-1 bg-white p-5 rounded-lg shadow-md">
+            <div className="flex items-center justify-between mb-2 mt-2">
+              <h2 className="text-xl font-semibold">Meet</h2>
+              <button cl>
+                <MoreVertical size={20} />
+              </button>
             </div>
+            <button className="w-full bg-violet-600 text-white py-2 rounded-md hover:bg-violet-700 transition duration-200">
+              Join
+            </button>
+          </div>
 
-            <div className="space-y-4">
-              {[...filteredTasks,]
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                .map((item) => (
-                  <div
-                    key={item.id}
-                    className="bg-white p-4 rounded-lg shadow flex items-start gap-4"
-                  >
-                    <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white">
-                      <Calendar size={20} />
+          <div className="col-span-2 w-5/6 space-y-4">
+            {[...filteredTasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item) => (
+              <div key={item.id} className="bg-white p-4 rounded-lg shadow-md flex items-start gap-4 transition duration-150 hover:shadow-lg transform hover:scale-105">
+                <div className="w-10 h-10 bg-violet-500 rounded-full flex items-center justify-center text-white">
+                  <Calendar size={20} />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold">Teacher added Task: {item.title}</p>
+                      <p className="text-sm text-gray-500">Created : {formatDate(item.createdAt)}</p>
+                      <p className="text-sm text-gray-500">Deadline : {formatDate(item.deadline)}</p>
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-medium">
-                            {item.author || "Teacher"} added{" "}
-                            {item.type === "task" ? "a task" : "material"}:{" "}
-                            {item.title}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {formatDate(item.createdAt)}
-                          </p>
-                        </div>
-                        <button className="text-gray-400 hover:text-gray-600">
-                          <MoreVertical size={16} />
-                        </button>
-                      </div>
-                    </div>
+                    <button className="text-gray-400 hover:text-gray-600 transition duration-200" aria-label="More options">
+                      <MoreVertical size={16} />
+                    </button>
                   </div>
-                ))}
-            </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
