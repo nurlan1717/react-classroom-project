@@ -150,14 +150,14 @@ const Sidebar = () => {
               {menuState.isOpen && <span className="ml-4">Materials</span>}
             </div>
           </Link>
-          <div>
+          <Link to="settings">
             <div className="flex items-center px-4 py-2.5 hover:bg-blue-100 cursor-pointer hover:text-violet-500">
               <div className="text-gray-600">
                 <Settings className="w-5 h-5" />
               </div>
               {menuState.isOpen && <span className="ml-4">Settings</span>}
             </div>
-          </div>
+          </Link>
           <div>
             {userRole === "teacher" && (
               <div>

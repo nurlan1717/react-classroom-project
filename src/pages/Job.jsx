@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"; // Import useParams
 import {
   useGetTasksQuery,
   useCreateTaskMutation,
   useDeleteTaskMutation,
-  useGetClassesQuery,
 } from "../redux/slices/apiSlice";
 import { useSelector } from "react-redux";
 import { MoreVertical, Plus, X, Calendar, Trash } from "lucide-react";
@@ -13,21 +13,21 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Job = () => {
+  const classId = useParams();
+  const id = classId.id.slice(1);
   const [selectedTopic, setSelectedTopic] = useState("All topics");
   const [isCreatingTask, setIsCreatingTask] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedClass, setSelectedClass] = useState(null);
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
     category: "",
     deadline: new Date().toISOString().split('T')[0],
     type: "homework",
-    classId: "",
+    classId: id || "",
   });
 
-  // Get current user from Redux store
   const currentUser = useSelector((state) => state.user.currentUser);
   const isTeacher = currentUser?.role === "teacher";
 
@@ -35,21 +35,15 @@ const Job = () => {
     data: tasks,
     isLoading,
     isError,
-    refetch
+    refetch,
   } = useGetTasksQuery(undefined, {
-    refetchOnMountOrArgChange: true
+    refetchOnMountOrArgChange: true,
   });
-
-  const { data: classes } = useGetClassesQuery();
 
   const [createTask] = useCreateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
 
-  const filteredTasks = tasks?.filter(task =>
-    !selectedClass || task.classId === selectedClass
-  );
-
-  const groupedTasks = filteredTasks?.reduce((acc, task) => {
+  const groupedTasks = tasks?.reduce((acc, task) => {
     const category = task.category || "Uncategorized";
     if (!acc[category]) {
       acc[category] = [];
@@ -58,6 +52,9 @@ const Job = () => {
     return acc;
   }, {});
 
+
+  const filteredTasks = tasks?.filter((task) => `:${task.classId}` === classId.id);
+
   const handleCreateTask = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -65,7 +62,6 @@ const Job = () => {
       const taskData = {
         ...newTask,
         deadline: selectedDate.toISOString(),
-        classId: selectedClass,
       };
       await createTask(taskData).unwrap();
       setIsCreatingTask(false);
@@ -75,7 +71,7 @@ const Job = () => {
         category: "",
         deadline: new Date().toISOString().split('T')[0],
         type: "homework",
-        classId: selectedClass,
+        classId: id || "",
       });
       refetch();
     } catch (error) {
@@ -122,19 +118,6 @@ const Job = () => {
               </button>
             )}
           </div>
-          
-          <select
-            value={selectedClass || ""}
-            onChange={(e) => setSelectedClass(e.target.value)}
-            className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">All Classes</option>
-            {classes?.map((classItem) => (
-              <option key={classItem.id} value={classItem.id}>
-                {classItem.name}
-              </option>
-            ))}
-          </select>
         </div>
 
         {isCreatingTask && isTeacher && (
@@ -149,7 +132,7 @@ const Job = () => {
                   <X size={20} />
                 </button>
               </div>
-              
+
               <form onSubmit={handleCreateTask} className="p-4 space-y-4">
                 <div>
                   <input
@@ -184,7 +167,7 @@ const Job = () => {
                       <option value="Quiz">Quiz</option>
                     </select>
                   </div>
-                  
+
                   <div className="flex-1">
                     <div className="relative">
                       <DatePicker
@@ -199,22 +182,6 @@ const Job = () => {
                   </div>
                 </div>
 
-                <div>
-                  <select
-                    value={selectedClass || ""}
-                    onChange={(e) => setSelectedClass(e.target.value)}
-                    className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  >
-                    <option value="">Select class</option>
-                    {classes?.map((classItem) => (
-                      <option key={classItem.id} value={classItem.id}>
-                        {classItem.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
                 <div className="flex justify-end gap-3 pt-4">
                   <button
                     type="button"
@@ -227,9 +194,8 @@ const Job = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`px-4 py-2 bg-blue-600 text-white rounded-lg ${
-                      isSubmitting ? 'opacity-50' : 'hover:bg-blue-700'
-                    }`}
+                    className={`px-4 py-2 bg-blue-600 text-white rounded-lg ${isSubmitting ? 'opacity-50' : 'hover:bg-blue-700'
+                      }`}
                   >
                     {isSubmitting ? 'Creating...' : 'Create'}
                   </button>
@@ -272,7 +238,7 @@ const Job = () => {
                       </button>
                     </div>
 
-                    {categoryTasks.map((task) => (
+                    {filteredTasks.map((task) => (
                       <div
                         key={task.id}
                         className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:shadow-sm transition-shadow"

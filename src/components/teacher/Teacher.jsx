@@ -1,15 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useGetClassesQuery, useGetUsersQuery } from "../../redux/slices/apiSlice";
 import { storage } from "../../utils/localStorage";
 import { FolderOpen, Users } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Teacher = () => {
   const { data: classes } = useGetClassesQuery();
   const { data: users } = useGetUsersQuery();
+  const navigate = useNavigate();
+
 
   const userId = storage.getUserId();
+  const userRole = storage.getUserRole();
+
 
   const filteredCourses = classes
     ?.filter((course) => course.teacherId.includes(userId))
@@ -80,12 +84,12 @@ const Teacher = () => {
               </ul>
 
               <div className="flex items-center justify-end space-x-4 pt-4 border-t">
-                <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                <button onClick={() => { navigate(`/${userRole}/class/:${course.id}/users`) }} className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
                   <Users className="w-5 h-5" />
                 </button>
-                <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                <Link to="material" className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
                   <FolderOpen className="w-5 h-5" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

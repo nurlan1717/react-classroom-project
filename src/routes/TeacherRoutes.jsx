@@ -10,6 +10,8 @@ import UserDetails from "../pages/UserDetails";
 import Calendar from "../components/Calendar";
 import AddClass from "../pages/AddClass";
 import MaterialItem from "../pages/MaterialItem";
+import Messages from "../pages/Messages";
+import Setting from "../pages/Setting";
 
 const TeacherRoutes = () => {
   return (
@@ -30,7 +32,10 @@ const TeacherRoutes = () => {
           <Route path="class/:id/users" element={<User />} />
           <Route path="user-details" element={<UserDetails />} />
           <Route path="create-class" element={<AddClass />} />
+          <Route path="messages" element={<Messages />} />
           <Route path="material" element={<MaterialItem />} />
+          <Route path="settings" element={<Setting />} />
+
 
         </Route>
       </Route>
