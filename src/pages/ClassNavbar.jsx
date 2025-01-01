@@ -56,7 +56,7 @@ const ClassNavbar = () => {
                   onClick={handleNavigate2}
                   className="text-gray-600 hover:text-violet-600"
                 >
-                  Jobs
+                  Tasks
                 </button>
                 <button
                   onClick={handleNavigate3}
