@@ -5,6 +5,7 @@ import {
   useDeleteTaskMutation,
   useGetClassesQuery,
 } from "../redux/slices/apiSlice";
+import { useSelector } from "react-redux";
 import { MoreVertical, Plus, X, Calendar, Trash } from "lucide-react";
 import ClassNavbar from "./ClassNavbar";
 import RichTextEditor from "../components/RichTextEditor";
@@ -26,21 +27,25 @@ const Job = () => {
     classId: "",
   });
 
-  const { 
-    data: tasks, 
-    isLoading, 
+  // Get current user from Redux store
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const isTeacher = currentUser?.role === "teacher";
+
+  const {
+    data: tasks,
+    isLoading,
     isError,
-    refetch 
+    refetch
   } = useGetTasksQuery(undefined, {
     refetchOnMountOrArgChange: true
   });
 
   const { data: classes } = useGetClassesQuery();
-  
+
   const [createTask] = useCreateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
 
-  const filteredTasks = tasks?.filter(task => 
+  const filteredTasks = tasks?.filter(task =>
     !selectedClass || task.classId === selectedClass
   );
 
@@ -102,18 +107,20 @@ const Job = () => {
   return (
     <>
       <ClassNavbar />
-      
+
       <div className="w-full max-w-4xl mx-auto p-4">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <h1 className="text-xl font-medium">Tasks</h1>
-            <button
-              onClick={() => setIsCreatingTask(true)}
-              className="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg flex items-center space-x-2"
-            >
-              <Plus size={20} />
-              <span>Create Task</span>
-            </button>
+            {isTeacher && (
+              <button
+                onClick={() => setIsCreatingTask(true)}
+                className="bg-blue-100 text-blue-600 px-4 py-2 rounded-lg flex items-center space-x-2"
+              >
+                <Plus size={20} />
+                <span>Create Task</span>
+              </button>
+            )}
           </div>
           
           <select
@@ -130,7 +137,7 @@ const Job = () => {
           </select>
         </div>
 
-        {isCreatingTask && (
+        {isCreatingTask && isTeacher && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg w-full max-w-2xl">
               <div className="p-4 border-b flex justify-between items-center">
@@ -293,12 +300,14 @@ const Job = () => {
                           <span className="text-sm text-gray-500">
                             {formatDate(task.deadline)}
                           </span>
-                          <button
-                            className="p-2 hover:bg-gray-100 rounded-full"
-                            onClick={() => handleDeleteTask(task.id)}
-                          >
-                            <Trash size={20} />
-                          </button>
+                          {isTeacher && (
+                            <button
+                              className="p-2 hover:bg-gray-100 rounded-full"
+                              onClick={() => handleDeleteTask(task.id)}
+                            >
+                              <Trash size={20} />
+                            </button>
+                          )}
                         </div>
                       </div>
                     ))}

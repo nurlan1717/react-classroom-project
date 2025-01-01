@@ -7,12 +7,9 @@ export default function LinkModal({ isOpen, onClose, onSubmit }) {
 
   if (!isOpen) return null;
 
-  const handleSubmitUrl = (e) => {
-    e.preventDefault();
-
+  const handleSubmitUrl = () => {
     if (url) {
       onSubmit({ url, text: linkText });
-      
       setUrl('');
       setLinkText('');
       onClose();
@@ -25,6 +22,7 @@ export default function LinkModal({ isOpen, onClose, onSubmit }) {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Insert Link</h2>
           <button
+            type="button"
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 transition-colors"
           >
