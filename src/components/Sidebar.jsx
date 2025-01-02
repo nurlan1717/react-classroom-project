@@ -14,6 +14,8 @@ import { useGetClassesQuery, useGetUsersQuery } from "../redux/slices/apiSlice";
 import { useSelector } from "react-redux";
 import { storage } from "../utils/localStorage";
 import { Link, NavLink } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+
 
 const Sidebar = () => {
   const user = useSelector((state) => state.user);
@@ -21,6 +23,7 @@ const Sidebar = () => {
     isOpen: true,
     coursesExpanded: true,
   });
+  const { t } = useTranslation();
 
   const toggleMenu = (key) => {
     setMenuState((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -47,12 +50,12 @@ const Sidebar = () => {
   const menuItems = [
     {
       icon: <Home className="w-5 h-5" />,
-      title: "Home Page",
+      title: t("sidebar.home-page"),
       path: "/",
     },
     {
       icon: <Calendar className="w-5 h-5" />,
-      title: "Calendar",
+      title: t("sidebar.calendar"),
       path: `/${userRole}/calendar`,
     },
   ];
@@ -71,7 +74,7 @@ const Sidebar = () => {
             <Menu className="w-5 h-5 text-gray-600" />
           </button>
           {menuState.isOpen && (
-            <span className="ml-4 text-xl text-purple-800">Class</span>
+            <span className="ml-4 text-xl text-purple-800">{t('class.addClass.class')}</span>
           )}
         </div>
 
@@ -101,7 +104,7 @@ const Sidebar = () => {
               </div>
               {menuState.isOpen && (
                 <>
-                  <span className="ml-4 flex-1">Courses</span>
+                  <span className="ml-4 flex-1">{t("sidebar.courses")}</span>
                   {menuState.coursesExpanded ? (
                     <ChevronDown className="w-4 h-4" />
                   ) : (
@@ -147,7 +150,7 @@ const Sidebar = () => {
               <div className="text-gray-600">
                 <Text className="w-5 h-5" />
               </div>
-              {menuState.isOpen && <span className="ml-4">Materials</span>}
+              {menuState.isOpen && <span className="ml-4">{t("sidebar.materials")}</span>}
             </div>
           </Link>
           <Link to="settings">
@@ -155,7 +158,7 @@ const Sidebar = () => {
               <div className="text-gray-600">
                 <Settings className="w-5 h-5" />
               </div>
-              {menuState.isOpen && <span className="ml-4">Settings</span>}
+              {menuState.isOpen && <span className="ml-4">{t("sidebar.settings")}</span>}
             </div>
           </Link>
           <div>
@@ -168,7 +171,7 @@ const Sidebar = () => {
                   <div className="text-gray-600">
                     <Newspaper className="w-5 h-5" />
                   </div>
-                  {menuState.isOpen && <span className="ml-4">Create Class</span>}
+                  {menuState.isOpen && <span className="ml-4">{t("class.addClass.createClass")}</span>}
                 </Link>
               </div>
             )}

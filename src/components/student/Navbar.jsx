@@ -5,12 +5,16 @@ import { useSelector } from "react-redux";
 import { MessageSquare } from "lucide-react";
 import { useGetInvitationsQuery } from "../../redux/slices/apiSlice";
 import LanguageSwitcher from "../LangugeSwitcher";
+import { useTranslation } from 'react-i18next';
+
 
 const Navbar = () => {
   const userId = storage.getUserId();
   const userRole = storage.getUserRole();
   const navigate = useNavigate();
   const { data: invitations } = useGetInvitationsQuery();
+  const { t } = useTranslation();
+
 
   const pendingInvitations = invitations?.filter(
     (invitation) => invitation.studentId === userId && invitation.status === "pending"
@@ -73,7 +77,7 @@ const Navbar = () => {
           onClick={handleLogout}
           className="p-2 rounded-full hover:bg-gray-200"
         >
-          <span className="text-violet-700 font-bold">Logout</span>
+          <span className="text-violet-700 font-bold">{t("navbar.logout")}</span>
         </Link>
       </div>
     </nav>

@@ -1,11 +1,16 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetTasksQuery, useGetClassesQuery, useGetMaterialsQuery, useGetUsersQuery } from "../redux/slices/apiSlice";
 import { Calendar, MoreVertical } from "lucide-react";
 import ClassNavbar from "./ClassNavbar";
+import { storage } from "../utils/localStorage";
 
 const Tape = () => {
   const { id } = useParams();
+  const userRole = storage.getUserRole();
+  const navigate = useNavigate();
+
+
 
   const { data: tasks, isLoading: tasksLoading } = useGetTasksQuery();
   const { data: classes, isLoading: classesLoading } = useGetClassesQuery();
@@ -21,6 +26,10 @@ const Tape = () => {
   if (filteredClasses.length === 0) {
     return <div>No class found for this id.</div>;
   }
+
+  const handleTaskClick = (taskId) => {
+    navigate(`/${userRole}/class/${id}/job/${taskId}`);
+  };
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("en-US", {
@@ -51,7 +60,7 @@ const Tape = () => {
           <div className="col-span-1 bg-white p-5 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-2 mt-2">
               <h2 className="text-xl font-semibold">Meet</h2>
-              <button cl>
+              <button>
                 <MoreVertical size={20} />
               </button>
             </div>
@@ -62,15 +71,15 @@ const Tape = () => {
 
           <div className="col-span-2 w-5/6 space-y-4">
             {[...filteredTasks].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map((item) => (
-              <div key={item.id} className="bg-white p-4 rounded-lg shadow-md flex items-start gap-4 transition duration-150 hover:shadow-lg transform hover:scale-105">
-                <div className="w-10 h-10 bg-violet-500 rounded-full flex items-center justify-center text-white">
+              <div key={item.id} onClick={() => { handleTaskClick(item.id) }} className="pointer bg-white p-4 rounded-lg shadow-md flex items-start gap-4 transition duration-150 hover:shadow-lg transform hover:scale-105">
+                <div className="pointer w-10 h-10 bg-violet-500 rounded-full flex items-center justify-center text-white">
                   <Calendar size={20} />
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center justify-between">
+                  <div className="pointer flex items-center justify-between">
                     <div>
-                      <p className="font-semibold">Teacher added Task: {item.title}</p>
-                      <p className="text-sm text-gray-500">Created : {formatDate(item.createdAt)}</p>
+                      <p className="pointer font-semibold">Teacher added Task: {item.title}</p>
+                      <p className="pointer text-sm text-gray-500">Created : {formatDate(item.createdAt)}</p>
                       <p className="text-sm text-gray-500">Deadline : {formatDate(item.deadline)}</p>
                     </div>
                     <button className="text-gray-400 hover:text-gray-600 transition duration-200" aria-label="More options">

@@ -11,11 +11,14 @@ import ClassNavbar from "./ClassNavbar";
 import RichTextEditor from "../components/RichTextEditor";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { storage } from "../utils/localStorage";
 
 const Job = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const navigate = useNavigate();
   const cleanClassId = id.slice(1);
+  const userRole = storage.getUserRole();
+
 
   const [selectedTopic, setSelectedTopic] = useState("All topics");
   const [isCreatingTask, setIsCreatingTask] = useState(false);
@@ -45,10 +48,10 @@ const Job = () => {
   const [createTask] = useCreateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
 
-  
+
   const filteredTasks = tasks?.filter((task) => task.classId === cleanClassId) || [];
 
-  
+
   const groupedTasks = filteredTasks.reduce((acc, task) => {
     const category = task.category || "Uncategorized";
     if (!acc[category]) {
@@ -85,12 +88,8 @@ const Job = () => {
   };
 
   const handleDeleteTask = async (taskId) => {
-    try {
-      await deleteTask(taskId).unwrap();
-      refetch();
-    } catch (error) {
-      console.error("error", error);
-    }
+    await deleteTask(taskId).unwrap();
+    refetch();
   };
 
   const formatDate = (date) => {
@@ -104,7 +103,7 @@ const Job = () => {
   };
 
   const handleTaskClick = (taskId) => {
-    navigate(`/teacher/class/${id}/job/${taskId}`);
+    navigate(`/${userRole}/class/${id}/job/${taskId}`);
   };
 
   return (
@@ -200,9 +199,8 @@ const Job = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`px-4 py-2 bg-blue-600 text-white rounded-lg ${
-                      isSubmitting ? 'opacity-50' : 'hover:bg-blue-700'
-                    }`}
+                    className={`px-4 py-2 bg-blue-600 text-white rounded-lg ${isSubmitting ? 'opacity-50' : 'hover:bg-blue-700'
+                      }`}
                   >
                     {isSubmitting ? 'Creating...' : 'Create'}
                   </button>

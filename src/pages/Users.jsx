@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 import { useGetClassesQuery, useGetUsersQuery } from '../redux/slices/apiSlice';
 import { Mail } from 'lucide-react';
 import ClassNavbar from './ClassNavbar';
-import { storage } from '../utils/localStorage';
 import { useSelector } from 'react-redux';
 
 const User = () => {

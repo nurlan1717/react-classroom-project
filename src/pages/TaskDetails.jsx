@@ -6,12 +6,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import RichTextEditor from '../components/RichTextEditor';
 import { useSelector } from 'react-redux';
+import { storage } from '../utils/localStorage';
 
 const TaskDetails = () => {
   const { taskId, id: classId } = useParams();
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.user.currentUser);
   const isTeacher = currentUser?.role === "teacher";
+  const userRole = storage.getUserRole();
 
   const { data: tasks, isLoading } = useGetTasksQuery();
   const [updateTask] = useUpdateTaskMutation();
@@ -34,8 +36,8 @@ const TaskDetails = () => {
   if (!task) {
     return (
       <div className="max-w-4xl mx-auto p-6">
-        <button 
-          onClick={() => navigate(`/teacher/class/${classId}/job`)}
+        <button
+          onClick={() => navigate(`/${userRole}/class/${classId}/job`)}
           className="flex items-center text-gray-600 hover:text-gray-900 mb-6"
         >
           <ArrowLeft className="mr-2" size={20} />
@@ -72,8 +74,8 @@ const TaskDetails = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <button 
-        onClick={() => navigate(`/teacher/class/${classId}/job`)}
+      <button
+        onClick={() => navigate(`/${userRole}/class/${classId}/job`)}
         className="flex items-center text-gray-600 hover:text-gray-900 mb-6"
       >
         <ArrowLeft className="mr-2" size={20} />
@@ -88,7 +90,7 @@ const TaskDetails = () => {
             onChange={(e) => setEditedTask({ ...editedTask, title: e.target.value })}
             className="w-full text-2xl font-bold p-2 border rounded-lg"
           />
-          
+
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">Description</label>
             <RichTextEditor
@@ -168,7 +170,7 @@ const TaskDetails = () => {
 
           <div>
             <div className="text-sm text-gray-500 mb-2">Description</div>
-            <div 
+            <div
               className="prose max-w-none"
               dangerouslySetInnerHTML={createMarkup(task.description)}
             />
