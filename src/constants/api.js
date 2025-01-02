@@ -7,4 +7,5 @@ export const endpoints = {
   materials: "/materials",
   majors: "/majors",
   invitations: "/invitations",
+  announcements: "/announcements",
 };

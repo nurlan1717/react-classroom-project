@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // Import useParams
+import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   useGetTasksQuery,
   useCreateTaskMutation,
@@ -13,8 +13,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Job = () => {
-  const classId = useParams();
-  const id = classId.id.slice(1);
+  const { id } = useParams(); 
+  const navigate = useNavigate();
+  const cleanClassId = id.slice(1);
+
   const [selectedTopic, setSelectedTopic] = useState("All topics");
   const [isCreatingTask, setIsCreatingTask] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,7 +27,7 @@ const Job = () => {
     category: "",
     deadline: new Date().toISOString().split('T')[0],
     type: "homework",
-    classId: id || "",
+    classId: cleanClassId,
   });
 
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -43,7 +45,11 @@ const Job = () => {
   const [createTask] = useCreateTaskMutation();
   const [deleteTask] = useDeleteTaskMutation();
 
-  const groupedTasks = tasks?.reduce((acc, task) => {
+  
+  const filteredTasks = tasks?.filter((task) => task.classId === cleanClassId) || [];
+
+  
+  const groupedTasks = filteredTasks.reduce((acc, task) => {
     const category = task.category || "Uncategorized";
     if (!acc[category]) {
       acc[category] = [];
@@ -51,9 +57,6 @@ const Job = () => {
     acc[category].push(task);
     return acc;
   }, {});
-
-
-  const filteredTasks = tasks?.filter((task) => `:${task.classId}` === classId.id);
 
   const handleCreateTask = async (e) => {
     e.preventDefault();
@@ -71,7 +74,7 @@ const Job = () => {
         category: "",
         deadline: new Date().toISOString().split('T')[0],
         type: "homework",
-        classId: id || "",
+        classId: cleanClassId,
       });
       refetch();
     } catch (error) {
@@ -100,10 +103,13 @@ const Job = () => {
     })}`;
   };
 
+  const handleTaskClick = (taskId) => {
+    navigate(`/teacher/class/${id}/job/${taskId}`);
+  };
+
   return (
     <>
       <ClassNavbar />
-
       <div className="w-full max-w-4xl mx-auto p-4">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
@@ -194,8 +200,9 @@ const Job = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`px-4 py-2 bg-blue-600 text-white rounded-lg ${isSubmitting ? 'opacity-50' : 'hover:bg-blue-700'
-                      }`}
+                    className={`px-4 py-2 bg-blue-600 text-white rounded-lg ${
+                      isSubmitting ? 'opacity-50' : 'hover:bg-blue-700'
+                    }`}
                   >
                     {isSubmitting ? 'Creating...' : 'Create'}
                   </button>
@@ -212,10 +219,9 @@ const Job = () => {
             className="w-full max-w-xs border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option>All topics</option>
-            {groupedTasks &&
-              Object.keys(groupedTasks).map((category) => (
-                <option key={category}>{category}</option>
-              ))}
+            {Object.keys(groupedTasks).map((category) => (
+              <option key={category}>{category}</option>
+            ))}
           </select>
         </div>
 
@@ -227,7 +233,7 @@ const Job = () => {
           </div>
         ) : (
           <div className="space-y-6">
-            {Object.entries(groupedTasks || {}).map(
+            {Object.entries(groupedTasks).map(
               ([category, categoryTasks]) =>
                 (selectedTopic === "All topics" || selectedTopic === category) && (
                   <div key={category} className="space-y-4">
@@ -238,10 +244,11 @@ const Job = () => {
                       </button>
                     </div>
 
-                    {filteredTasks.map((task) => (
+                    {categoryTasks.map((task) => (
                       <div
                         key={task.id}
-                        className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:shadow-sm transition-shadow"
+                        className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:shadow-sm transition-shadow cursor-pointer"
+                        onClick={() => handleTaskClick(task.id)}
                       >
                         <div className="flex items-center space-x-4">
                           <div className="bg-blue-500 p-2 rounded-lg">
@@ -269,7 +276,10 @@ const Job = () => {
                           {isTeacher && (
                             <button
                               className="p-2 hover:bg-gray-100 rounded-full"
-                              onClick={() => handleDeleteTask(task.id)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteTask(task.id);
+                              }}
                             >
                               <Trash size={20} />
                             </button>

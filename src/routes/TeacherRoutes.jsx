@@ -12,6 +12,7 @@ import AddClass from "../pages/AddClass";
 import MaterialItem from "../pages/MaterialItem";
 import Messages from "../pages/Messages";
 import Setting from "../pages/Setting";
+import TaskDetails from "../pages/TaskDetails";
 
 const TeacherRoutes = () => {
   return (
@@ -30,12 +31,13 @@ const TeacherRoutes = () => {
           <Route path="class/:id" element={<TapeDetails />} />
           <Route path="class/:id/job" element={<Job />} />
           <Route path="class/:id/users" element={<User />} />
+          <Route path="class/:id/job/:taskId" element={<TaskDetails />} />
           <Route path="user-details" element={<UserDetails />} />
           <Route path="create-class" element={<AddClass />} />
           <Route path="messages" element={<Messages />} />
           <Route path="material" element={<MaterialItem />} />
           <Route path="settings" element={<Setting />} />
-
+         
 
         </Route>
       </Route>
