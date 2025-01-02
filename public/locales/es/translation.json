@@ -1,0 +1,56 @@
+{
+    "navigation": {
+      "home": "Inicio",
+      "tape": "Cinta",
+      "tasks": "Tareas",
+      "users": "Usuarios"
+    },
+    "tasks": {
+      "title": "Tareas",
+      "createTask": "Crear Tarea",
+      "newTask": {
+        "title": "Crear Tarea",
+        "titlePlaceholder": "Título de la tarea",
+        "selectCategory": "Seleccionar categoría",
+        "categories": {
+          "homework": "Tarea",
+          "assignment": "Asignación",
+          "project": "Proyecto",
+          "quiz": "Cuestionario"
+        },
+        "cancel": "Cancelar",
+        "create": "Crear",
+        "creating": "Creando..."
+      },
+      "filter": {
+        "allTopics": "Todos los temas"
+      },
+      "loading": "Cargando...",
+      "error": "Error al cargar las tareas",
+      "deadline": "Fecha de finalización: {{date}}"
+    },
+    "class": {
+      "addClass": {
+        "title": "Agregar Clase",
+        "className": "Nombre de la Clase",
+        "classNamePlaceholder": "Ingrese el nombre de la clase",
+        "major": "Carrera",
+        "majorPlaceholder": "Ingrese la carrera",
+        "topics": "Temas",
+        "topicPlaceholder": "Ingrese el tema",
+        "addTopic": "Agregar Tema",
+        "remove": "Eliminar",
+        "schedule": "Horario",
+        "day": "Día",
+        "dayPlaceholder": "Ingrese el día",
+        "time": "Hora",
+        "timePlaceholder": "Ingrese la hora",
+        "removeSchedule": "Eliminar Horario",
+        "addSchedule": "Agregar Horario",
+        "students": "Agregar Estudiantes",
+        "selectStudent": "Seleccionar estudiante",
+        "createClass": "Crear Clase",
+        "creating": "Creando..."
+      }
+    }
+  }

@@ -1,0 +1,56 @@
+{
+    "navigation": {
+      "home": "Home",
+      "tape": "Tape",
+      "tasks": "Tasks",
+      "users": "Users"
+    },
+    "tasks": {
+      "title": "Tasks",
+      "createTask": "Create Task",
+      "newTask": {
+        "title": "Create Task",
+        "titlePlaceholder": "Task title",
+        "selectCategory": "Select category",
+        "categories": {
+          "homework": "Homework",
+          "assignment": "Assignment",
+          "project": "Project",
+          "quiz": "Quiz"
+        },
+        "cancel": "Cancel",
+        "create": "Create",
+        "creating": "Creating..."
+      },
+      "filter": {
+        "allTopics": "All topics"
+      },
+      "loading": "Loading...",
+      "error": "Error loading tasks",
+      "deadline": "Completion date: {{date}}"
+    },
+    "class": {
+      "addClass": {
+        "title": "Add Class",
+        "className": "Class Name",
+        "classNamePlaceholder": "Enter class name",
+        "major": "Major",
+        "majorPlaceholder": "Enter major",
+        "topics": "Topics",
+        "topicPlaceholder": "Enter topic",
+        "addTopic": "Add Topic",
+        "remove": "Remove",
+        "schedule": "Schedule",
+        "day": "Day",
+        "dayPlaceholder": "Enter day",
+        "time": "Time",
+        "timePlaceholder": "Enter time",
+        "removeSchedule": "Remove Schedule",
+        "addSchedule": "Add Schedule",
+        "students": "Add Students",
+        "selectStudent": "Select a student",
+        "createClass": "Create Class",
+        "creating": "Creating..."
+      }
+    }
+  }

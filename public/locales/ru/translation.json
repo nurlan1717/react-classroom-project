@@ -1,0 +1,57 @@
+{
+    "navigation": {
+      "home": "Главная",
+      "tape": "Лента",
+      "tasks": "Задания",
+      "users": "Пользователи"
+    },
+    "tasks": {
+      "title": "Задания",
+      "createTask": "Создать задание",
+      "newTask": {
+        "title": "Создать задание",
+        "titlePlaceholder": "Название задания",
+        "selectCategory": "Выберите категорию",
+        "categories": {
+          "homework": "Домашнее задание",
+          "assignment": "Задание",
+          "project": "Проект",
+          "quiz": "Тест"
+        },
+        "cancel": "Отмена",
+        "create": "Создать",
+        "creating": "Создается..."
+      },
+      "filter": {
+        "allTopics": "Все темы"
+      },
+      "loading": "Загрузка...",
+      "error": "Ошибка при загрузке заданий",
+      "deadline": "Срок выполнения: {{date}}"
+    },
+    "class": {
+      "addClass": {
+        "title": "Добавить класс",
+        "className": "Название класса",
+        "classNamePlaceholder": "Введите название класса",
+        "major": "Направление",
+        "majorPlaceholder": "Введите направление",
+        "topics": "Темы",
+        "topicPlaceholder": "Введите тему",
+        "addTopic": "Добавить тему",
+        "remove": "Удалить",
+        "schedule": "Расписание",
+        "day": "День",
+        "dayPlaceholder": "Введите день",
+        "time": "Время",
+        "timePlaceholder": "Введите время",
+        "removeSchedule": "Удалить расписание",
+        "addSchedule": "Добавить расписание",
+        "students": "Добавить студентов",
+        "selectStudent": "Выбрать студента",
+        "createClass": "Создать класс",
+        "creating": "Создается..."
+      }
+    }
+  }
+  

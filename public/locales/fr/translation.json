@@ -1,0 +1,57 @@
+{
+    "navigation": {
+      "home": "Accueil",
+      "tape": "Fil d'actualité",
+      "tasks": "Tâches",
+      "users": "Utilisateurs"
+    },
+    "tasks": {
+      "title": "Tâches",
+      "createTask": "Créer une tâche",
+      "newTask": {
+        "title": "Créer une tâche",
+        "titlePlaceholder": "Titre de la tâche",
+        "selectCategory": "Sélectionner une catégorie",
+        "categories": {
+          "homework": "Devoir",
+          "assignment": "Mission",
+          "project": "Projet",
+          "quiz": "Quiz"
+        },
+        "cancel": "Annuler",
+        "create": "Créer",
+        "creating": "Création en cours..."
+      },
+      "filter": {
+        "allTopics": "Tous les sujets"
+      },
+      "loading": "Chargement...",
+      "error": "Erreur lors du chargement des tâches",
+      "deadline": "Date limite : {{date}}"
+    },
+    "class": {
+      "addClass": {
+        "title": "Ajouter une classe",
+        "className": "Nom de la classe",
+        "classNamePlaceholder": "Entrez le nom de la classe",
+        "major": "Domaine",
+        "majorPlaceholder": "Entrez le domaine",
+        "topics": "Sujets",
+        "topicPlaceholder": "Entrez un sujet",
+        "addTopic": "Ajouter un sujet",
+        "remove": "Supprimer",
+        "schedule": "Emploi du temps",
+        "day": "Jour",
+        "dayPlaceholder": "Entrez le jour",
+        "time": "Heure",
+        "timePlaceholder": "Entrez l'heure",
+        "removeSchedule": "Supprimer l'horaire",
+        "addSchedule": "Ajouter un horaire",
+        "students": "Ajouter des étudiants",
+        "selectStudent": "Sélectionner un étudiant",
+        "createClass": "Créer une classe",
+        "creating": "Création en cours..."
+      }
+    }
+  }
+  

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { MessageSquare } from "lucide-react";
 import { useGetInvitationsQuery } from "../../redux/slices/apiSlice";
+import LanguageSwitcher from "../LangugeSwitcher";
 
 const Navbar = () => {
   const userId = storage.getUserId();
@@ -45,6 +46,8 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center space-x-4">
+        <LanguageSwitcher />
+
         <button onClick={handleMessage} className="relative">
           <MessageSquare />
           {pendingCount > 0 && (
