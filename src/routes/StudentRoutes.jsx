@@ -12,6 +12,7 @@ import Messages from "../pages/Messages";
 import MaterialItem from "../pages/MaterialItem";
 import TaskDetails from "../pages/TaskDetails";
 import Setting from "../pages/Setting";
+import StudentAnnouncements from "../pages/StudentAnnouncements";
 
 const StudentRoutes = () => {
   return (
@@ -31,6 +32,7 @@ const StudentRoutes = () => {
           <Route path="class/:id/job" element={<Job />} />
           <Route path="class/:id/job/:taskId" element={<TaskDetails />} />
           <Route path="class/:id/users" element={<User />} />
+          <Route path="class/:id/announcements" element={<StudentAnnouncements />} />
           <Route path="user-details" element={<UserDetails />} />
           <Route path="messages" element={<Messages />} />
           <Route path="material" element={<MaterialItem />} />
