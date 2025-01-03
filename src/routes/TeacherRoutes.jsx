@@ -13,6 +13,7 @@ import MaterialItem from "../pages/MaterialItem";
 import Messages from "../pages/Messages";
 import Setting from "../pages/Setting";
 import TaskDetails from "../pages/TaskDetails";
+import Grades from "../pages/Grades";
 
 const TeacherRoutes = () => {
   return (
@@ -30,6 +31,7 @@ const TeacherRoutes = () => {
           <Route path="calendar" element={<Calendar />} />
           <Route path="class/:id" element={<TapeDetails />} />
           <Route path="class/:id/job" element={<Job />} />
+          <Route path="class/:id/grades" element={<Grades />} />
           <Route path="class/:id/users" element={<User />} />
           <Route path="class/:id/job/:taskId" element={<TaskDetails />} />
           <Route path="user-details" element={<UserDetails />} />
@@ -37,7 +39,8 @@ const TeacherRoutes = () => {
           <Route path="messages" element={<Messages />} />
           <Route path="material" element={<MaterialItem />} />
           <Route path="settings" element={<Setting />} />
-         
+
+
 
         </Route>
       </Route>

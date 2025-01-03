@@ -12,6 +12,7 @@ import RichTextEditor from "../components/RichTextEditor";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { storage } from "../utils/localStorage";
+import { Helmet } from "react-helmet-async";
 
 const Job = () => {
   const { id } = useParams();
@@ -108,6 +109,13 @@ const Job = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Tasks</title>
+        <meta name="description" content="Classroom" />
+        <meta name="author" content="Nurlan, Qerib" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="src/assets/image/google-classroom-icon.png" />
+      </Helmet>
       <ClassNavbar />
       <div className="w-full max-w-4xl mx-auto p-4">
         <div className="flex items-center justify-between mb-6">

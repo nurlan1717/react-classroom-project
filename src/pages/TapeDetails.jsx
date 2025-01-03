@@ -4,6 +4,7 @@ import { useGetTasksQuery, useGetClassesQuery, useGetMaterialsQuery, useGetUsers
 import { Calendar, MoreVertical } from "lucide-react";
 import ClassNavbar from "./ClassNavbar";
 import { storage } from "../utils/localStorage";
+import { Helmet } from "react-helmet-async";
 
 const Tape = () => {
   const { id } = useParams();
@@ -40,6 +41,13 @@ const Tape = () => {
 
   return (
     <>
+      <Helmet>
+        <title>{filteredClasses[0]?.name}</title>
+        <meta name="description" content="Classroom" />
+        <meta name="author" content="Nurlan, Qerib" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="src/assets/image/google-classroom-icon.png" />
+      </Helmet>
       <ClassNavbar />
       <div className="flex flex-col mx-auto px-4">
         <div className="relative w-full max-w-5xl mt-4 h-48 bg-gray-600 rounded-md overflow-hidden shadow-lg mb-6">

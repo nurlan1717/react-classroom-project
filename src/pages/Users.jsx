@@ -3,6 +3,7 @@ import { useGetClassesQuery, useGetUsersQuery } from '../redux/slices/apiSlice';
 import { Mail } from 'lucide-react';
 import ClassNavbar from './ClassNavbar';
 import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
 
 const User = () => {
     const { id } = useParams();
@@ -16,6 +17,13 @@ const User = () => {
     const teacher = users ? users?.filter((user) => classData?.teacherId.includes(user.id))[0] : [];
     return (
         <>
+            <Helmet>
+                <title>Users</title>
+                <meta name="description" content="Classroom" />
+                <meta name="author" content="Nurlan, Qerib" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="src/assets/image/google-classroom-icon.png" />
+            </Helmet>
             <ClassNavbar />
             <div className="max-w-3xl mx-auto p-6 space-y-8">
                 {user && (
