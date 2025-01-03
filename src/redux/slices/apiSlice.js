@@ -6,7 +6,7 @@ const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
   }),
-  tagTypes: ["Users", "Classes", "Tasks", "Assignments", "Materials", "Majors", "Invitations"], 
+  tagTypes: ["Users", "Classes", "Tasks", "Assignments", "Materials", "Majors", "Invitations","Announcements"], 
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: () => "/users",
@@ -207,6 +207,37 @@ const apiSlice = createApi({
       }),
       invalidatesTags: ["Invitations"],
     }),
+
+
+
+
+    getAnnouncements: builder.query({
+      query: () => "/announcements",
+      providesTags: ["Announcements"],
+    }),
+    createAnnouncements: builder.mutation({
+      query: (newAnnouncements) => ({
+        url: "/announcements",
+        method: "POST",
+        body: newAnnouncements,
+      }),
+      invalidatesTags: ["Announcements"],
+    }),
+    updateAnnouncements: builder.mutation({
+      query: ({ id, updatedData }) => ({
+        url: `/announcements/${id}`,
+        method: "PATCH",
+        body: updatedData,
+      }),
+      invalidatesTags: ["Majors"],
+    }),
+    deleteAnnouncements: builder.mutation({
+      query: (id) => ({
+        url: `/announcements/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Announcements"],
+    }),
   }),
 });
 
@@ -239,6 +270,10 @@ export const {
   useCreateInvitationMutation,
   useUpdateInvitationMutation,
   useDeleteInvitationMutation,
+  useGetAnnouncementsQuery,
+  useCreateAnnouncementsMutation,
+  useUpdateAnnouncementsMutation,
+  useDeleteAnnouncementsMutation
 } = apiSlice;
 
 export default apiSlice;
