@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
     Bell,
     Book,
-    Calendar,
     Clock,
     Globe,
     GraduationCap,
@@ -16,30 +15,34 @@ import {
 } from 'lucide-react';
 import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
+
 
 function Setting() {
     const [notifications, setNotifications] = useState(true);
     const [language, setLanguage] = useState('az');
     const [timezone, setTimezone] = useState('UTC+04:00');
     const [userRole, setUserRole] = useState('teacher');
+    const { t } = useTranslation();
+
 
     const user = useSelector((state) => state.user.currentUser);
 
     return (
         <>
             <Helmet>
-                <title>Settings</title>
+                <title>{t("sidebar.settings")}</title>
                 <meta name="description" content="Classroom" />
                 <meta name="author" content="Nurlan, Qerib" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="src/assets/image/google-classroom-icon.png" />
             </Helmet>
-            (user && <div className="min-h-screen bg-gray-50 p-6">
+            <div className="min-h-screen bg-gray-50 p-6">
                 <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
                     <div className="flex flex-col gap-6 mb-8">
                         <div className="flex items-center gap-3">
                             <Settings className="w-8 h-8 text-indigo-600" />
-                            <h1 className="text-2xl font-bold text-gray-800">Users Settings</h1>
+                            <h1 className="text-2xl font-bold text-gray-800">Users {t("sidebar.settings")}</h1>
                         </div>
 
                         <div className="flex gap-4">
@@ -70,7 +73,7 @@ function Setting() {
                         <section className="space-y-4">
                             <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
                                 <User className="w-5 h-5 text-indigo-500" />
-                                Profile Settings
+                                Profile {t("sidebar.settings")}
                             </h2>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
@@ -132,7 +135,7 @@ function Setting() {
                             <section className="space-y-4">
                                 <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
                                     <Book className="w-5 h-5 text-indigo-500" />
-                                    Teacher Settings
+                                    Teacher {t("sidebar.settings")}
                                 </h2>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
@@ -161,7 +164,7 @@ function Setting() {
                         <section className="space-y-4">
                             <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
                                 <Bell className="w-5 h-5 text-indigo-500" />
-                                Notification Settings
+                                Notification {t("sidebar.settings")}
                             </h2>
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
@@ -258,12 +261,12 @@ function Setting() {
 
                         <div className="pt-4">
                             <button className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-200 font-medium">
-                                Remember Settings
+                                Remember {t("sidebar.settings")}
                             </button>
                         </div>
                     </div>
                 </div>
-            </div>)</>
+            </div></>
     );
 }
 

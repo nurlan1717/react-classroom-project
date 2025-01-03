@@ -76,7 +76,7 @@ const TaskDetails = () => {
   return (
     <>
       <Helmet>
-        <title>Task</title>
+        <title>Task Details</title>
         <meta name="description" content="Classroom" />
         <meta name="author" content="Nurlan, Qerib" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

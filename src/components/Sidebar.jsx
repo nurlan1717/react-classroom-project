@@ -51,7 +51,7 @@ const Sidebar = () => {
     {
       icon: <Home className="w-5 h-5" />,
       title: t("sidebar.home-page"),
-      path: "/",
+      path: `/${userRole}`,
     },
     {
       icon: <Calendar className="w-5 h-5" />,

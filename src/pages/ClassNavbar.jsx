@@ -34,7 +34,7 @@ const ClassNavbar = () => {
 
   const handleNavigate0 = () => {
     if (id) {
-      navigate(`/`);
+      navigate(`/${userRole}`);
     }
   };
 
