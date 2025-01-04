@@ -1,20 +1,21 @@
-import React from "react";
-import { useGetClassesQuery, useGetUsersQuery } from "../../redux/slices/apiSlice";
+import React, { useState } from "react";
+import {
+  useGetClassesQuery,
+  useGetUsersQuery,
+} from "../../redux/slices/apiSlice";
 import { storage } from "../../utils/localStorage";
 import { FolderOpen, Users } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-
 const Teacher = () => {
   const { data: classes } = useGetClassesQuery();
   const { data: users } = useGetUsersQuery();
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const navigate = useNavigate();
-
 
   const userId = storage.getUserId();
   const userRole = storage.getUserRole();
-
 
   const filteredCourses = classes
     ?.filter((course) => course.teacherId.includes(userId))
@@ -24,7 +25,6 @@ const Teacher = () => {
       );
       return { ...course, enrolledStudents };
     });
-
 
   return (
     <>
@@ -74,7 +74,9 @@ const Teacher = () => {
               </div>
 
               <div className="p-6 pt-12">
-                <h4 className="text-lg font-semibold text-gray-700">Scheduled:</h4>
+                <h4 className="text-lg font-semibold text-gray-700">
+                  Scheduled:
+                </h4>
                 {course.schedule?.map((item, index) => (
                   <p key={index} className="text-sm text-gray-600">
                     {`${item.day} - ${item.time}`}
@@ -84,19 +86,35 @@ const Teacher = () => {
                 <h4 className="text-lg font-semibold text-gray-700 mt-4">
                   Enrolled Students:
                 </h4>
-                <ul className="list-disc pl-5">
-                  {course.enrolledStudents?.map((student) => (
-                    <li key={student.id} className="text-sm text-gray-600">
-                      {student.fullName}
-                    </li>
-                  ))}
-                </ul>
+                <button
+                  className="text-sm text-blue-500 mt-2"
+                  onClick={() => setIsAccordionOpen(!isAccordionOpen)}
+                >
+                  {isAccordionOpen ? "Hide Students" : "Show Students"}
+                </button>
+                {isAccordionOpen && (
+                  <ul className="list-disc pl-5 mt-2">
+                    {course.enrolledStudents?.map((student) => (
+                      <li key={student.id} className="text-sm text-gray-600">
+                        {student.fullName}
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
                 <div className="flex items-center justify-end space-x-4 pt-4 border-t">
-                  <button onClick={() => { navigate(`/${userRole}/class/:${course.id}/users`) }} className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                  <button
+                    onClick={() => {
+                      navigate(`/${userRole}/class/:${course.id}/users`);
+                    }}
+                    className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+                  >
                     <Users className="w-5 h-5" />
                   </button>
-                  <Link to="material" className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                  <Link
+                    to="material"
+                    className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+                  >
                     <FolderOpen className="w-5 h-5" />
                   </Link>
                 </div>
@@ -106,13 +124,18 @@ const Teacher = () => {
         ) : (
           <div className="w-full text-center text-gray-600">
             <p className="text-lg font-semibold">
-              There are no classes available. Please create a new class or join an existing one.
+              There are no classes available. Please create a new class or join
+              an existing one.
             </p>
-            <img className="mx-auto" src="src/assets/image/sad-figure.png" alt="" />
+            <img
+              className="mx-auto"
+              src="src/assets/image/sad-figure.png"
+              alt=""
+            />
           </div>
         )}
-      </div></>
-
+      </div>
+    </>
   );
 };
 
