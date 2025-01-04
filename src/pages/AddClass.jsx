@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useGetUsersQuery, useGetClassesQuery, useCreateClassMutation, useCreateInvitationMutation, useUpdateClassMutation } from "../redux/slices/apiSlice";
+import { useGetUsersQuery, useGetClassesQuery, useCreateClassMutation, useCreateInvitationMutation } from "../redux/slices/apiSlice";
 import { toast } from "react-hot-toast";
 import { storage } from "../utils/localStorage";
 import { Helmet } from "react-helmet-async";
@@ -13,18 +13,18 @@ const AddClass = () => {
     const [createInvitation] = useCreateInvitationMutation();
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required(),
-        studentIds: Yup.array().of(Yup.string()).min(1),
+        name: Yup.string().required("Class name is required"),
+        studentIds: Yup.array().of(Yup.string()).min(1, "At least one student must be added"),
         schedule: Yup.array()
             .of(
                 Yup.object().shape({
-                    day: Yup.string().required(),
-                    time: Yup.string().required(),
+                    day: Yup.string().required("Day is required"),
+                    time: Yup.string().required("Time is required"),
                 })
             )
-            .min(1),
-        major: Yup.string().required(),
-        topics: Yup.array().of(Yup.string().required()).min(1),
+            .min(1, "At least one schedule entry is required"),
+        major: Yup.string().required("Major is required"),
+        topics: Yup.array().of(Yup.string().required("Topic is required")).min(1, "At least one topic is required"),
     });
 
     const formik = useFormik({
@@ -49,6 +49,7 @@ const AddClass = () => {
             };
 
             await createClass(payload).unwrap();
+
             values.studentIds.forEach(async (studentId) => {
                 const invitationPayload = {
                     classId,
@@ -59,7 +60,7 @@ const AddClass = () => {
                 await createInvitation(invitationPayload).unwrap();
             });
 
-            toast.success("Class created successfully!");
+            toast.success("Class created successfully!", { position: "top-right" });
             formik.resetForm();
         },
     });
@@ -86,9 +87,12 @@ const AddClass = () => {
                             value={formik.values.name}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
                             placeholder="Enter class name"
                         />
+                        {formik.touched.name && formik.errors.name && (
+                            <div className="text-red-500 text-sm">{formik.errors.name}</div>
+                        )}
                     </div>
 
                     <div>
@@ -99,9 +103,12 @@ const AddClass = () => {
                             value={formik.values.major}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
                             placeholder="Enter major"
                         />
+                        {formik.touched.major && formik.errors.major && (
+                            <div className="text-red-500 text-sm">{formik.errors.major}</div>
+                        )}
                     </div>
 
                     <div>
@@ -114,7 +121,7 @@ const AddClass = () => {
                                     value={topic}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className="flex-1 px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="flex-1 px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
                                     placeholder="Enter topic"
                                 />
                                 {formik.values.topics.length > 1 && (
@@ -157,6 +164,9 @@ const AddClass = () => {
                                             className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
                                             placeholder="Enter day"
                                         />
+                                        {formik.touched.schedule?.[index]?.day && formik.errors.schedule?.[index]?.day && (
+                                            <div className="text-red-500 text-sm">{formik.errors.schedule[index].day}</div>
+                                        )}
                                     </div>
                                     <div>
                                         <label className="block text-gray-700 mb-1">Time</label>
@@ -169,6 +179,9 @@ const AddClass = () => {
                                             className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
                                             placeholder="Enter time"
                                         />
+                                        {formik.touched.schedule?.[index]?.time && formik.errors.schedule?.[index]?.time && (
+                                            <div className="text-red-500 text-sm">{formik.errors.schedule[index].time}</div>
+                                        )}
                                     </div>
                                 </div>
                                 {formik.values.schedule.length > 1 && (
@@ -242,7 +255,8 @@ const AddClass = () => {
                         </button>
                     </div>
                 </form>
-            </div></>
+            </div>
+        </>
     );
 };
 

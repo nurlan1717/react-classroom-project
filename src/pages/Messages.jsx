@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import React from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { storage } from '../utils/localStorage';
 import {
@@ -9,23 +9,23 @@ import {
     useUpdateInvitationMutation,
 } from '../redux/slices/apiSlice';
 import { Helmet } from 'react-helmet-async';
+import MessagesImage from '../assets/svg/Messages.gif'; 
 
 const Messages = () => {
-    const { data: invitations } = useGetInvitationsQuery();
-    const { data: classes } = useGetClassesQuery();
+    const { data: invitations, isLoading: isInvitationsLoading } = useGetInvitationsQuery();
+    const { data: classes, isLoading: isClassesLoading } = useGetClassesQuery();
     const [updateInvitation] = useUpdateInvitationMutation();
     const [updateClasses] = useUpdateClassMutation();
     const userId = storage.getUserId();
 
-    if (!invitations || !classes) return <p>Loading...</p>;
+    if (isInvitationsLoading || isClassesLoading) return <p>Loading...</p>;
 
     const filteredInvitations = invitations?.filter(
         (invitation) => invitation.studentId === userId
     )[0];
 
     const filteredClassId = filteredInvitations?.classId;
-
-    const filteredClasses = classes.filter((x) => x.id === filteredClassId);
+    const filteredClasses = classes?.filter((x) => x.id === filteredClassId) || [];
 
     const handleAccept = async (id) => {
         try {
@@ -37,9 +37,9 @@ const Messages = () => {
                 studentIds: [...selectedClass.studentIds, userId],
             };
             await updateClasses({ id: filteredClassId, updatedData: updatedClassData });
-            toast.success('Accepted', { position: 'top-right' });
+            toast.success('Invitation accepted successfully!', { position: 'top-right' });
         } catch (error) {
-            toast.error('Error accepting invitation', { position: 'top-right' });
+            toast.error('Error accepting invitation. Please try again.', { position: 'top-right' });
         }
     };
 
@@ -47,14 +47,19 @@ const Messages = () => {
         try {
             const updatedData = { status: 'rejected' };
             await updateInvitation({ id, updatedData }).unwrap();
-            toast.success('Rejected', { position: 'top-right' });
+            toast.success('Invitation rejected successfully!', { position: 'top-right' });
         } catch (error) {
-            toast.error('Error rejecting invitation', { position: 'top-right' });
+            toast.error('Error rejecting invitation. Please try again.', { position: 'top-right' });
         }
     };
 
     if (filteredClasses.length === 0) {
-        return <p>No messages available.</p>;
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen">
+                <p className="text-gray-600 text-lg">No messages available.</p>
+                <img src={MessagesImage} alt="Messages Illustration" className="w-1/2 mb-4" />
+            </div>
+        );
     }
 
     return (
@@ -64,7 +69,7 @@ const Messages = () => {
                 <meta name="description" content="Classroom" />
                 <meta name="author" content="Nurlan, Qerib" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="src/assets/image/google-classroom-icon.png" />
+                <link rel="icon" href="/assets/image/google-classroom-icon.png" />
             </Helmet>
             <div className="p-6 min-h-screen">
                 <h2 className="text-2xl font-semibold text-gray-700 mb-6">Messages</h2>
@@ -120,7 +125,9 @@ const Messages = () => {
                         )}
                     </div>
                 ))}
-            </div></>
+            </div>
+            <ToastContainer />
+        </>
     );
 };
 
