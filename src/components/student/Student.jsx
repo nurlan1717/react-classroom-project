@@ -1,11 +1,15 @@
 import { Bell, FolderOpen, Users } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { storage } from "../../utils/localStorage";
-import { useGetClassesQuery, useGetUsersQuery } from "../../redux/slices/apiSlice";
+import {
+  useGetClassesQuery,
+  useGetUsersQuery,
+} from "../../redux/slices/apiSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 const Student = () => {
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const { data: classes } = useGetClassesQuery();
   const { data: users } = useGetUsersQuery();
   const userId = storage.getUserId();
@@ -34,9 +38,14 @@ const Student = () => {
         {filteredCourses?.length === 0 ? (
           <div className="w-full text-center text-gray-600">
             <p className="text-lg font-semibold">
-              There are no classes available. Please create a new class or join an existing one.
+              There are no classes available. Please create a new class or join
+              an existing one.
             </p>
-            <img className="mx-auto" src="src/assets/image/sad-figure.png" alt="No classes" />
+            <img
+              className="mx-auto"
+              src="src/assets/image/sad-figure.png"
+              alt="No classes"
+            />
           </div>
         ) : (
           filteredCourses?.map((course) => (
@@ -58,7 +67,10 @@ const Student = () => {
                     </svg>
                   </button>
                 </div>
-                <Link to={`class/:${course.id}`} className="text-2xl font-bold text-white z-50">
+                <Link
+                  to={`class/:${course.id}`}
+                  className="text-2xl font-bold text-white z-50"
+                >
                   {course.name}
                 </Link>
                 <p className="text-white/80 text-sm mt-1 z-50">Class Room</p>
@@ -73,7 +85,9 @@ const Student = () => {
               </div>
 
               <div className="p-6 pt-12">
-                <h4 className="text-lg font-semibold text-gray-700">Scheduled:</h4>
+                <h4 className="text-lg font-semibold text-gray-700">
+                  Scheduled:
+                </h4>
                 {course.schedule?.map((item, index) => (
                   <p key={index} className="text-sm text-gray-600">
                     {`${item.day} - ${item.time}`}
@@ -83,29 +97,41 @@ const Student = () => {
                 <h4 className="text-lg font-semibold text-gray-700 mt-4">
                   Enrolled Students:
                 </h4>
-                <ul className="list-disc pl-5">
-                  {course.enrolledStudents?.map((student) => (
-                    <li key={student.id} className="text-sm text-gray-600">
-                      {student.fullName}
-                    </li>
-                  ))}
-                </ul>
+                <button
+                  className="text-sm text-blue-500 mt-2"
+                  onClick={() => setIsAccordionOpen(!isAccordionOpen)}
+                >
+                  {isAccordionOpen ? "Hide Students" : "Show Students"}
+                </button>
+                {isAccordionOpen && (
+                  <ul className="list-disc pl-5 mt-2">
+                    {course.enrolledStudents?.map((student) => (
+                      <li key={student.id} className="text-sm text-gray-600">
+                        {student.fullName}
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
                 <div className="flex items-center justify-end space-x-4 pt-4 border-t">
-                  <button 
-                    onClick={() => navigate(`/${userRole}/class/:${course.id}/users`)} 
+                  <button
+                    onClick={() =>
+                      navigate(`/${userRole}/class/:${course.id}/users`)
+                    }
                     className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
                   >
                     <Users className="w-5 h-5" />
                   </button>
-                  <Link 
-                    to="material" 
+                  <Link
+                    to="material"
                     className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
                   >
                     <FolderOpen className="w-5 h-5" />
                   </Link>
-                  <button 
-                    onClick={() => navigate(`/${userRole}/class/:${course.id}/announcements`)} 
+                  <button
+                    onClick={() =>
+                      navigate(`/${userRole}/class/:${course.id}/announcements`)
+                    }
                     className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
                   >
                     <Bell className="w-5 h-5" />
