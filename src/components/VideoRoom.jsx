@@ -1,11 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { useParams } from 'react-router-dom';
 import { storage } from '../utils/localStorage';
 
 const VideoRoom = () => {
+  const [meetingInstance, setMeetingInstance] = useState(null);
+  const containerRef = useRef(null);
   const { roomId } = useParams();
-  const userData = storage.getUserData();
+  const userData = {
+    id: storage.getUserId(),
+    name: storage.getUserRole(),
+    role: storage.getUserRole(),
+  };
 
   useEffect(() => {
     const initializeZego = async () => {
@@ -15,33 +21,44 @@ const VideoRoom = () => {
         appID,
         serverSecret,
         roomId,
-        userData.id,
+        Date.now().toString(),
         userData.name
       );
 
-      const zc = ZegoUIKitPrebuilt.create(kitToken);
+      const zp = ZegoUIKitPrebuilt.create(kitToken);
 
-      zc.joinRoom({
-        container: document.querySelector("#video-container"),
-        sharedLinks: [{
-          name: 'Copy Link',
-          url: window.location.href,
-        }],
-        scenario: {
-          mode: ZegoUIKitPrebuilt.GroupCall,
-        },
-        showScreenSharingButton: userData.role === 'teacher',
-        showPreJoinView: true,
-        showUserList: true,
-      });
+      if (containerRef.current) {
+        zp.joinRoom({
+          container: containerRef.current,
+          sharedLinks: [{
+            name: 'Copy Link',
+            url: window.location.href,
+          }],
+          scenario: {
+            mode: ZegoUIKitPrebuilt.GroupCall,
+          },
+          showScreenSharingButton: userData.role === 'teacher',
+          showPreJoinView: true,
+          showUserList: true,
+        });
+        setMeetingInstance(zp);
+      }
+
     };
 
     initializeZego();
-  }, [roomId, userData]);
+
+
+    return () => {
+      if (meetingInstance) {
+        meetingInstance.destroy();
+      }
+    };
+  }, [roomId, userData.name]);
 
   return (
-    <div className="h-screen bg-gray-100">
-      <div id="video-container" className="h-full w-full"></div>
+    <div>
+      <div ref={containerRef} style={{ width: "100%", height: "600px" }}></div>
     </div>
   );
 };

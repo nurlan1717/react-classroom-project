@@ -20,15 +20,14 @@ export const storage = {
 
   isAuthenticated: () => !!localStorage.getItem(STORAGE_KEYS.USER_ID),
 
-
-  
   getUserData: () => {
-    return (
-      JSON.parse(localStorage.getItem(STORAGE_KEYS.USER)) || {
-        id: "anonymous",
-        name: "Anonymous User",
-        role: "student",
-      }
-    );
+    const userId = localStorage.getItem(STORAGE_KEYS.USER_ID);
+    const role = localStorage.getItem(STORAGE_KEYS.USER_ROLE);
+
+    return {
+      id: userId || "anonymous",
+      name: "Anonymous User",
+      role: role || "student",
+    };
   },
 };
