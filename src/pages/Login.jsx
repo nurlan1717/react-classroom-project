@@ -70,7 +70,6 @@ const Login = () => {
 
   return (
     <>
-
       <Helmet>
         <title>ClassCraft Login</title>
         <meta name="description" content="Classroom" />
@@ -79,7 +78,6 @@ const Login = () => {
         <link rel="icon" href="src/assets/image/user-login.png" />
       </Helmet>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <ToastContainer />
         <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
             Login
@@ -96,17 +94,20 @@ const Login = () => {
                 id="email"
                 name="email"
                 type="email"
-                className={`w-full px-4 py-2 border ${formik.touched.email && formik.errors.email
-                  ? "border-red-500"
-                  : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                className={`w-full px-4 py-2 border ${
+                  formik.touched.email && formik.errors.email
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                 placeholder="Enter your email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
               {formik.touched.email && formik.errors.email && (
-                <p className="text-red-500 text-sm mt-1">{formik.errors.email}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {formik.errors.email}
+                </p>
               )}
             </div>
 
@@ -121,10 +122,11 @@ const Login = () => {
                 id="password"
                 name="password"
                 type="password"
-                className={`w-full px-4 py-2 border ${formik.touched.password && formik.errors.password
-                  ? "border-red-500"
-                  : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                className={`w-full px-4 py-2 border ${
+                  formik.touched.password && formik.errors.password
+                    ? "border-red-500"
+                    : "border-gray-300"
+                } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                 placeholder="Enter your password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
@@ -154,7 +156,9 @@ const Login = () => {
             </p>
           </div>
         </div>
-      </div></>
+        <ToastContainer />
+      </div>
+    </>
   );
 };
 

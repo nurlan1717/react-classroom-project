@@ -7,29 +7,39 @@ const UserDetails = () => {
   const user = useSelector((state) => state.user.currentUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Calculate average grade if grades are available
+  const values = user?.grades
+    ? user.grades.map((grade) => Number(grade.value))
+    : [];
+  const sum = values.reduce((acc, current) => acc + current, 0);
+  const average = values.length > 0 ? sum / values.length : 0;
+
+  // Teacher details
   const TeacherDetails = () => (
     <>
       <Helmet>
-        <title>{user?.fullName}</title>
+        <title>{user?.fullName || "Teacher"}</title>
         <meta name="description" content="Classroom" />
         <meta name="author" content="Nurlan, Qerib" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="src/assets/image/google-classroom-icon.png" />
+        <link rel="icon" href="/assets/image/google-classroom-icon.png" />
       </Helmet>
-      <div className="max-w-4xl mx-auto p-8">
+      <div className="max-w-4xl mx-auto p-6 sm:p-8">
         <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
+            <div className="flex items-center space-x-6 mb-4 sm:mb-0">
               <img
                 src={user?.profileImage || "https://via.placeholder.com/150"}
-                alt="Profile"
+                alt={user?.fullName || "Profile"}
                 className="w-32 h-32 rounded-full"
               />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  {user?.fullName}
+                  {user?.fullName || "No Name Available"}
                 </h1>
-                <p className="text-gray-600">{user?.email}</p>
+                <p className="text-gray-600">
+                  {user?.email || "No Email Provided"}
+                </p>
                 <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mt-2">
                   Teacher
                 </span>
@@ -43,19 +53,20 @@ const UserDetails = () => {
             </button>
           </div>
 
-          {/* d0ivhidsq */}
           <div className="border-t pt-6">
             <h2 className="text-xl font-semibold mb-4">
               Professional Information
             </h2>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <p className="text-gray-600">Major</p>
-                <p className="font-medium">{user?.major}</p>
+                <p className="font-medium">
+                  {user?.major || "No Major Available"}
+                </p>
               </div>
               <div>
                 <p className="text-gray-600">Bio</p>
-                <p className="font-medium">{user?.bio}</p>
+                <p className="font-medium">{user?.bio || "No Bio Available"}</p>
               </div>
             </div>
           </div>
@@ -86,32 +97,36 @@ const UserDetails = () => {
             </div>
           </div>
         </div>
-      </div></>
+      </div>
+    </>
   );
 
+  // Student details
   const StudentDetails = () => (
     <>
       <Helmet>
-        <title>{user?.fullName}</title>
+        <title>{user?.fullName || "Student"}</title>
         <meta name="description" content="Classroom" />
         <meta name="author" content="Nurlan, Qerib" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="src/assets/image/google-classroom-icon.png" />
+        <link rel="icon" href="/assets/image/google-classroom-icon.png" />
       </Helmet>
-      <div className="max-w-4xl mx-auto p-8">
+      <div className="max-w-4xl mx-auto p-6 sm:p-8">
         <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
+            <div className="flex items-center space-x-6 mb-4 sm:mb-0">
               <img
                 src={user?.profileImage || "https://via.placeholder.com/150"}
-                alt="Profile"
+                alt={user?.fullName || "Profile"}
                 className="w-32 h-32 rounded-full"
               />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  {user?.fullName}
+                  {user?.fullName || "No Name Available"}
                 </h1>
-                <p className="text-gray-600">{user?.email}</p>
+                <p className="text-gray-600">
+                  {user?.email || "No Email Provided"}
+                </p>
                 <span className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mt-2">
                   Student
                 </span>
@@ -127,14 +142,16 @@ const UserDetails = () => {
 
           <div className="border-t pt-6">
             <h2 className="text-xl font-semibold mb-4">Academic Information</h2>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <p className="text-gray-600">Major</p>
-                <p className="font-medium">{user?.major}</p>
+                <p className="font-medium">
+                  {user?.major || "No Major Available"}
+                </p>
               </div>
               <div>
                 <p className="text-gray-600">Overall Grade</p>
-                <p className="font-medium">{user?.overallGrade || "N/A"}</p>
+                <p className="font-medium">{`${average}%` || "N/A"}</p>
               </div>
             </div>
           </div>
@@ -142,19 +159,17 @@ const UserDetails = () => {
           <div className="border-t mt-6 pt-6">
             <h2 className="text-xl font-semibold mb-4">Recent Grades</h2>
             <div className="space-y-4">
-              {user?.grades?.map((grade) => (
-                <div
-                  key={grade.taskId}
-                  className="flex justify-between items-center"
-                >
-                  <span className="text-gray-600">Task {grade.taskId}</span>
-                  <span className="font-medium">{grade.grade}%</span>
+              {user?.grades?.map((grade, idx) => (
+                <div key={idx} className="flex justify-between items-center">
+                  <span className="text-gray-600">Task {grade?.classId}</span>
+                  <span className="font-medium">{grade?.value}%</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </div></>
+      </div>
+    </>
   );
 
   return (

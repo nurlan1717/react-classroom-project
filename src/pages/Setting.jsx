@@ -81,7 +81,7 @@ function Setting() {
                                         Full Name
                                     </label>
                                     <input
-                                        value={user.fullName}
+                                        value={user?.fullName}
                                         type="text"
                                         className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                         placeholder="Full Name"
@@ -92,7 +92,7 @@ function Setting() {
                                         Email
                                     </label>
                                     <input
-                                        value={user.email}
+                                        value={user?.email}
                                         type="email"
                                         className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                         placeholder="Email"
@@ -143,7 +143,7 @@ function Setting() {
                                             Major
                                         </label>
                                         <select className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                                            <option>{user.major}</option>
+                                            <option>{user?.major}</option>
                                         </select>
                                     </div>
                                     <div>
@@ -153,7 +153,7 @@ function Setting() {
                                         <input
                                             type="text"
                                             className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50"
-                                            defaultValue={user.id}
+                                            defaultValue={user?.id}
                                             disabled
                                         />
                                     </div>

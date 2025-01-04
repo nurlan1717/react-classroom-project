@@ -8,6 +8,8 @@ import {
 } from "../redux/slices/apiSlice";
 import { storage } from "../utils/localStorage";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Assignment = () => {
   const { taskId } = useParams();
@@ -15,9 +17,8 @@ const Assignment = () => {
   const userRole = storage.getUserRole();
   const userId = storage.getUserId();
   const [createAssignment] = useCreateAssignmentMutation();
-  const [udaptedTask] = useUpdateTaskMutation();
+  const [updatedTask] = useUpdateTaskMutation();
   const { data: assignments } = useGetAssignmentsQuery();
-
 
   const [url, setUrl] = useState("");
   const isStudent = userRole === "student";
@@ -47,12 +48,29 @@ const Assignment = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const currentDate = new Date();
+    const deadlineDate = new Date(task.deadline);
+    if (currentDate > deadlineDate) {
+      toast.error("The deadline has passed. You cannot submit the assignment.");
+      return;
+    }
+
+    const alreadySubmitted = assignments?.some(
+      (assignment) =>
+        assignment.studentId === userId && assignment.taskId === taskId
+    );
+    if (alreadySubmitted) {
+      toast.info("You have already submitted this assignment.");
+      return;
+    }
+
     if (url) {
       createAssignment(payload);
-      udaptedTask({ id: payload.taskId, assignments: [payload.id] });
-      alert("salam");
+      updatedTask({ id: payload.taskId, assignments: [payload.id] });
+      toast.success("Assignment submitted successfully.");
     } else {
-      alert("Please enter a URL.");
+      toast.warning("Please enter a URL.");
     }
   };
 
@@ -61,7 +79,7 @@ const Assignment = () => {
   }
 
   if (!tasks) {
-    return <div>No tasks found.</div>;  
+    return <div>No tasks found.</div>;
   }
 
   return (
@@ -118,6 +136,8 @@ const Assignment = () => {
           </div>
         </div>
       </div>
+
+      <ToastContainer />
     </div>
   );
 };
