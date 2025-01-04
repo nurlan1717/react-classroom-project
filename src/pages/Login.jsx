@@ -77,87 +77,91 @@ const Login = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="src/assets/image/user-login.png" />
       </Helmet>
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-violet-200">
+        <div className="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
+          <h2 className="text-4xl font-bold mb-8 text-center text-violet-700">
             Login
           </h2>
-          <form onSubmit={formik.handleSubmit}>
-            <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-semibold text-gray-700 mb-2"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                className={`w-full px-4 py-2 border ${
-                  formik.touched.email && formik.errors.email
-                    ? "border-red-500"
-                    : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                placeholder="Enter your email"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.email && formik.errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {formik.errors.email}
-                </p>
-              )}
-            </div>
-
-            <div className="mb-6">
-              <label
-                htmlFor="password"
-                className="block text-sm font-semibold text-gray-700 mb-2"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                className={`w-full px-4 py-2 border ${
-                  formik.touched.password && formik.errors.password
-                    ? "border-red-500"
-                    : "border-gray-300"
-                } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                placeholder="Enter your password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.password && formik.errors.password && (
-                <p className="text-red-500 text-sm mt-1">
-                  {formik.errors.password}
-                </p>
-              )}
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-violet-500 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          <div className="flex gap-10">
+            <form
+              onSubmit={formik.handleSubmit}
+              className="grid grid-cols-1 sm:grid-cols-2 w-1/2 h-6 gap-8 mt-12"
             >
-              Log in
-            </button>
-          </form>
+              <div className="col-span-full">
+                <label
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                  htmlFor="email"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
+                  {...formik.getFieldProps("email")}
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <div className="text-sm text-red-500">{formik.errors.email}</div>
+                )}
+              </div>
 
-          <div className="mt-4 text-center">
+              <div className="col-span-full">
+                <label
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                  htmlFor="password"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-violet-500 focus:outline-none"
+                  {...formik.getFieldProps("password")}
+                />
+                {formik.touched.password && formik.errors.password && (
+                  <div className="text-sm text-red-500">{formik.errors.password}</div>
+                )}
+              </div>
+
+              <div className="col-span-full">
+                <button
+                  type="submit"
+                  className={`w-full py-3 px-4 rounded-lg text-white font-semibold transition ${formik.isSubmitting || !formik.dirty || Object.keys(formik.errors).length > 0
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-violet-500 hover:bg-violet-600"
+                    }`}
+                  disabled={
+                    formik.isSubmitting ||
+                    !formik.dirty ||
+                    Object.keys(formik.errors).length > 0
+                  }
+                >
+                  Log in
+                </button>
+              </div>
+            </form>
+
+
+            <div>
+              <img src="src/assets/svg/Login.gif" alt="Login Illustration" />
+            </div>
+          </div>
+
+          <div className="text-center mt-6">
             <p className="text-sm text-gray-600">
               Don't have an account?{" "}
-              <Link to="/" className="text-violet-500 hover:underline">
-                Sign up
+              <Link to="/" className="text-violet-500 hover:text-violet-700 font-medium">
+                Sign up here
               </Link>
             </p>
           </div>
+
+          <ToastContainer position="top-right" autoClose={3000} />
         </div>
-        <ToastContainer />
       </div>
+
     </>
   );
 };
