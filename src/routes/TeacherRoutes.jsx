@@ -15,6 +15,7 @@ import Setting from "../pages/Setting";
 import TaskDetails from "../pages/TaskDetails";
 import Grades from "../pages/Grades";
 import Announcements from "../pages/Announcements";
+import VideoRoom from "../components/VideoRoom";
 
 const TeacherRoutes = () => {
   return (
@@ -36,6 +37,7 @@ const TeacherRoutes = () => {
           <Route path="class/:id/users" element={<User />} />
           <Route path="class/:id/job/:taskId" element={<TaskDetails />} />
           <Route path="class/:id/announcements" element={<Announcements />} />
+          <Route path="class/:id/room/:roomId" element={<VideoRoom />} />
           <Route path="user-details" element={<UserDetails />} />
           <Route path="create-class" element={<AddClass />} />
           <Route path="messages" element={<Messages />} />

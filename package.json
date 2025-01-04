@@ -21,6 +21,7 @@
     "@tiptap/extension-underline": "^2.11.0",
     "@tiptap/react": "^2.11.0",
     "@tiptap/starter-kit": "^2.11.0",
+    "@zegocloud/zego-uikit-prebuilt": "^2.14.0",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -45,6 +46,7 @@
     "router-dom": "^3.0.1",
     "slate": "^0.112.0",
     "slate-react": "^0.112.0",
+    "uuid": "^11.0.3",
     "yup": "^1.6.1"
   },
   "devDependencies": {
