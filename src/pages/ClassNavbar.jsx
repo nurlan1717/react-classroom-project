@@ -26,12 +26,6 @@ const ClassNavbar = () => {
     }
   };
 
-  const handleNavigate4 = () => {
-    if (id) {
-      navigate(`/teacher/class/${id}/grades`);
-    }
-  };
-
   const handleNavigate5 = () => {
     if (id) {
       navigate(`/teacher/class/${id}/announcements`);
@@ -77,20 +71,18 @@ const ClassNavbar = () => {
                   Tasks
                 </button>
                 <button
-                  onClick={handleNavigate4}
-                  className={`text-gray-600 hover:text-violet-600 ${userRole === "student" ? "hidden" : ""}`}
-                >
-                  Grades
-                </button>
-                <button
                   onClick={handleNavigate5}
-                  className={`text-gray-600 hover:text-violet-600 ${userRole === "student" ? "hidden" : ""}`}
+                  className={`text-gray-600 hover:text-violet-600 ${
+                    userRole === "student" ? "hidden" : ""
+                  }`}
                 >
                   Announcements
                 </button>
                 <button
                   onClick={handleNavigate6}
-                  className={`text-gray-600 hover:text-violet-600 ${userRole === "teacher" ? "hidden" : ""}`}
+                  className={`text-gray-600 hover:text-violet-600 ${
+                    userRole === "teacher" ? "hidden" : ""
+                  }`}
                 >
                   Announcements
                 </button>
