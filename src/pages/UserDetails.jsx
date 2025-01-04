@@ -7,14 +7,12 @@ const UserDetails = () => {
   const user = useSelector((state) => state.user.currentUser);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Calculate average grade if grades are available
   const values = user?.grades
     ? user.grades.map((grade) => Number(grade.value))
     : [];
   const sum = values.reduce((acc, current) => acc + current, 0);
   const average = values.length > 0 ? sum / values.length : 0;
 
-  // Teacher details
   const TeacherDetails = () => (
     <>
       <Helmet>
@@ -101,7 +99,6 @@ const UserDetails = () => {
     </>
   );
 
-  // Student details
   const StudentDetails = () => (
     <>
       <Helmet>
@@ -139,7 +136,14 @@ const UserDetails = () => {
               Update Information
             </button>
           </div>
-
+  
+          <div className="border-t pt-6">
+            <h2 className="text-xl font-semibold mb-4">Bio</h2>
+            <p className="text-gray-700">
+              {user?.bio || "No bio"}
+            </p>
+          </div>
+  
           <div className="border-t pt-6">
             <h2 className="text-xl font-semibold mb-4">Academic Information</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -155,7 +159,7 @@ const UserDetails = () => {
               </div>
             </div>
           </div>
-
+  
           <div className="border-t mt-6 pt-6">
             <h2 className="text-xl font-semibold mb-4">Recent Grades</h2>
             <div className="space-y-4">
@@ -171,7 +175,7 @@ const UserDetails = () => {
       </div>
     </>
   );
-
+  
   return (
     <>
       {user?.role === "teacher" ? <TeacherDetails /> : <StudentDetails />}
