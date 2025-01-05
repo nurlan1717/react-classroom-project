@@ -63,9 +63,21 @@
     "calendar": "Calendrier",
     "courses": "Cours",
     "materials": "Matériaux",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "teacher": "Enseignant",
+    "profile": "Profil",
+    "teacherInfo": "Informations sur l'Enseignant",
+    "student": "Étudiant",
+    "educationInfo": "Informations sur l'Éducation",
+    "notifications": "Notifications",
+    "languageTimeZone": "Langue et Fuseau Horaire",
+    "timeZone": "Fuseau Horaire",
+    "systemLanguage": "Langue du Système",
+    "security": "Sécurité",
+    "saveChanges": "Enregistrer les Modifications",
+    "classAnnouncements": "Annonces de Classe"
   },
-  "tape":{
+  "tape": {
     "loading": "Chargement...",
     "noClassFound": "Aucune classe trouvée pour cet identifiant.",
     "videoMeeting": "Réunion vidéo",

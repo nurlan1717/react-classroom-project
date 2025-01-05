@@ -45,7 +45,7 @@ const UserDetails = () => {
             </div>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors mt-4 sm:mt-0"
             >
               Update Information
             </button>
@@ -97,6 +97,7 @@ const UserDetails = () => {
         </div>
       </div>
     </>
+
   );
 
   const StudentDetails = () => (
@@ -136,14 +137,14 @@ const UserDetails = () => {
               Update Information
             </button>
           </div>
-  
+
           <div className="border-t pt-6">
             <h2 className="text-xl font-semibold mb-4">Bio</h2>
             <p className="text-gray-700">
               {user?.bio || "No bio"}
             </p>
           </div>
-  
+
           <div className="border-t pt-6">
             <h2 className="text-xl font-semibold mb-4">Academic Information</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -159,7 +160,7 @@ const UserDetails = () => {
               </div>
             </div>
           </div>
-  
+
           <div className="border-t mt-6 pt-6">
             <h2 className="text-xl font-semibold mb-4">Recent Grades</h2>
             <div className="space-y-4">
@@ -175,7 +176,7 @@ const UserDetails = () => {
       </div>
     </>
   );
-  
+
   return (
     <>
       {user?.role === "teacher" ? <TeacherDetails /> : <StudentDetails />}

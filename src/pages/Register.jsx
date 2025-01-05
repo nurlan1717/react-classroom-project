@@ -102,10 +102,10 @@ const RegistrationForm = () => {
               <h2 className="text-4xl font-bold mb-8 text-center text-violet-700">
                 Register
               </h2>
-              <div className="flex gap-10">
+              <div className="flex flex-col sm:flex-row gap-10">
                 <form
                   onSubmit={formik.handleSubmit}
-                  className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full"
                 >
                   <div>
                     <label
@@ -266,7 +266,6 @@ const RegistrationForm = () => {
                     </p>
                   </div>
 
-
                   <div className="col-span-full">
                     <button
                       type="submit"
@@ -286,18 +285,17 @@ const RegistrationForm = () => {
                   </div>
 
                 </form>
-                <div>
-                  <img src={RegisterImg} alt="" />
+                <div className="mt-6 sm:mt-0 sm:w-1/2">
+                  <img src={RegisterImg} alt="" className="w-full h-auto" />
                 </div>
               </div>
               <ToastContainer position="top-right" autoClose={3000} />
             </div>
           </div>
         </div>
-
       </div>
-
     </>
+
   );
 };
 

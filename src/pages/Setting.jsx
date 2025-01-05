@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Bell,
     Book,
@@ -13,10 +13,10 @@ import {
     Users,
     UserCog
 } from 'lucide-react';
-import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-
+import { storage } from '../utils/localStorage';
+import { useSelector } from 'react-redux';
 
 function Setting() {
     const [notifications, setNotifications] = useState(true);
@@ -25,8 +25,12 @@ function Setting() {
     const [userRole, setUserRole] = useState('teacher');
     const { t } = useTranslation();
 
+    useEffect(() => {
+        const role = storage.getUserRole();
+        setUserRole(role);
+    }, []);
 
-    const user = useSelector((state) => state.user.currentUser);
+    const user = useSelector((state) => state.user.currentUser)
 
     return (
         <>
@@ -42,30 +46,34 @@ function Setting() {
                     <div className="flex flex-col gap-6 mb-8">
                         <div className="flex items-center gap-3">
                             <Settings className="w-8 h-8 text-indigo-600" />
-                            <h1 className="text-2xl font-bold text-gray-800">Users {t("sidebar.settings")}</h1>
+                            <h1 className="text-2xl font-bold text-gray-800">{t("sidebar.settings")}</h1>
                         </div>
 
                         <div className="flex gap-4">
-                            <button
-                                onClick={() => setUserRole('teacher')}
-                                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${userRole === 'teacher'
-                                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
-                                    : 'border-gray-200 hover:border-indigo-200'
-                                    }`}
-                            >
-                                <UserCog className="w-5 h-5" />
-                                Teacher
-                            </button>
-                            <button
-                                onClick={() => setUserRole('student')}
-                                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${userRole === 'student'
-                                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
-                                    : 'border-gray-200 hover:border-indigo-200'
-                                    }`}
-                            >
-                                <GraduationCap className="w-5 h-5" />
-                                Student
-                            </button>
+                            {userRole === 'teacher' && (
+                                <button
+                                    onClick={() => setUserRole('teacher')}
+                                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${userRole === 'teacher'
+                                        ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
+                                        : 'border-gray-200 hover:border-indigo-200'
+                                        }`}
+                                >
+                                    <UserCog className="w-5 h-5" />
+                                    {t("sidebar.teacher")}
+                                </button>
+                            )}
+                            {userRole === 'student' && (
+                                <button
+                                    onClick={() => setUserRole('student')}
+                                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${userRole === 'student'
+                                        ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
+                                        : 'border-gray-200 hover:border-indigo-200'
+                                        }`}
+                                >
+                                    <GraduationCap className="w-5 h-5" />
+                                    {t("sidebar.student")}
+                                </button>
+                            )}
                         </div>
                     </div>
 
@@ -73,15 +81,15 @@ function Setting() {
                         <section className="space-y-4">
                             <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
                                 <User className="w-5 h-5 text-indigo-500" />
-                                Profile {t("sidebar.settings")}
+                                {t("sidebar.profile")}
                             </h2>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-600 mb-1">
                                         Full Name
                                     </label>
                                     <input
-                                        value={user?.fullName}
+                                        defaultValue={user?.fullName}
                                         type="text"
                                         className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                         placeholder="Full Name"
@@ -92,7 +100,7 @@ function Setting() {
                                         Email
                                     </label>
                                     <input
-                                        value={user?.email}
+                                        defaultValue={user?.email}
                                         type="email"
                                         className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                         placeholder="Email"
@@ -105,9 +113,9 @@ function Setting() {
                             <section className="space-y-4">
                                 <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
                                     <Book className="w-5 h-5 text-indigo-500" />
-                                    Education Info
+                                    {t("sidebar.educationInfo")}
                                 </h2>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-600 mb-1">
                                             Class
@@ -135,9 +143,9 @@ function Setting() {
                             <section className="space-y-4">
                                 <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
                                     <Book className="w-5 h-5 text-indigo-500" />
-                                    Teacher {t("sidebar.settings")}
+                                    {t("sidebar.teacherInfo")}
                                 </h2>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-600 mb-1">
                                             Major
@@ -164,14 +172,14 @@ function Setting() {
                         <section className="space-y-4">
                             <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
                                 <Bell className="w-5 h-5 text-indigo-500" />
-                                Notification {t("sidebar.settings")}
+                                {t("sidebar.notifications")}
                             </h2>
                             <div className="space-y-3">
                                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                                     <div className="flex items-center gap-3">
                                         <MessageSquare className="w-5 h-5 text-gray-600" />
                                         <span className="text-sm text-gray-700">
-                                            {userRole === 'teacher' ? 'Class Announcements' : 'Class Announcements'}
+                                            {userRole === 'teacher' ? t("sidebar.classAnnouncements") : t("sidebar.classAnnouncements")}
                                         </span>
                                     </div>
                                     <label className="relative inline-flex items-center cursor-pointer">
@@ -190,14 +198,14 @@ function Setting() {
                         <section className="space-y-4">
                             <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
                                 <Globe className="w-5 h-5 text-indigo-500" />
-                                Language and Time Zone
+                                {t("sidebar.languageTimeZone")}
                             </h2>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-600 mb-1">
                                         <div className="flex items-center gap-2">
                                             <Languages className="w-4 h-4" />
-                                            System Language
+                                            {t("sidebar.systemLanguage")}
                                         </div>
                                     </label>
                                     <select
@@ -214,7 +222,7 @@ function Setting() {
                                     <label className="block text-sm font-medium text-gray-600 mb-1">
                                         <div className="flex items-center gap-2">
                                             <Clock className="w-4 h-4" />
-                                            Time Zone
+                                            {t("sidebar.timeZone")}
                                         </div>
                                     </label>
                                     <select
@@ -233,9 +241,9 @@ function Setting() {
                         <section className="space-y-4">
                             <h2 className="text-lg font-semibold text-gray-700 flex items-center gap-2">
                                 <Lock className="w-5 h-5 text-indigo-500" />
-                                Security
+                                {t("sidebar.security")}
                             </h2>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-600 mb-1">
                                         Password
@@ -261,12 +269,13 @@ function Setting() {
 
                         <div className="pt-4">
                             <button className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-200 font-medium">
-                                Remember {t("sidebar.settings")}
+                                {t("sidebar.saveChanges")}
                             </button>
                         </div>
                     </div>
                 </div>
-            </div></>
+            </div>
+        </>
     );
 }
 

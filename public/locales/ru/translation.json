@@ -63,9 +63,21 @@
     "calendar": "Календарь",
     "courses": "Курсы",
     "materials": "Материалы",
-    "settings": "Настройки"
+    "settings": "Настройки",
+    "teacher": "Учитель",
+    "profile": "Профиль",
+    "teacherInfo": "Информация об Учителе",
+    "student": "Студент",
+    "educationInfo": "Образовательная Информация",
+    "notifications": "Уведомления",
+    "languageTimeZone": "Язык и Часовой Пояс",
+    "timeZone": "Часовой Пояс",
+    "systemLanguage": "Язык Системы",
+    "security": "Безопасность",
+    "saveChanges": "Сохранить Изменения",
+    "classAnnouncements": "Объявления о Классе"
   },
-  "tape":{
+  "tape": {
     "loading": "Загрузка...",
     "noClassFound": "Класс с таким id не найден.",
     "videoMeeting": "Видеоконференция",

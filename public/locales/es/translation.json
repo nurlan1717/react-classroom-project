@@ -63,7 +63,19 @@
     "calendar": "Calendario",
     "courses": "Cursos",
     "materials": "Materiales",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "teacher": "Profesor",
+    "profile": "Perfil",
+    "teacherInfo": "Información del Profesor",
+    "student": "Estudiante",
+    "educationInfo": "Información Educativa",
+    "notifications": "Notificaciones",
+    "languageTimeZone": "Idioma y Zona Horaria",
+    "timeZone": "Zona Horaria",
+    "systemLanguage": "Idioma del Sistema",
+    "security": "Seguridad",
+    "saveChanges": "Guardar Cambios",
+    "classAnnouncements": "Anuncios de la Clase"
   },
   "tape": {
     "loading": "Cargando...",
@@ -74,7 +86,6 @@
     "deadline": "Fecha límite:",
     "moreOptions": "Más opciones"
   },
-
   "classNavbar": {
     "home": "Inicio",
     "tape": "Cinta",

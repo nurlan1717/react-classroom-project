@@ -63,7 +63,19 @@
     "calendar": "Calendar",
     "courses": "Courses",
     "materials": "Materials",
-    "settings": "Settings"
+    "settings": "Settings",
+    "teacher": "Teacher",
+    "profile": "Profile",
+    "teacherInfo": "Teacher Info",
+    "student": "Student",
+    "educationInfo": "Education Info",
+    "notifications": "Notifications",
+    "languageTimeZone": "Language & Time Zone",
+    "timeZone": "Time Zone",
+    "systemLanguage": "System Language",
+    "security": "Security",
+    "saveChanges": "Save Changes",
+    "classAnnouncements": "Announcment"
   },
   "tape":{
     

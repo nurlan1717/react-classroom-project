@@ -83,7 +83,7 @@ const Assignment = () => {
   }
 
   return (
-    <div className="w-2/6 h-fit bg-gray-100 rounded-3xl p-3 mr-8 mt-16">
+    <div className="w-full sm:w-2/6 h-fit bg-gray-100 rounded-3xl p-3 mr-8 mt-16">
       <div className="max-w-sm mx-auto space-y-8">
         <div className="bg-white rounded-2xl p-4 shadow-lg">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
@@ -96,10 +96,7 @@ const Assignment = () => {
           </div>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white rounded-2xl p-3 shadow-lg"
-        >
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-3 shadow-lg">
           <div className="flex items-center space-x-4">
             <PlusCircle className="w-6 h-6 text-blue-500" />
             <input
@@ -139,6 +136,7 @@ const Assignment = () => {
 
       <ToastContainer />
     </div>
+
   );
 };
 

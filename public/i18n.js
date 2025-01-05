@@ -7,6 +7,8 @@ import en from "./locales/en/translation.json";
 import es from "./locales/es/translation.json";
 import ru from "./locales/ru/translation.json";
 import fr from "./locales/fr/translation.json";
+import az from "./locales/az/translation.json";
+
 
 i18n
   .use(Backend)
@@ -33,6 +35,9 @@ i18n
       },
       es: {
         translation: es,
+      },
+      az: {
+        translation: az,
       },
     },
   });

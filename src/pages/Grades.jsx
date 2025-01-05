@@ -69,8 +69,8 @@ const Grades = () => {
             grades: [
               ...(student.grades || []).filter(
                 (grade) => grade.classId !== currentClass.id || grade.taskId !== currentTask.id
-              ), 
-              { classId: currentClass.id, taskId: currentTask.id, value: student.grade }, 
+              ),
+              { classId: currentClass.id, taskId: currentTask.id, value: student.grade },
             ],
           })
         )
@@ -106,18 +106,10 @@ const Grades = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border border-gray-300 px-4 py-2 text-left">#</th>
-              <th className="border border-gray-300 px-4 py-2 text-left">
-                Student
-              </th>
-              <th className="border border-gray-300 px-4 py-2 text-left">
-                Task
-              </th>
-              <th className="border border-gray-300 px-4 py-2 text-left">
-                Status
-              </th>
-              <th className="border border-gray-300 px-4 py-2 text-left">
-                Grade
-              </th>
+              <th className="border border-gray-300 px-4 py-2 text-left">Student</th>
+              <th className="border border-gray-300 px-4 py-2 text-left">Task</th>
+              <th className="border border-gray-300 px-4 py-2 text-left">Status</th>
+              <th className="border border-gray-300 px-4 py-2 text-left">Grade</th>
             </tr>
           </thead>
           <tbody>
@@ -129,12 +121,8 @@ const Grades = () => {
 
               return (
                 <tr key={student.id} className="hover:bg-gray-50">
-                  <td className="border border-gray-300 px-4 py-2">
-                    {index + 1}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {student.username}
-                  </td>
+                  <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
+                  <td className="border border-gray-300 px-4 py-2">{student.username}</td>
                   <td className="border border-gray-300 px-4 py-2">
                     {filteredAssign ? (
                       <a
@@ -179,6 +167,7 @@ const Grades = () => {
         <ToastContainer />
       </div>
     </>
+
   );
 };
 

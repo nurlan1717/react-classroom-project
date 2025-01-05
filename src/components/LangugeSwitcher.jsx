@@ -3,10 +3,12 @@ import { useTranslation } from "react-i18next";
 import { LanguageIcon } from "@heroicons/react/24/outline";
 
 const languages = [
+  { code: "az", label: "Azərbaycan" },
   { code: "en", label: "English" },
   { code: "ru", label: "Русский" },
   { code: "es", label: "Español" },
   { code: "fr", label: "Français" },
+
 ];
 
 const LanguageSwitcher = () => {

@@ -84,10 +84,10 @@ const Login = () => {
           <h2 className="text-4xl font-bold mb-8 text-center text-violet-700">
             Login
           </h2>
-          <div className="flex gap-10">
+          <div className="flex flex-col sm:flex-row gap-10">
             <form
               onSubmit={formik.handleSubmit}
-              className="grid grid-cols-1 sm:grid-cols-2 w-1/2 h-6 gap-8 mt-12"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full sm:w-1/2"
             >
               <div className="col-span-full">
                 <label
@@ -145,9 +145,8 @@ const Login = () => {
               </div>
             </form>
 
-
-            <div>
-              <img src={LoginImage} alt="Login Illustration" />
+            <div className="mt-6 sm:mt-0 sm:w-1/2">
+              <img src={LoginImage} alt="Login Illustration" className="w-full h-auto" />
             </div>
           </div>
 
@@ -163,8 +162,8 @@ const Login = () => {
           <ToastContainer position="top-right" autoClose={3000} />
         </div>
       </div>
-
     </>
+  
   );
 };
 

@@ -1,0 +1,96 @@
+{
+    "navigation": {
+        "home": "Ana səhifə",
+        "tape": "Tape",
+        "tasks": "Tapşırıqlar",
+        "users": "İstifadəçilər"
+    },
+    "tasks": {
+        "title": "Tapşırıqlar",
+        "createTask": "Tapşırıq Yarat",
+        "newTask": {
+            "title": "Tapşırıq Yarat",
+            "titlePlaceholder": "Tapşırıq başlığı",
+            "selectCategory": "Kateqoriya seçin",
+            "categories": {
+                "homework": "Ev tapşırığı",
+                "assignment": "Təyinat",
+                "project": "Layihə",
+                "quiz": "Test"
+            },
+            "cancel": "Ləğv et",
+            "create": "Yarat",
+            "creating": "Yaradılır..."
+        },
+        "filter": {
+            "allTopics": "Bütün mövzular"
+        },
+        "loading": "Yüklənir...",
+        "error": "Tapşırıqlar yüklənərkən xəta baş verdi",
+        "deadline": "Tamamlama tarixi: {{date}}"
+    },
+    "class": {
+        "addClass": {
+            "title": "Sinif Əlavə Et",
+            "class": "Sinif",
+            "className": "Sinif adı",
+            "classNamePlaceholder": "Sinif adını daxil edin",
+            "major": "İxtisas",
+            "majorPlaceholder": "İxtisası daxil edin",
+            "topics": "Mövzular",
+            "topicPlaceholder": "Mövzu daxil edin",
+            "addTopic": "Mövzu əlavə et",
+            "addStudent": "Tələbə əlavə et",
+            "remove": "Sil",
+            "schedule": "Cədvəl",
+            "day": "Gün",
+            "dayPlaceholder": "Günü daxil edin",
+            "time": "Vaxt",
+            "timePlaceholder": "Vaxtı daxil edin",
+            "removeSchedule": "Cədvəli sil",
+            "addSchedule": "Cədvəl əlavə et",
+            "students": "Tələbələr əlavə et",
+            "selectStudent": "Tələbə seçin",
+            "createClass": "Sinif yarat",
+            "creating": "Yaradılır..."
+        }
+    },
+    "navbar": {
+        "logout": "Çıxış"
+    },
+    "sidebar": {
+        "home-page": "Ana səhifə",
+        "calendar": "Təqvim",
+        "courses": "Kurslar",
+        "materials": "Materiallar",
+        "settings": "Ayarlar",
+        "teacher": "Müəllim",
+        "profile": "Profil",
+        "teacherInfo": "Müəllim Məlumatı",
+        "student": "Tələbə",
+        "educationInfo": "Təhsil Məlumatı",
+        "notifications": "Bildirişlər",
+        "languageTimeZone": "Dil və Vaxt Zonas",
+        "timeZone": "Vaxt Zonas",
+        "systemLanguage": "Sistem Dili",
+        "security": "Təhlükəsizlik",
+        "saveChanges": "Dəyişiklikləri Yadda Saxla",
+        "classAnnouncements": "Sinif Elanları"
+    },
+    "tape": {
+        "loading": "Yüklənir...",
+        "noClassFound": "Bu ID ilə sinif tapılmadı.",
+        "videoMeeting": "Video Görüş",
+        "teacherAddedTask": "Müəllim tapşırıq əlavə etdi:",
+        "created": "Yaradıldı:",
+        "deadline": "Son tarix:",
+        "moreOptions": "Daha çox seçim"
+    },
+    "classNavbar": {
+        "home": "Ana səhifə",
+        "tape": "Tape",
+        "tasks": "Tapşırıqlar",
+        "announcments": "Elanlar",
+        "users": "İstifadəçilər"
+    }
+}
