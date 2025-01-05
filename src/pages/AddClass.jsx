@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useGetUsersQuery, useGetClassesQuery, useCreateClassMutation, useCreateInvitationMutation } from "../redux/slices/apiSlice";
-import { toast } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 import { storage } from "../utils/localStorage";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from 'react-i18next';
@@ -253,11 +253,12 @@ const AddClass = () => {
                             disabled={isCreating || !formik.isValid}
                             className={`px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors ${(isCreating || !formik.isValid) ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                           {isCreating ? t("class.addClass.creating") : t("class.addClass.createClass")}
+                            {isCreating ? t("class.addClass.creating") : t("class.addClass.createClass")}
 
                         </button>
                     </div>
                 </form>
+                <ToastContainer />
             </div>
         </>
     );

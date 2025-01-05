@@ -30,6 +30,7 @@ const Messages = () => {
     const filteredClassId = filteredInvitations?.classId;
     const filteredClasses = classes?.filter((x) => `:${x.id}` === filteredClassId) || [];
 
+
     const handleAccept = async (id) => {
         try {
             const updatedData = { status: 'accepted' };

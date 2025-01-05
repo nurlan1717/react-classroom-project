@@ -9,8 +9,15 @@ export const useDevicePermissions = () => {
       const devices = await navigator.mediaDevices.enumerateDevices();
       const hasVideoInput = devices.some(device => device.kind === 'videoinput');
       const hasAudioInput = devices.some(device => device.kind === 'audioinput');
-      
-      return hasVideoInput && hasAudioInput;
+
+      if (!hasVideoInput || !hasAudioInput) {
+        return false;
+      }
+
+      // İzin durumunu kontrol et
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      stream.getTracks().forEach(track => track.stop());
+      return true;
     } catch {
       return false;
     }
@@ -18,26 +25,35 @@ export const useDevicePermissions = () => {
 
   const requestPermissions = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: true, 
-        audio: true 
-      });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       stream.getTracks().forEach(track => track.stop());
       setHasPermissions(true);
       setError(null);
     } catch (err) {
-      setError('Please allow camera and microphone access to join the meeting');
+      console.error('Permission error:', err);
+      setError(
+        err.name === 'NotAllowedError'
+          ? 'Camera and microphone access is blocked. Please allow access in your browser settings.'
+          : 'An error occurred while requesting permissions. Please try again.'
+      );
       setHasPermissions(false);
     }
   };
 
   useEffect(() => {
     const init = async () => {
-      const hasDevices = await checkPermissions();
-      if (hasDevices) {
-        requestPermissions();
-      } else {
-        setError('No camera or microphone detected');
+      try {
+        const hasDevices = await checkPermissions();
+        if (hasDevices) {
+          setHasPermissions(true);
+          setError(null);
+        } else {
+          setError('No camera or microphone detected or permissions not granted.');
+          setHasPermissions(false);
+        }
+      } catch (err) {
+        console.error('Initialization error:', err);
+        setError('Failed to check device permissions.');
         setHasPermissions(false);
       }
     };

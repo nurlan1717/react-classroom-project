@@ -32,8 +32,8 @@ const User = () => {
                             Teacher Information
                         </h2>
                         <div className="flex items-center space-x-4">
-                            <img className="w-12" src={teacher.profileImage} alt={teacher.fullName} />
-                            <span className="text-gray-900 font-medium">{teacher.fullName || 'Unnamed Teacher'}</span>
+                            <img className="w-12" src={teacher?.profileImage} alt={teacher?.fullName} />
+                            <span className="text-gray-900 font-medium">{teacher?.fullName || 'Unnamed Teacher'}</span>
                         </div>
                     </section>
                 )}

@@ -1,4 +1,4 @@
 export const ZEGO_CONFIG = {
-    appID: 1904807675,
-    serverSecret: "1df9473939f4a314a5506eeb752e66a0"
+    appID: 1823823221,
+    serverSecret: "bd157219b6f1acb9f9767952742d4169"
   };

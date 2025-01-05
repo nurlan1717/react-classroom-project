@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetTasksQuery, useGetClassesQuery } from "../redux/slices/apiSlice";
-import { Calendar, MoreVertical } from "lucide-react";
+import { Calendar, MoreVertical, UserRoundPlus } from "lucide-react";
 import ClassNavbar from "./ClassNavbar";
 import { storage } from "../utils/localStorage";
 import { Helmet } from "react-helmet-async";
@@ -55,6 +55,19 @@ const Tape = () => {
             <h1 className="text-4xl font-bold text-white">{filteredClasses[0]?.name}</h1>
           </div>
           <div className="absolute top-4 right-4">
+            {userRole === "teacher" && (
+              <button
+                to="invite"
+                onClick={() => {
+                  navigate(`/${userRole}/class/:${filteredClasses[0]?.id}/invite`);
+                }}
+                className="text-white hover:bg-white/10 p-2 rounded-full transition duration-200"
+                aria-label="Add User"
+              >
+                <UserRoundPlus size={20} />
+              </button>
+            )}
+
             <button
               className="text-white hover:bg-white/10 p-2 rounded-full transition duration-200"
               aria-label="More options"
@@ -62,6 +75,7 @@ const Tape = () => {
               <MoreVertical size={20} />
             </button>
           </div>
+
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

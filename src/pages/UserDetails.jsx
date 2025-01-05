@@ -165,7 +165,7 @@ const UserDetails = () => {
             <div className="space-y-4">
               {user?.grades?.map((grade, idx) => (
                 <div key={idx} className="flex justify-between items-center">
-                  <span className="text-gray-600">Task {grade?.classId}</span>
+                  <span className="text-gray-600">Class {grade?.classId} Task : {grade?.taskId} </span>
                   <span className="font-medium">{grade?.value}%</span>
                 </div>
               ))}
