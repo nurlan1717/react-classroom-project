@@ -28,7 +28,7 @@ const Messages = () => {
     )[0];
 
     const filteredClassId = filteredInvitations?.classId;
-    const filteredClasses = classes?.filter((x) => `:${x.id}` === filteredClassId) || [];
+    const filteredClasses = classes?.filter((x) => x.id === filteredClassId) || [];
 
 
     const handleAccept = async (id) => {

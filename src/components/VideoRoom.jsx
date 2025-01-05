@@ -3,37 +3,30 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { storage } from '../utils/localStorage';
 import { ZEGO_CONFIG } from '../utils/zegoConfig';
-import { Loader2 } from 'lucide-react';
 
 const VideoRoom = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [zegoInstance, setZegoInstance] = useState(null);
   const containerRef = useRef(null);
   const { roomId } = useParams();
   const navigate = useNavigate();
-  
 
   const userData = storage.getUserData();
 
   useEffect(() => {
     let mounted = true;
 
-    const initializeZego = () => {
+    const initializeZego = async () => {
       try {
-        setIsLoading(true);
-        setError(null);
-
-        const container = containerRef.current;
-        console.log(container);
-        if (!container) {
-          console.error('Container element is not available.');
-          setError('Video container is not ready.');
+        if (zegoInstance) {
+          console.warn('Zego instance already initialized.');
           return;
         }
 
-        if (zegoInstance) {
-          console.warn('Zego instance already initialized.');
+        const container = containerRef.current;
+        if (!container) {
+          console.error('Container element is not available.');
+          setError('Video container is not ready.');
           return;
         }
 
@@ -50,8 +43,6 @@ const VideoRoom = () => {
         console.log('User Data:', userData);
 
         const zp = ZegoUIKitPrebuilt.create(kitToken);
-
-        if (!mounted) return;
 
         zp.joinRoom({
           container,
@@ -85,13 +76,11 @@ const VideoRoom = () => {
 
         if (mounted) {
           setZegoInstance(zp);
-          setIsLoading(false);
         }
       } catch (err) {
         console.error('Failed to initialize meeting:', err);
         if (mounted) {
           setError(`Failed to initialize the meeting: ${err.message || 'Unknown error'}`);
-          setIsLoading(false);
         }
       }
     };
@@ -104,7 +93,7 @@ const VideoRoom = () => {
           initializeZego();
           clearInterval(interval);
         }
-      }, 500); 
+      }, 500);
 
       return () => clearInterval(interval);
     }
@@ -116,15 +105,6 @@ const VideoRoom = () => {
       }
     };
   }, [roomId, userData, navigate, zegoInstance]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-violet-600" />
-        <span className="ml-2">Joining meeting...</span>
-      </div>
-    );
-  }
 
   if (error) {
     return (
@@ -147,7 +127,7 @@ const VideoRoom = () => {
       <div
         id="video-container"
         className="w-full h-full"
-        ref={containerRef} 
+        ref={containerRef}
       />
     </div>
   );
