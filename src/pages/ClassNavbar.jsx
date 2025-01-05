@@ -86,7 +86,7 @@ const ClassNavbar = () => {
                     userRole === "teacher" ? "hidden" : ""
                   }`}
                 >
-                   {t("classNavbar.announcmensts")}
+                   {t("classNavbar.announcments")}
                 </button>
                 <button
                   onClick={handleNavigate3}
