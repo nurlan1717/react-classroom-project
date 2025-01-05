@@ -16,6 +16,7 @@ import TaskDetails from "../pages/TaskDetails";
 import Grades from "../pages/Grades";
 import Announcements from "../pages/Announcements";
 import VideoRoom from "../components/VideoRoom";
+import InviteUser from "../pages/InviteUser";
 
 const TeacherRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const TeacherRoutes = () => {
         <Route>
           <Route path="calendar" element={<Calendar />} />
           <Route path="class/:id" element={<TapeDetails />} />
+          <Route path="class/:id/invite" element={<InviteUser />} />
           <Route path="class/:id/job" element={<Job />} />
           <Route path="class/:id/grades" element={<Grades />} />
           <Route path="class/:id/users" element={<User />} />

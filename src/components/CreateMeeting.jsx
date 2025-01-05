@@ -20,15 +20,12 @@ function CreateMeeting({ classId }) {
 
   useEffect(() => {
     if (currentClass) {
-      // Ensure rooms array exists and has the correct structure
-      const rooms = currentClass.rooms?.map(room => ({
+      const rooms = currentClass.rooms?.map((room) => ({
         ...room,
         active: room.active ?? true,
-        participants: room.participants ?? []
+        participants: room.participants ?? [],
       })) || [];
-      
       setAvailableRooms(rooms);
-      console.log('Current class rooms:', rooms);
     }
   }, [currentClass]);
 
@@ -48,14 +45,16 @@ function CreateMeeting({ classId }) {
         throw new Error('Class data not found');
       }
 
-      if (role === 'teacher') {
-        // First, deactivate any existing active rooms
-        const updatedExistingRooms = availableRooms.map(room => ({
-          ...room,
-          active: false
-        }));
+      const existingRoom = availableRooms.find((room) => room.createdBy === storage.getUserId());
 
-        // Create new room
+      if (role === 'teacher') {
+        if (existingRoom) {
+          // Öğretmen zaten bir oda oluşturmuş, ona yönlendirilir.
+          navigate(`/${role}/class/${cleanClassId}/room/${existingRoom.roomId}`);
+          return;
+        }
+
+        // Yeni oda oluşturuluyor.
         const roomId = uuidv4();
         const newRoom = {
           roomId,
@@ -63,54 +62,44 @@ function CreateMeeting({ classId }) {
           createdBy: storage.getUserId(),
           createdAt: new Date().toISOString(),
           active: true,
-          participants: [storage.getUserId()]
+          participants: [storage.getUserId()],
         };
 
-        console.log('Creating new room:', newRoom);
-
-        // Combine existing rooms (deactivated) with the new room
-        const updatedRooms = [...updatedExistingRooms, newRoom];
-
-        const result = await updateClass({
+        const updatedRooms = [...availableRooms, newRoom];
+        await updateClass({
           id: cleanClassId,
-          updatedData: { rooms: updatedRooms }
+          updatedData: { rooms: updatedRooms },
         }).unwrap();
 
-        console.log('Update result:', result);
         navigate(`/${role}/class/${cleanClassId}/room/${roomId}`);
-
       } else {
-        // Student flow
-        const activeRoom = availableRooms.find(room => room.active === true);
-        console.log('Active room for student:', activeRoom);
+        // Öğrenci aktif bir odaya katılmaya çalışıyor.
+        const activeRoom = availableRooms.find((room) => room.active === true);
 
         if (!activeRoom) {
           throw new Error('No active room available to join');
         }
 
-        // Check if student is already in the room
         if (activeRoom.participants?.includes(storage.getUserId())) {
           navigate(`/${role}/class/${cleanClassId}/room/${activeRoom.roomId}`);
           return;
         }
 
-        // Add student to participants
-        const updatedRooms = availableRooms.map(room => {
+        const updatedRooms = availableRooms.map((room) => {
           if (room.roomId === activeRoom.roomId) {
             return {
               ...room,
-              participants: [...(room.participants || []), storage.getUserId()]
+              participants: [...(room.participants || []), storage.getUserId()],
             };
           }
           return room;
         });
 
-        const result = await updateClass({
+        await updateClass({
           id: cleanClassId,
-          updatedData: { rooms: updatedRooms }
+          updatedData: { rooms: updatedRooms },
         }).unwrap();
 
-        console.log('Update result:', result);
         navigate(`/${role}/class/${cleanClassId}/room/${activeRoom.roomId}`);
       }
     } catch (err) {
@@ -120,8 +109,6 @@ function CreateMeeting({ classId }) {
       setIsProcessing(false);
     }
   };
-
-  // ... rest of the component remains the same ...
 
   return (
     <div className="space-y-4">
@@ -134,25 +121,12 @@ function CreateMeeting({ classId }) {
       <button
         onClick={createAndJoinMeeting}
         disabled={isProcessing}
-        className={`
-          w-full px-4 py-2 rounded-md
-          ${isProcessing
-            ? 'bg-violet-400 cursor-not-allowed'
-            : 'bg-violet-600 hover:bg-violet-700'
-          }
-          text-white font-medium
-          transition duration-200
-          flex items-center justify-center
-        `}
+        className={`w-full px-4 py-2 rounded-md ${isProcessing ? 'bg-violet-400 cursor-not-allowed' : 'bg-violet-600 hover:bg-violet-700'
+          } text-white font-medium transition duration-200 flex items-center justify-center`}
       >
-        {isProcessing && (
-          <Loader2 className="w-4 h-4 animate-spin mr-2" />
-        )}
+        {isProcessing && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
         {role === 'teacher' ? 'Create Meeting' : 'Join Meeting'}
       </button>
-
-     
-    
     </div>
   );
 }

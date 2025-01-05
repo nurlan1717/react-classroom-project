@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { storage } from '../utils/localStorage';
-import { useDevicePermissions } from '../hooks/useDevicePermissions';
 import { ZEGO_CONFIG } from '../utils/zegoConfig';
 import { Loader2 } from 'lucide-react';
 
@@ -13,24 +12,28 @@ const VideoRoom = () => {
   const containerRef = useRef(null);
   const { roomId } = useParams();
   const navigate = useNavigate();
-  const { hasPermissions, error: permissionError, requestPermissions } = useDevicePermissions();
   
+
   const userData = storage.getUserData();
 
   useEffect(() => {
     let mounted = true;
 
-    const initializeZego = async () => {
+    const initializeZego = () => {
       try {
-        if (!hasPermissions) {
-          setError(permissionError);
-          return;
-        }
-
         setIsLoading(true);
         setError(null);
 
-        if (!containerRef.current || zegoInstance) {
+        const container = containerRef.current;
+        console.log(container);
+        if (!container) {
+          console.error('Container element is not available.');
+          setError('Video container is not ready.');
+          return;
+        }
+
+        if (zegoInstance) {
+          console.warn('Zego instance already initialized.');
           return;
         }
 
@@ -42,17 +45,21 @@ const VideoRoom = () => {
           userData.name || 'Anonymous'
         );
 
+        console.log('Kit Token:', kitToken);
+        console.log('Room ID:', roomId);
+        console.log('User Data:', userData);
+
         const zp = ZegoUIKitPrebuilt.create(kitToken);
-        
+
         if (!mounted) return;
 
-        await zp.joinRoom({
-          container: containerRef.current,
+        zp.joinRoom({
+          container,
           scenario: {
             mode: ZegoUIKitPrebuilt.GroupCall,
             config: {
               role: userData.role === 'teacher' ? 'Host' : 'Cohost',
-            }
+            },
           },
           showScreenSharingButton: userData.role === 'teacher',
           showPreJoinView: true,
@@ -60,7 +67,7 @@ const VideoRoom = () => {
           showRoomDetailsButton: true,
           showLayoutButton: true,
           maxUsers: 50,
-          layout: "Grid",
+          layout: 'Grid',
           showRoomTimer: true,
           showLeavingView: true,
           onLeaveRoom: () => {
@@ -71,9 +78,9 @@ const VideoRoom = () => {
           onError: (error) => {
             console.error('Zego error:', error);
             if (mounted) {
-              setError('Failed to join the meeting. Please check your camera and microphone permissions.');
+              setError(`Failed to join the meeting: ${error.message || 'Unknown error'}`);
             }
-          }
+          },
         });
 
         if (mounted) {
@@ -83,13 +90,24 @@ const VideoRoom = () => {
       } catch (err) {
         console.error('Failed to initialize meeting:', err);
         if (mounted) {
-          setError('Failed to initialize the meeting. Please try again.');
+          setError(`Failed to initialize the meeting: ${err.message || 'Unknown error'}`);
           setIsLoading(false);
         }
       }
     };
 
-    initializeZego();
+    if (containerRef.current) {
+      initializeZego();
+    } else {
+      const interval = setInterval(() => {
+        if (containerRef.current) {
+          initializeZego();
+          clearInterval(interval);
+        }
+      }, 500); 
+
+      return () => clearInterval(interval);
+    }
 
     return () => {
       mounted = false;
@@ -97,7 +115,7 @@ const VideoRoom = () => {
         zegoInstance.destroy();
       }
     };
-  }, [roomId, userData, navigate, hasPermissions, permissionError, zegoInstance]);
+  }, [roomId, userData, navigate, zegoInstance]);
 
   if (isLoading) {
     return (
@@ -108,19 +126,11 @@ const VideoRoom = () => {
     );
   }
 
-  if (error || permissionError) {
+  if (error) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
         <div className="bg-red-50 border border-red-200 rounded-lg p-4 max-w-md">
-          <p className="text-red-600 text-center mb-4">{error || permissionError}</p>
-          {!hasPermissions && (
-            <button
-              onClick={requestPermissions}
-              className="w-full px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700 transition duration-200"
-            >
-              Allow Camera & Microphone Access
-            </button>
-          )}
+          <p className="text-red-600 text-center mb-4">{error}</p>
           <button
             onClick={() => navigate(-1)}
             className="mt-4 w-full px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition duration-200"
@@ -134,7 +144,11 @@ const VideoRoom = () => {
 
   return (
     <div className="h-screen">
-      <div ref={containerRef} className="w-full h-full" />
+      <div
+        id="video-container"
+        className="w-full h-full"
+        ref={containerRef} 
+      />
     </div>
   );
 };

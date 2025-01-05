@@ -8,7 +8,7 @@ import {
   useGetUsersQuery,
   useUpdateUserMutation,
 } from "../redux/slices/apiSlice";
-import toast from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 
 const Grades = () => {
   const { id, taskId } = useParams();
@@ -32,15 +32,15 @@ const Grades = () => {
         classStudents?.map((student) => ({
           ...student,
           grade:
-            student.grades?.find((grade) => grade.classId === currentClass.id)
+            student.grades?.find((grade) => grade.classId === currentClass.id && grade.taskId === currentTask.id)
               ?.value || "",
           assignment:
-            assignments?.find((assign) => assign.studentId === student.id) ||
+            assignments?.find((assign) => assign.studentId === student.id && assign.taskId === currentTask.id) ||
             null,
         }))
       );
     }
-  }, [currentClass, users, assignments]);
+  }, [currentClass, users, assignments, currentTask]);
 
   const handleGradeChange = (studentId, newGrade) => {
     if (newGrade === "" || (newGrade >= 0 && newGrade <= 100)) {
@@ -55,14 +55,22 @@ const Grades = () => {
   };
 
   const handleSubmit = async () => {
+    const allGradesFilled = students.every((student) => student.grade !== "");
+    if (!allGradesFilled) {
+      toast.error("Please fill in all grades before submitting!");
+      return;
+    }
+
     try {
       await Promise.all(
         students.map((student) =>
           updateUser({
             id: student.id,
             grades: [
-              ...(student.grades || []),
-              { classId: currentClass.id, value: student.grade },
+              ...(student.grades || []).filter(
+                (grade) => grade.classId !== currentClass.id || grade.taskId !== currentTask.id
+              ), 
+              { classId: currentClass.id, taskId: currentTask.id, value: student.grade }, 
             ],
           })
         )
@@ -168,6 +176,7 @@ const Grades = () => {
         >
           Note the prices
         </button>
+        <ToastContainer />
       </div>
     </>
   );
