@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../utils/localStorage";
 import bcrypt from "bcryptjs";
 import { Helmet } from "react-helmet-async";
+import LoginImage from '../assets/svg/Login.gif';
+
 
 const validationSchema = Yup.object({
   email: Yup.string().email().required(),
@@ -145,7 +147,7 @@ const Login = () => {
 
 
             <div>
-              <img src="src/assets/svg/Login.gif" alt="Login Illustration" />
+              <img src={LoginImage} alt="Login Illustration" />
             </div>
           </div>
 

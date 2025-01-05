@@ -7,6 +7,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { storage } from "../utils/localStorage";
 import { CLOUDINARY_URL, CLOUDINARY_UPLOAD_PRESET } from "../constants/cloudinary";
 import { Helmet } from "react-helmet-async";
+import RegisterImg from '../assets/svg/Sign-up.gif';
+
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
@@ -285,7 +287,7 @@ const RegistrationForm = () => {
 
                 </form>
                 <div>
-                  <img src="src/assets/svg/Sign-up.gif" alt="" />
+                  <img src={RegisterImg} alt="" />
                 </div>
               </div>
               <ToastContainer position="top-right" autoClose={3000} />
