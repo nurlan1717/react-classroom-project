@@ -30,13 +30,14 @@ An interactive classroom management system built with React, inspired by Google 
 - Socket.IO
 - Firebase
 - Bcrypt for password hashing
+- RTK Query for data fetching
 
 ## 📋 Prerequisites
 
 - Node.js (version 16 or higher)
 - npm or yarn package manager
 - MongoDB database
-
+  
 ## 🚀 Installation
 
 1. Clone the repository:
@@ -121,7 +122,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 👥 Authors
 
-- [Your Name] - *Initial work*
+- Nurlan - *Co-Developer*
+- Qerib - *Co-Developer*
+
+- [ClassCraft] - *Initial work*
 
 ## 🙏 Acknowledgments
 
