@@ -8,25 +8,35 @@ import { Loader2 } from 'lucide-react';
 function CreateMeeting({ classId }) {
   const navigate = useNavigate();
   const role = storage.getUserRole();
-  const [availableRooms, setAvailableRooms] = useState([])
+  const [availableRooms, setAvailableRooms] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
 
   const { data: classesAll, isLoading, isError } = useGetClassesQuery();
   const [updateClass] = useUpdateClassMutation();
 
-  const currentClass = classesAll?.find((x) => `:${x.id}` === classId);
+  const cleanClassId = classId.replace(':', '');
+  const currentClass = classesAll?.find((x) => x.id === cleanClassId);
 
   useEffect(() => {
     if (currentClass) {
-      setAvailableRooms(currentClass.rooms || []);
+      // Ensure rooms array exists and has the correct structure
+      const rooms = currentClass.rooms?.map(room => ({
+        ...room,
+        active: room.active ?? true,
+        participants: room.participants ?? []
+      })) || [];
+      
+      setAvailableRooms(rooms);
+      console.log('Current class rooms:', rooms);
     }
   }, [currentClass]);
 
   const handleError = (error) => {
-    setError(error.message);
+    console.error('Error occurred:', error);
+    setError(error.message || 'An unexpected error occurred');
     setIsProcessing(false);
-    setTimeout(() => setError(null), 5000); 
+    setTimeout(() => setError(null), 5000);
   };
 
   const createAndJoinMeeting = async () => {
@@ -34,66 +44,84 @@ function CreateMeeting({ classId }) {
       setIsProcessing(true);
       setError(null);
 
+      if (!currentClass) {
+        throw new Error('Class data not found');
+      }
+
       if (role === 'teacher') {
-        const existingRoom = availableRooms?.find(room => room.classId === classId);
+        // First, deactivate any existing active rooms
+        const updatedExistingRooms = availableRooms.map(room => ({
+          ...room,
+          active: false
+        }));
 
-        if (existingRoom) {
-          navigate(`/${role}/class/${classId}/room/${existingRoom.roomId}`);
-          return;
-        }
-
+        // Create new room
         const roomId = uuidv4();
         const newRoom = {
           roomId,
-          classId,
-          createdBy: storage.getUserId()
+          classId: cleanClassId,
+          createdBy: storage.getUserId(),
+          createdAt: new Date().toISOString(),
+          active: true,
+          participants: [storage.getUserId()]
         };
 
-        await updateClass({
-          id: currentClass?.id,
-          payload: { rooms: [...availableRooms, newRoom] }
-        });
+        console.log('Creating new room:', newRoom);
 
-        navigate(`/${role}/class/${classId}/room/${roomId}`);
+        // Combine existing rooms (deactivated) with the new room
+        const updatedRooms = [...updatedExistingRooms, newRoom];
+
+        const result = await updateClass({
+          id: cleanClassId,
+          updatedData: { rooms: updatedRooms }
+        }).unwrap();
+
+        console.log('Update result:', result);
+        navigate(`/${role}/class/${cleanClassId}/room/${roomId}`);
+
       } else {
-        if (!availableRooms?.length) {
-          throw new Error('No available rooms to join');
+        // Student flow
+        const activeRoom = availableRooms.find(room => room.active === true);
+        console.log('Active room for student:', activeRoom);
+
+        if (!activeRoom) {
+          throw new Error('No active room available to join');
         }
 
-        const roomId = availableRooms[0].roomId;
-        await updateClass({
-          id: classId,
-          payload: {
-            roomId,
-            userId: storage.getUserId()
+        // Check if student is already in the room
+        if (activeRoom.participants?.includes(storage.getUserId())) {
+          navigate(`/${role}/class/${cleanClassId}/room/${activeRoom.roomId}`);
+          return;
+        }
+
+        // Add student to participants
+        const updatedRooms = availableRooms.map(room => {
+          if (room.roomId === activeRoom.roomId) {
+            return {
+              ...room,
+              participants: [...(room.participants || []), storage.getUserId()]
+            };
           }
+          return room;
         });
 
-        navigate(`/${role}/class/${classId}/room/${roomId}`);
+        const result = await updateClass({
+          id: cleanClassId,
+          updatedData: { rooms: updatedRooms }
+        }).unwrap();
+
+        console.log('Update result:', result);
+        navigate(`/${role}/class/${cleanClassId}/room/${activeRoom.roomId}`);
       }
     } catch (err) {
+      console.error('Failed to create/join meeting:', err);
       handleError(err);
     } finally {
       setIsProcessing(false);
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center p-4">
-        <Loader2 className="w-6 h-6 animate-spin text-violet-600" />
-        <span className="ml-2">Loading rooms...</span>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-md">
-        <p className="text-red-600">Error loading classes. Please try again later.</p>
-      </div>
-    );
-  }
+  // ... rest of the component remains the same ...
 
   return (
     <div className="space-y-4">
@@ -122,6 +150,9 @@ function CreateMeeting({ classId }) {
         )}
         {role === 'teacher' ? 'Create Meeting' : 'Join Meeting'}
       </button>
+
+     
+    
     </div>
   );
 }
