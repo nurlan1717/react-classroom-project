@@ -239,7 +239,7 @@ const AddClass = () => {
                                             onClick={() => formik.setFieldValue("studentIds", formik.values.studentIds.filter((studentId) => studentId !== id))}
                                             className="text-red-500 hover:text-red-700"
                                         >
-                                            Remove
+                                            {t("class.addClass.remove")}
                                         </button>
                                     </li>
                                 ))}

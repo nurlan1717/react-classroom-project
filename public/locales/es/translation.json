@@ -64,5 +64,22 @@
     "courses": "Cursos",
     "materials": "Materiales",
     "settings": "Configuración"
+  },
+  "tape": {
+    "loading": "Cargando...",
+    "noClassFound": "No se encontró clase para este id.",
+    "videoMeeting": "Reunión por video",
+    "teacherAddedTask": "El profesor agregó la tarea:",
+    "created": "Creado:",
+    "deadline": "Fecha límite:",
+    "moreOptions": "Más opciones"
+  },
+
+  "classNavbar": {
+    "home": "Inicio",
+    "tape": "Cinta",
+    "tasks": "Tareas",
+    "announcments": "Anuncio",
+    "users": "Usuarios"
   }
 }

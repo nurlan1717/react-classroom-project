@@ -131,10 +131,10 @@ const TaskDetails = () => {
                   }
                   className="w-full p-2 border rounded-lg"
                 >
-                  <option value="Homework">Homework</option>
-                  <option value="Assignment">Assignment</option>
-                  <option value="Project">Project</option>
-                  <option value="Quiz">Quiz</option>
+                  <option value="Homework">{t("tasks.newTask.categories.homework")}</option>
+                  <option value="Assignment">{t("tasks.newTask.categories.assignment")}</option>
+                  <option value="Project">{t("tasks.newTask.categories.project")}</option>
+                  <option value="Quiz">{t("tasks.newTask.categories.quiz")}</option>
                 </select>
               </div>
 

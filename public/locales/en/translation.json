@@ -64,5 +64,24 @@
     "courses": "Courses",
     "materials": "Materials",
     "settings": "Settings"
+  },
+  "tape":{
+    
+      "loading": "Loading...",
+      "noClassFound": "No class found for this id.",
+      "videoMeeting": "Video Meeting",
+      "teacherAddedTask": "Teacher added Task:",
+      "created": "Created:",
+      "deadline": "Deadline:",
+      "moreOptions": "More options"
+    
+  },
+
+  "classNavbar" : {
+   "home":"Home",
+   "tape":"Tape",
+   "tasks":"Tasks",
+   "announcments":"Announcment",
+   "users":"Users"
   }
 }

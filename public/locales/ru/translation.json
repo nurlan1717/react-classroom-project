@@ -64,5 +64,21 @@
     "courses": "Курсы",
     "materials": "Материалы",
     "settings": "Настройки"
+  },
+  "tape":{
+    "loading": "Загрузка...",
+    "noClassFound": "Класс с таким id не найден.",
+    "videoMeeting": "Видеоконференция",
+    "teacherAddedTask": "Учитель добавил задание:",
+    "created": "Создано:",
+    "deadline": "Крайний срок:",
+    "moreOptions": "Дополнительные опции"
+  },
+  "classNavbar": {
+    "home": "Главная",
+    "tape": "Лента",
+    "tasks": "Задачи",
+    "announcments": "Объявления",
+    "users": "Пользователи"
   }
 }

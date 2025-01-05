@@ -6,8 +6,10 @@ import ClassNavbar from "./ClassNavbar";
 import { storage } from "../utils/localStorage";
 import { Helmet } from "react-helmet-async";
 import CreateMeeting from "../components/CreateMeeting";
+import { useTranslation } from 'react-i18next';
 
 const Tape = () => {
+  const {t} = useTranslation();
   const { id } = useParams();
   const userRole = storage.getUserRole();
   const navigate = useNavigate();
@@ -65,7 +67,7 @@ const Tape = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           <div className="col-span-1 bg-white p-5 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-2 mt-2">
-              <h2 className="text-xl font-semibold">Video Meeting</h2>
+              <h2 className="text-xl font-semibold">{t("tape.videoMeeting")}</h2>
               <button>
                 <MoreVertical size={20} />
               </button>
@@ -91,13 +93,13 @@ const Tape = () => {
                     <div className="pointer flex items-center justify-between">
                       <div>
                         <p className="pointer font-semibold">
-                          Teacher added Task: {item.title}
+                        {t("tape.teacherAddedTask")} {item.title}
                         </p>
                         <p className="pointer text-sm text-gray-500">
-                          Created : {formatDate(item.createdAt)}
+                        {t("tape.created")} {formatDate(item.createdAt)}
                         </p>
                         <p className="text-sm text-gray-500">
-                          Deadline : {formatDate(item.deadline)}
+                        {t("tape.deadline")}  {formatDate(item.deadline)}
                         </p>
                       </div>
                       <button

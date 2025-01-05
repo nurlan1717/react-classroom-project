@@ -64,5 +64,21 @@
     "courses": "Cours",
     "materials": "Matériaux",
     "settings": "Paramètres"
+  },
+  "tape":{
+    "loading": "Chargement...",
+    "noClassFound": "Aucune classe trouvée pour cet identifiant.",
+    "videoMeeting": "Réunion vidéo",
+    "teacherAddedTask": "Le professeur a ajouté une tâche :",
+    "created": "Créé :",
+    "deadline": "Date limite :",
+    "moreOptions": "Plus d'options"
+  },
+  "classNavbar": {
+    "home": "Accueil",
+    "tape": "Ruban",
+    "tasks": "Tâches",
+    "announcments": "Annonce",
+    "users": "Utilisateurs"
   }
 }

@@ -1,8 +1,10 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { storage } from "../utils/localStorage";
+import { useTranslation } from "react-i18next";
 
 const ClassNavbar = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const userRole = storage.getUserRole();
 
@@ -56,19 +58,19 @@ const ClassNavbar = () => {
                   onClick={handleNavigate0}
                   className="text-gray-600 hover:text-violet-600"
                 >
-                  Home
+                  {t("classNavbar.home")}
                 </button>
                 <button
                   onClick={handleNavigate}
                   className="text-gray-600 hover:text-violet-600"
                 >
-                  Tape
+                   {t("classNavbar.tape")}
                 </button>
                 <button
                   onClick={handleNavigate2}
                   className="text-gray-600 hover:text-violet-600"
                 >
-                  Tasks
+                   {t("classNavbar.tasks")}
                 </button>
                 <button
                   onClick={handleNavigate5}
@@ -76,7 +78,7 @@ const ClassNavbar = () => {
                     userRole === "student" ? "hidden" : ""
                   }`}
                 >
-                  Announcements
+                   {t("classNavbar.announcments")}
                 </button>
                 <button
                   onClick={handleNavigate6}
@@ -84,13 +86,13 @@ const ClassNavbar = () => {
                     userRole === "teacher" ? "hidden" : ""
                   }`}
                 >
-                  Announcements
+                   {t("classNavbar.announcmensts")}
                 </button>
                 <button
                   onClick={handleNavigate3}
                   className="text-gray-600 hover:text-violet-600"
                 >
-                  Users
+                   {t("classNavbar.users")}
                 </button>
               </div>
             </div>
